@@ -23,7 +23,7 @@
       <nz-form-item>
         <nz-form-control nzSpan="30">
           <p class="text-base">Email:</p>
-          <nz-input-group>
+          <nz-input-group nzPrefixIcon="mail">
             <input nz-input name="email" type="email" />
           </nz-input-group>
         </nz-form-control>
@@ -31,18 +31,50 @@
       <nz-form-item>
         <nz-form-control nzSpan="30">
           <p class="text-base">Password:</p>
-          <nz-input-group>
-            <input nz-input name="email" type="password" />
+
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              nz-input
+              name="email"
+              [type]="passwordVisible ? 'text' : 'password'"
+            />
           </nz-input-group>
         </nz-form-control>
+        <button
+          class="flex items-center mt-6 border-[1px] px-2 text-dark-blue hover:text-blue-500 duration-300 bg-white"
+          (click)="passwordVisible = !passwordVisible"
+        >
+          <i
+            [class]="
+              passwordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'
+            "
+          ></i>
+        </button>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzSpan="30">
           <p class="text-base">Confirm Password:</p>
-          <nz-input-group>
-            <input nz-input name="email" type="password" />
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              nz-input
+              name="email"
+              [type]="confirmPasswordVisible ? 'text' : 'password'"
+            />
           </nz-input-group>
         </nz-form-control>
+
+        <button
+          class="flex items-center mt-6 border-[1px] px-2 text-dark-blue hover:text-blue-500 duration-300 bg-white"
+          (click)="confirmPasswordVisible = !confirmPasswordVisible"
+        >
+          <i
+            [class]="
+              confirmPasswordVisible
+                ? 'fa-solid fa-eye'
+                : 'fa-solid fa-eye-slash'
+            "
+          ></i>
+        </button>
       </nz-form-item>
 
       <button
@@ -52,7 +84,9 @@
       </button>
       <p class="text-sm text-center mt-2">
         Already have an account?
-        <span class="text-dark-blue hover:text-blue-600 cursor-pointer"
+        <span
+          class="text-dark-blue hover:text-blue-600 cursor-pointer duration-300"
+          routerLink="/signin"
           >Sign In</span
         >
       </p>
