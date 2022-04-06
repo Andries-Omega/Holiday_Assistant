@@ -11,6 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NoPageComponent } from './components/no-page/no-page.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { SignupDesktopComponent } from './components/signup/signup-desktop/signup-desktop.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SignupComponent } from './components/signup/signup.component';
     NoPageComponent,
     SigninComponent,
     SignupComponent,
+    SignupDesktopComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule],
   providers: [],
