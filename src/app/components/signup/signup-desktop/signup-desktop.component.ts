@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PasswordRequirements } from 'src/app/models/Users';
+import {
+  validateEmail,
+  validatePassword,
+} from '../../Algorithms/Authentication/signupvalidation';
 
 @Component({
   selector: 'app-signup-desktop',
@@ -6,18 +12,61 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./signup-desktop.component.scss'],
 })
 export class SignupDesktopComponent implements OnInit {
-  //text fields validity
-  nameValid: boolean = false;
-  emailValid: boolean = false;
-  passwordValid: boolean = false;
+  // form
+  signUpUserForm!: FormGroup;
+
+  passwordValid: PasswordRequirements = {
+    lengthValid: false,
+    upperCaseValid: false,
+    lowerCaseValid: false,
+    charactersValid: false,
+    numbersValid: false,
+  };
+  passwordsConfirmed: boolean = false;
 
   // passwords visibility
   passwordVisible: boolean = false;
   confirmPasswordVisible: boolean = false;
 
-  constructor() {}
+  constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.initForm();
+    console.log(
+      this.signUpUserForm.get('confirmPassword')?.enabled &&
+        this.signUpUserForm.value.confirmPassword ===
+          this.signUpUserForm.value.password
+    );
+  }
+  initForm() {
+    this.signUpUserForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(1)]],
+      preferredName: [''],
+      email: [
+        { value: '', disabled: true },
+        [Validators.required, Validators.email, Validators.minLength(5)],
+      ],
+      password: [
+        { value: '', disabled: true },
+        [Validators.required, Validators.minLength(6)],
+      ],
+      confirmPassword: [
+        {
+          value: '',
+          disabled: true,
+        },
+        [Validators.required, Validators.minLength(6)],
+      ],
+    });
+  }
 
-  verifyEmail() {}
+  verifyEmail() {
+    return validateEmail(this.signUpUserForm.value.email);
+  }
+
+  verifyPassword() {
+    this.passwordValid = validatePassword(this.signUpUserForm.value.password);
+    return Object.values(this.passwordValid).every((value) => value);
+  }
+  signUpUser() {}
 }
