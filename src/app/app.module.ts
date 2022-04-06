@@ -7,6 +7,10 @@ import { HeaderComponent } from './components/common-components/header/header.co
 import { GuideComponent } from './components/common-components/guide/guide.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ScrollUpComponent } from './components/common-components/scroll-up/scroll-up.component';
+import { HomeComponent } from './components/home/home.component';
+import { NoPageComponent } from './components/no-page/no-page.component';
+import { SigninComponent } from './components/signin/signin.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +18,12 @@ import { ScrollUpComponent } from './components/common-components/scroll-up/scro
     HeaderComponent,
     GuideComponent,
     ScrollUpComponent,
+    HomeComponent,
+    SigninComponent,
+    SignupComponent,
+    NoPageComponent,
+    SigninComponent,
+    SignupComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule],
   providers: [],
