@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { LightswitchComponent } from './components/common-components/lightswitch/lightswitch.component';
 
 registerLocaleData(en);
 
@@ -38,6 +39,7 @@ registerLocaleData(en);
     SigninComponent,
     SignupComponent,
     SignupDesktopComponent,
+    LightswitchComponent,
   ],
   imports: [
     BrowserModule,

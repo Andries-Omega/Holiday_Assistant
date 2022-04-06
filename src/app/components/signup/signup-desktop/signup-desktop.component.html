@@ -15,7 +15,13 @@
         <nz-form-control>
           <p class="text-base">Preferred Name:</p>
           <nz-input-group>
-            <input nz-input name="email" type="text" />
+            <input
+              nz-input
+              name="email"
+              type="text"
+              placeholder="i.e. nickname"
+              required
+            />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -78,6 +84,7 @@
       </nz-form-item>
 
       <button
+        disabled
         class="bg-dark-blue text-white rounded-md w-full h-10 hover:scale-105 duration-300"
       >
         Sign Up
