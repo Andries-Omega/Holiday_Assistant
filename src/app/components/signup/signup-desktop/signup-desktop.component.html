@@ -1,9 +1,61 @@
 <div
-  class="grid grid-cols-2 w-[950px] bg-slate-100 h-[550px] rounded-md divide-x-[1px] divide-dark-blue"
+  class="grid grid-cols-2 w-[950px] bg-slate-100 h-[550px] rounded-lg divide-x-[1px] divide-dark-blue"
 >
   <div></div>
-  <div class="py-5">
+  <div class="p-5">
     <h1 class="text-dark-blue text-center text-xl">Sign Up</h1>
-    <form nz-form></form>
+    <form nz-form class="py-7">
+      <nz-form-item>
+        <nz-form-control class="mr-2">
+          <p class="text-base">Name:</p>
+          <nz-input-group>
+            <input nz-input name="email" type="text" />
+          </nz-input-group>
+        </nz-form-control>
+        <nz-form-control>
+          <p class="text-base">Preferred Name:</p>
+          <nz-input-group>
+            <input nz-input name="email" type="text" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzSpan="30">
+          <p class="text-base">Email:</p>
+          <nz-input-group>
+            <input nz-input name="email" type="email" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzSpan="30">
+          <p class="text-base">Password:</p>
+          <nz-input-group>
+            <input nz-input name="email" type="password" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzSpan="30">
+          <p class="text-base">Confirm Password:</p>
+          <nz-input-group>
+            <input nz-input name="email" type="password" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <button
+        class="bg-dark-blue text-white rounded-md w-full h-10 hover:scale-105 duration-300"
+      >
+        Sign Up
+      </button>
+      <p class="text-sm text-center mt-2">
+        Already have an account?
+        <span class="text-dark-blue hover:text-blue-600 cursor-pointer"
+          >Sign In</span
+        >
+      </p>
+    </form>
   </div>
 </div>
