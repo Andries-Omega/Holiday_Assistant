@@ -26,6 +26,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { globalFeatureKey, reducer } from './store/global/global.reducer';
+import { SwitchStateComponent } from './components/common-components/lightswitch/switchstate/switchstate.component';
 
 registerLocaleData(en);
 
@@ -43,6 +44,7 @@ registerLocaleData(en);
     SignupComponent,
     SignupDesktopComponent,
     LightSwitchComponent,
+    SwitchStateComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { updateTheme } from 'src/app/store/global/global.actions';
 import { selectGlobalTheme } from 'src/app/store/global/global.selectors';
@@ -10,15 +10,12 @@ import { selectGlobalTheme } from 'src/app/store/global/global.selectors';
 })
 export class LightSwitchComponent implements OnInit {
   darkMode$ = this.globalStore.select(selectGlobalTheme);
-  currentMode: boolean = false;
+
   constructor(private globalStore: Store) {}
 
-  ngOnInit(): void {
-    this.darkMode$.subscribe((d) => (this.currentMode = d));
-  }
+  ngOnInit(): void {}
 
-  switchTheme() {
-    console.log(this.currentMode);
-    this.globalStore.dispatch(updateTheme({ darkMode: !this.currentMode }));
+  switchTheme(newTheme: boolean) {
+    this.globalStore.dispatch(updateTheme({ darkMode: newTheme }));
   }
 }

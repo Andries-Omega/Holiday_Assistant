@@ -1,11 +1,8 @@
 <div
   class="text-white border-2 border-dark-blue mr-20 mb-3 h-14 w-10 rounded-md font-mono duration-300"
 >
-  <div
-    role="button"
-    class="w-full h-6 bg-dark-blue rounded-b-md hover:scale-105 cursor-pointer"
-    (click)="switchTheme()"
-  >
-    <p class="text-sm text-center">{{ (darkMode$ | async) ? "Off" : "On" }}</p>
-  </div>
+  <app-switchstate
+    (newMode)="switchTheme($event)"
+    [currentMode]="(darkMode$ | async)!"
+  ></app-switchstate>
 </div>

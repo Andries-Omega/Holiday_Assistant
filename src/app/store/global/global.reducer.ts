@@ -13,7 +13,6 @@ export const initialState: AppState = {
 
 export const reducer = createReducer(
   initialState,
-
   on(updateTheme, (state, { darkMode }) => ({
     ...state,
     darkMode,
