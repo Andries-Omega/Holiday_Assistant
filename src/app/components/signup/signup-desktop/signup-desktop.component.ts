@@ -33,6 +33,7 @@ export class SignupDesktopComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
   }
+
   initForm() {
     this.signUpUserForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(1)]],
@@ -71,5 +72,7 @@ export class SignupDesktopComponent implements OnInit {
       this.passwordsConfirmed
     );
   }
-  signUpUser() {}
+  signUpUser() {
+    console.log(this.signUpUserForm.value);
+  }
 }

@@ -28,5 +28,7 @@ export class SigninComponent implements OnInit {
   submitSignInReady(): boolean {
     return this.signInForm.value.email && this.signInForm.value.password;
   }
-  signInUser() {}
+  signInUser() {
+    console.log(this.signInForm.value);
+  }
 }

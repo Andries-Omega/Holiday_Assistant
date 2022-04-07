@@ -94,21 +94,25 @@
                   : signUpUserForm.get('confirmPassword')?.disable()
               "
             />
-            <button
-              [disabled]="signUpUserForm.get('password')?.disabled"
+            <div
+              role="button"
               class="{{
                 signUpUserForm.get('password')?.disabled
-                  ? ''
+                  ? 'cursor-not-allowed'
                   : 'hover:text-blue-500 duration-300 bg-white'
               }} flex items-center border-[1px] px-2 py-1 text-dark-blue"
-              (click)="passwordVisible = !passwordVisible"
+              (click)="
+                signUpUserForm.get('password')?.disabled
+                  ? ''
+                  : (passwordVisible = !passwordVisible)
+              "
             >
               <i
                 [class]="
                   passwordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'
                 "
               ></i>
-            </button>
+            </div>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -127,14 +131,17 @@
                   : (passwordsConfirmed = false)
               "
             />
-            <button
-              [disabled]="signUpUserForm.get('confirmPassword')?.disabled"
+            <div
               class="{{
                 signUpUserForm.get('confirmPassword')?.disabled
-                  ? ''
+                  ? 'cursor-not-allowed'
                   : 'hover:text-blue-500 duration-300 bg-white'
               }} flex items-center border-[1px] px-2 py-1 text-dark-blue"
-              (click)="confirmPasswordVisible = !confirmPasswordVisible"
+              (click)="
+                signUpUserForm.get('confirmPassword')?.disabled
+                  ? ''
+                  : (confirmPasswordVisible = !confirmPasswordVisible)
+              "
             >
               <i
                 [class]="
@@ -143,13 +150,13 @@
                     : 'fa-solid fa-eye-slash'
                 "
               ></i>
-            </button>
+            </div>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
 
       <button
-        #signUpBtn
+        type="submit"
         [disabled]="!submitSignUpReady()"
         class="{{
           submitSignUpReady()
