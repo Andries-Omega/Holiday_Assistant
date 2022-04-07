@@ -1,6 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromGlobal from './global.reducer';
+import { AppState, globalFeatureKey } from './global.reducer';
 
-export const selectGlobalState = createFeatureSelector<fromGlobal.State>(
-  fromGlobal.globalFeatureKey
+export const selectGlobalState =
+  createFeatureSelector<AppState>(globalFeatureKey);
+
+export const selectGlobalTheme = createSelector(
+  selectGlobalState,
+  (state: AppState) => state?.darkMode
 );

@@ -1,5 +1,5 @@
-import { Action, createReducer, on } from '@ngrx/store';
-import * as GlobalActions from './global.actions';
+import { createReducer, on } from '@ngrx/store';
+import { updateTheme } from './global.actions';
 
 export const globalFeatureKey = 'global';
 
@@ -14,5 +14,8 @@ export const initialState: AppState = {
 export const reducer = createReducer(
   initialState,
 
-  on(GlobalActions.globalGlobals, (state) => state)
+  on(updateTheme, (state, { darkMode }) => ({
+    ...state,
+    darkMode,
+  }))
 );

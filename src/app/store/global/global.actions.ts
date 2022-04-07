@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-export const globalGlobals = createAction(
+export const updateTheme = createAction(
   '[Global] Update Theme',
   props<{ darkMode: boolean }>()
 );

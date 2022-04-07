@@ -19,12 +19,13 @@ import en from '@angular/common/locales/en';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LightswitchComponent } from './components/common-components/lightswitch/lightswitch.component';
+import { LightSwitchComponent } from './components/common-components/lightswitch/lightswitch.component';
 import { NgZorroModule } from './modules/ng-zorro/ng-zorro.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
+import { globalFeatureKey, reducer } from './store/global/global.reducer';
 
 registerLocaleData(en);
 
@@ -41,7 +42,7 @@ registerLocaleData(en);
     SigninComponent,
     SignupComponent,
     SignupDesktopComponent,
-    LightswitchComponent,
+    LightSwitchComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +54,11 @@ registerLocaleData(en);
     ReactiveFormsModule,
     NgZorroModule,
     StoreModule.forRoot({}, {}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreModule.forFeature(globalFeatureKey, reducer),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
     EffectsModule.forRoot([]),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
