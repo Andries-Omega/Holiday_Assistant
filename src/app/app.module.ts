@@ -21,6 +21,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LightswitchComponent } from './components/common-components/lightswitch/lightswitch.component';
 import { NgZorroModule } from './modules/ng-zorro/ng-zorro.module';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
 
 registerLocaleData(en);
 
@@ -48,6 +52,9 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgZorroModule,
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([]),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
