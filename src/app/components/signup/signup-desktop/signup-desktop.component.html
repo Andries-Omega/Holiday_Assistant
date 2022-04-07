@@ -94,19 +94,23 @@
                   : signUpUserForm.get('confirmPassword')?.disable()
               "
             />
+            <button
+              [disabled]="signUpUserForm.get('password')?.disabled"
+              class="{{
+                signUpUserForm.get('password')?.disabled
+                  ? ''
+                  : 'hover:text-blue-500 duration-300 bg-white'
+              }} flex items-center border-[1px] px-2 py-1 text-dark-blue"
+              (click)="passwordVisible = !passwordVisible"
+            >
+              <i
+                [class]="
+                  passwordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'
+                "
+              ></i>
+            </button>
           </nz-input-group>
         </nz-form-control>
-        <button
-          [disabled]="signUpUserForm.get('password')?.disabled"
-          class="flex items-center mt-6 border-[1px] px-2 text-dark-blue hover:text-blue-500 duration-300 bg-white"
-          (click)="passwordVisible = !passwordVisible"
-        >
-          <i
-            [class]="
-              passwordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'
-            "
-          ></i>
-        </button>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzSpan="30">
@@ -123,22 +127,25 @@
                   : (passwordsConfirmed = false)
               "
             />
+            <button
+              [disabled]="signUpUserForm.get('confirmPassword')?.disabled"
+              class="{{
+                signUpUserForm.get('confirmPassword')?.disabled
+                  ? ''
+                  : 'hover:text-blue-500 duration-300 bg-white'
+              }} flex items-center border-[1px] px-2 py-1 text-dark-blue"
+              (click)="confirmPasswordVisible = !confirmPasswordVisible"
+            >
+              <i
+                [class]="
+                  confirmPasswordVisible
+                    ? 'fa-solid fa-eye'
+                    : 'fa-solid fa-eye-slash'
+                "
+              ></i>
+            </button>
           </nz-input-group>
         </nz-form-control>
-
-        <button
-          [disabled]="signUpUserForm.get('confirmPassword')?.disabled"
-          class="flex items-center mt-6 border-[1px] px-2 text-dark-blue hover:text-blue-500 duration-300 bg-white"
-          (click)="confirmPasswordVisible = !confirmPasswordVisible"
-        >
-          <i
-            [class]="
-              confirmPasswordVisible
-                ? 'fa-solid fa-eye'
-                : 'fa-solid fa-eye-slash'
-            "
-          ></i>
-        </button>
       </nz-form-item>
 
       <button
