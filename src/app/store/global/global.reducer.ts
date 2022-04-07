@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { updateTheme } from './global.actions';
+import { updateTheme, updateThemeAfterReload } from './global.actions';
 
 export const globalFeatureKey = 'global';
 
@@ -8,12 +8,12 @@ export interface AppState {
 }
 
 export const initialState: AppState = {
-  darkMode: false,
+  darkMode: matchMedia('(prefers-color-scheme: dark)').matches,
 };
 
 export const reducer = createReducer(
   initialState,
-  on(updateTheme, (state, { darkMode }) => ({
+  on(updateTheme, updateThemeAfterReload, (state, { darkMode }) => ({
     ...state,
     darkMode,
   }))
