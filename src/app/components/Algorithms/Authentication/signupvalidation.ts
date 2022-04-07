@@ -17,16 +17,11 @@ export const validateEmail = (email: string): boolean => {
 };
 
 export const validatePassword = (password: string): PasswordRequirements => {
-  let upperCase = new RegExp('[A-Z]');
-  let lowerCase = new RegExp('[a-z]');
-  let numbers = new RegExp('[0-9]');
-  let specialCharacters = new RegExp('[^a-zA-Z0-9]');
-
   return {
     lengthValid: password.length > 6,
-    upperCaseValid: upperCase.test(password),
-    lowerCaseValid: lowerCase.test(password),
-    charactersValid: specialCharacters.test(password),
-    numbersValid: numbers.test(password),
+    upperCaseValid: new RegExp('[A-Z]').test(password),
+    lowerCaseValid: new RegExp('[a-z]').test(password),
+    charactersValid: new RegExp('[^a-zA-Z0-9]').test(password),
+    numbersValid: new RegExp('[0-9]').test(password),
   };
 };

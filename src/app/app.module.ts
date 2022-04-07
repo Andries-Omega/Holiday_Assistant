@@ -19,10 +19,8 @@ import en from '@angular/common/locales/en';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { LightswitchComponent } from './components/common-components/lightswitch/lightswitch.component';
+import { NgZorroModule } from './modules/ng-zorro/ng-zorro.module';
 
 registerLocaleData(en);
 
@@ -49,9 +47,7 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    NzFormModule,
-    NzInputModule,
-    NzIconModule,
+    NgZorroModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

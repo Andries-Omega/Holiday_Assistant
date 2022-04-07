@@ -138,16 +138,10 @@
       </nz-form-item>
 
       <button
-        [disabled]="
-          !(
-            signUpUserForm.get('confirmPassword')?.enabled &&
-            signUpUserForm.value.confirmPassword &&
-            passwordsConfirmed
-          )
-        "
         #signUpBtn
+        [disabled]="!submitSignUpReady()"
         class="{{
-          !signUpBtn.disabled
+          submitSignUpReady()
             ? 'bg-dark-blue hover:scale-105 duration-300'
             : ' bg-blue-100 cursor-not-allowed'
         }} text-white rounded-md w-full h-10 "

@@ -32,11 +32,6 @@ export class SignupDesktopComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    console.log(
-      this.signUpUserForm.get('confirmPassword')?.enabled &&
-        this.signUpUserForm.value.confirmPassword ===
-          this.signUpUserForm.value.password
-    );
   }
   initForm() {
     this.signUpUserForm = this.formBuilder.group({
@@ -67,6 +62,14 @@ export class SignupDesktopComponent implements OnInit {
   verifyPassword() {
     this.passwordValid = validatePassword(this.signUpUserForm.value.password);
     return Object.values(this.passwordValid).every((value) => value);
+  }
+
+  submitSignUpReady() {
+    return (
+      this.signUpUserForm.get('confirmPassword')?.enabled &&
+      this.signUpUserForm.value.confirmPassword &&
+      this.passwordsConfirmed
+    );
   }
   signUpUser() {}
 }
