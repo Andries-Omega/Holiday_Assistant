@@ -21,7 +21,13 @@
             <nz-input-group nzPrefixIcon="mail">
               <input nz-input formControlName="email" type="email" />
             </nz-input-group>
-            <p *ngIf="signInForm.get('email')?.invalid" class="text-red-500">
+            <p
+              *ngIf="
+                signInForm.get('email')?.invalid &&
+                signInForm.get('email')?.touched
+              "
+              class="text-red-500"
+            >
               Email Is Required
             </p>
           </nz-form-control>
@@ -49,7 +55,13 @@
                 ></i>
               </div>
             </nz-input-group>
-            <p *ngIf="signInForm.get('password')?.invalid" class="text-red-500">
+            <p
+              *ngIf="
+                signInForm.get('password')?.invalid &&
+                signInForm.get('password')?.touched
+              "
+              class="text-red-500"
+            >
               Password Is Required
             </p>
           </nz-form-control>
