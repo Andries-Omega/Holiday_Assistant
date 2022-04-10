@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PasswordRequirements } from 'src/app/models/Users';
+import { Store } from '@ngrx/store';
+import { PasswordRequirements, Users } from 'src/app/models/Users';
+import { saveSignUpInfo } from 'src/app/store/global/global.actions';
+import { selectSignUpInfo } from 'src/app/store/global/global.selectors';
 import {
   validateEmail,
   validatePassword,
@@ -11,9 +14,24 @@ import {
   templateUrl: './signup-desktop.component.html',
   styleUrls: ['./signup-desktop.component.scss'],
 })
-export class SignupDesktopComponent implements OnInit {
+export class SignupDesktopComponent {
+  // state form data
+  stateFormData$ = this.globalStore.select(
+    (selectSignUpInfo) => selectSignUpInfo
+  );
   // form
-  signUpUserForm!: FormGroup;
+  @Input() signUpUserForm!: FormGroup;
+  @Input('formValuesToState')
+  set formStateValues(userInfo: Users) {
+    if (userInfo) {
+      this.globalStore.dispatch(
+        saveSignUpInfo({
+          hasEditedSignUp: Object.values(userInfo).some((info) => info),
+        })
+      );
+    }
+  }
+  @Output() signUpUserData = new EventEmitter<Users>();
 
   passwordValid: PasswordRequirements = {
     lengthValid: false,
@@ -28,34 +46,7 @@ export class SignupDesktopComponent implements OnInit {
   passwordVisible: boolean = false;
   confirmPasswordVisible: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.initForm();
-  }
-
-  initForm() {
-    this.signUpUserForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(1)]],
-      preferredName: [''],
-      email: [
-        { value: '', disabled: true },
-        [Validators.required, Validators.email, Validators.minLength(5)],
-      ],
-      password: [
-        { value: '', disabled: true },
-        [Validators.required, Validators.minLength(6)],
-      ],
-      confirmPassword: [
-        {
-          value: '',
-          disabled: true,
-        },
-        [Validators.required, Validators.minLength(6)],
-      ],
-    });
-  }
-
+  constructor(private globalStore: Store) {}
   verifyEmail() {
     return validateEmail(this.signUpUserForm.value.email);
   }
@@ -73,6 +64,6 @@ export class SignupDesktopComponent implements OnInit {
     );
   }
   signUpUser() {
-    console.log(this.signUpUserForm.value);
+    this.signUpUserData.emit(this.signUpUserForm.value);
   }
 }

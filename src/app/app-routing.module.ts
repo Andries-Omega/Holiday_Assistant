@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NoPageComponent } from './components/no-page/no-page.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { CanLeaveSignupGuard } from './guards/can-leave-signup.guard';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
   {
     path: 'signup',
     component: SignupComponent,
+    canDeactivate: [CanLeaveSignupGuard],
   },
   {
     path: '',

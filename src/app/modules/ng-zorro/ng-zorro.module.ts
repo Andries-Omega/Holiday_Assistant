@@ -14,6 +14,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzInputModule,
     NzIconModule,
   ],
-  exports: [NzModalModule, NzFormModule, NzInputModule, NzIconModule],
+  exports: [
+    NzModalModule,
+    NzFormModule,
+    NzInputModule,
+    NzIconModule,
+    NzModalModule,
+  ],
 })
 export class NgZorroModule {}

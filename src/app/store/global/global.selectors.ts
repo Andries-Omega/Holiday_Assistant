@@ -8,3 +8,8 @@ export const selectGlobalTheme = createSelector(
   selectGlobalState,
   (state: AppState) => state?.darkMode
 );
+
+export const selectSignUpInfo = createSelector(
+  selectGlobalState,
+  (state: AppState) => state?.hasEditedSignUp
+);

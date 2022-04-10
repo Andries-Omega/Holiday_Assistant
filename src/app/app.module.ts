@@ -27,6 +27,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { globalFeatureKey, reducer } from './store/global/global.reducer';
 import { SwitchStateComponent } from './components/common-components/lightswitch/switchstate/switchstate.component';
+import { ConfirmModalComponent } from './components/common-components/modals/confirm-modal/confirm-modal.component';
 
 registerLocaleData(en);
 
@@ -45,6 +46,7 @@ registerLocaleData(en);
     SignupDesktopComponent,
     LightSwitchComponent,
     SwitchStateComponent,
+    ConfirmModalComponent,
   ],
   imports: [
     BrowserModule,
