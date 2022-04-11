@@ -1,7 +1,9 @@
 <div class="md:flex hidden w-screen h-full justify-center py-20">
   <app-signup-desktop
     [signUpUserForm]="signUpUserForm"
-    (signUpUserData)="signUpUser($event)"
     [formValuesToState]="signUpUserForm.valueChanges | async"
+    [errorMessage]="errorMessage"
+    [readyToSingUp]="readyToSingUp"
+    (signUpUserData)="signUpUser($event)"
   ></app-signup-desktop>
 </div>

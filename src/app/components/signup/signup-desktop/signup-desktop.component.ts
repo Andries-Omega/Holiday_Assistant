@@ -31,6 +31,8 @@ export class SignupDesktopComponent {
       );
     }
   }
+  @Input() readyToSingUp!: boolean;
+  @Input() errorMessage!: string;
   @Output() signUpUserData = new EventEmitter<Users>();
 
   passwordValid: PasswordRequirements = {
@@ -58,6 +60,8 @@ export class SignupDesktopComponent {
 
   submitSignUpReady() {
     return (
+      this.signUpUserForm.get('email')?.enabled &&
+      this.signUpUserForm.get('password')?.enabled &&
       this.signUpUserForm.get('confirmPassword')?.enabled &&
       this.signUpUserForm.value.confirmPassword &&
       this.passwordsConfirmed

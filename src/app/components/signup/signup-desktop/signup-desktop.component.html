@@ -152,6 +152,9 @@
               ></i>
             </div>
           </nz-input-group>
+          <p *ngIf="errorMessage" class="text-center text-red-500 text-base">
+            {{ errorMessage }}
+          </p>
         </nz-form-control>
       </nz-form-item>
 

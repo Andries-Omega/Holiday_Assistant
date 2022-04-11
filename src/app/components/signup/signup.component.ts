@@ -2,11 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { doc, Firestore } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
 import { setDoc } from '@firebase/firestore';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { PasswordRequirements, Users } from 'src/app/models/Users';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectSignUpInfo } from 'src/app/store/global/global.selectors';
 import {
@@ -21,7 +23,8 @@ import {
 })
 export class SignupComponent implements OnInit {
   theSignUpState$ = this.globalStore.select(selectSignUpInfo);
-  errorMessage!: string;
+  errorMessage: string = '';
+  readyToSingUp: boolean = false;
   stop$ = new Subject<void>();
   // form
   signUpUserForm!: FormGroup;
@@ -42,7 +45,8 @@ export class SignupComponent implements OnInit {
     private formBuilder: FormBuilder,
     private globalStore: Store<AppState>,
     private fireStore: Firestore,
-    private auth: Auth
+    private auth: Auth,
+    private authService: AuthServiceService
   ) {}
 
   ngOnInit(): void {
@@ -81,36 +85,26 @@ export class SignupComponent implements OnInit {
   }
 
   submitSignUpReady() {
-    return (
+    this.readyToSingUp =
+      this.signUpUserForm.get('email')?.enabled &&
       this.signUpUserForm.get('confirmPassword')?.enabled &&
       this.signUpUserForm.value.confirmPassword &&
-      this.passwordsConfirmed
-    );
+      this.passwordsConfirmed;
   }
   signUpUser(userData: Users) {
-    createUserWithEmailAndPassword(this.auth, userData.email, userData.password)
-      .then((cred) => {
-        return updateProfile(cred.user, {
-          displayName: userData.preferredName
-            ? userData.preferredName
-            : userData.name,
-        })
-          .then(() => {
-            setDoc(doc(this.fireStore, 'Users', cred.user.uid), {
-              name: userData.name,
-              email: userData.email,
-              preferred_name: userData.preferredName,
-            });
-          })
-          .catch((error) => {
-            this.errorMessage = error;
-            console.error('The Errorrr', error);
-          });
+    this.authService
+      .signUpUser(userData)
+      .then(() => {
+        this.errorMessage = '';
+        console.log('signed in');
       })
-      .catch((err) => {
-        this.errorMessage = err;
-        console.error('The Error', err);
+      .catch((err: Error) => {
+        console.log('err');
+        this.errorMessage =
+          err.message ===
+          'FirebaseError: Firebase: Error (auth/email-already-in-use).'
+            ? 'The email you have provided already exists'
+            : 'error occured while signing you, please try again';
       });
-    console.log(userData);
   }
 }
