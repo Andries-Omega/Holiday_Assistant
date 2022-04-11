@@ -28,6 +28,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { globalFeatureKey, reducer } from './store/global/global.reducer';
 import { SwitchStateComponent } from './components/common-components/lightswitch/switchstate/switchstate.component';
 import { ConfirmModalComponent } from './components/common-components/modals/confirm-modal/confirm-modal.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 registerLocaleData(en);
 
@@ -64,6 +68,10 @@ registerLocaleData(en);
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([]),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideDatabase(() => getDatabase()),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

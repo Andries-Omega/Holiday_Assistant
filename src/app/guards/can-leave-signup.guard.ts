@@ -48,7 +48,7 @@ export class CanLeaveSignupGuard implements CanDeactivate<unknown> {
 
   handleUserConfirm(): boolean {
     const userResponse = confirm(
-      'If you leave this page you will loose all your sign up information, still keep to continue?'
+      'If you leave this page you will loose all your sign up information, still keen to continue?'
     );
 
     this.globalStore.dispatch(

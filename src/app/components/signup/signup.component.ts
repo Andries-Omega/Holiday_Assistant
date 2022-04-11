@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
+import { doc, Firestore } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
+import { setDoc } from '@firebase/firestore';
 import { Store } from '@ngrx/store';
-import { map, Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { PasswordRequirements, Users } from 'src/app/models/Users';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectSignUpInfo } from 'src/app/store/global/global.selectors';
@@ -17,6 +21,7 @@ import {
 })
 export class SignupComponent implements OnInit {
   theSignUpState$ = this.globalStore.select(selectSignUpInfo);
+  errorMessage!: string;
   stop$ = new Subject<void>();
   // form
   signUpUserForm!: FormGroup;
@@ -35,7 +40,9 @@ export class SignupComponent implements OnInit {
   confirmPasswordVisible: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
-    private globalStore: Store<AppState>
+    private globalStore: Store<AppState>,
+    private fireStore: Firestore,
+    private auth: Auth
   ) {}
 
   ngOnInit(): void {
@@ -81,6 +88,29 @@ export class SignupComponent implements OnInit {
     );
   }
   signUpUser(userData: Users) {
+    createUserWithEmailAndPassword(this.auth, userData.email, userData.password)
+      .then((cred) => {
+        return updateProfile(cred.user, {
+          displayName: userData.preferredName
+            ? userData.preferredName
+            : userData.name,
+        })
+          .then(() => {
+            setDoc(doc(this.fireStore, 'Users', cred.user.uid), {
+              name: userData.name,
+              email: userData.email,
+              preferred_name: userData.preferredName,
+            });
+          })
+          .catch((error) => {
+            this.errorMessage = error;
+            console.error('The Errorrr', error);
+          });
+      })
+      .catch((err) => {
+        this.errorMessage = err;
+        console.error('The Error', err);
+      });
     console.log(userData);
   }
 }

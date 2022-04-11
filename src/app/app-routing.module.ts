@@ -26,6 +26,13 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./components/user-dashboard/user-dashboard.module').then(
+        (m) => m.UserDashboardModule
+      ),
+  },
+  {
     path: '**',
     component: NoPageComponent,
   },
