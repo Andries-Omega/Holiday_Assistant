@@ -4,7 +4,13 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from '@angular/fire/auth';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import {
+  doc,
+  Firestore,
+  setDoc,
+  getDoc,
+  DocumentData,
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Users } from '../models/Users';
 
@@ -14,12 +20,12 @@ import { Users } from '../models/Users';
 export class AuthServiceService {
   constructor(private auth: Auth, private fireStore: Firestore) {}
 
-  async signUpUser(userData: Users): Promise<boolean> {
-    let signedUp: boolean = false;
+  async signUpUser(userData: Users): Promise<boolean | string> {
+    let signedUp: boolean | string = false;
     await createUserWithEmailAndPassword(
       this.auth,
       userData.email,
-      userData.password
+      userData.password || ''
     )
       .then((cred) => {
         return updateProfile(cred.user, {
@@ -33,7 +39,8 @@ export class AuthServiceService {
               email: userData.email,
               preferred_name: userData.preferredName,
             });
-            signedUp = true;
+
+            signedUp = cred.user.uid;
           })
           .catch((error) => {
             throw new Error(error);
@@ -44,5 +51,14 @@ export class AuthServiceService {
       });
 
     return signedUp;
+  }
+
+  async getUser(userID: string): Promise<DocumentData | boolean> {
+    const docSnap = await getDoc(doc(this.fireStore, 'Users', userID));
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      return false;
+    }
   }
 }

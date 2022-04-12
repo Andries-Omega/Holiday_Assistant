@@ -13,3 +13,8 @@ export const selectSignUpInfo = createSelector(
   selectGlobalState,
   (state: AppState) => state?.hasEditedSignUp
 );
+
+export const selectLoggedInUser = createSelector(
+  selectGlobalState,
+  (state: AppState) => state.loggedInUser
+);

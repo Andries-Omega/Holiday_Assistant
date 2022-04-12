@@ -5,6 +5,7 @@ import { NoPageComponent } from './components/no-page/no-page.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { CanLeaveSignupGuard } from './guards/can-leave-signup.guard';
+import { DashboardGuard } from './guards/dashboard.guard';
 
 const routes: Routes = [
   {
@@ -31,6 +32,7 @@ const routes: Routes = [
       import('./components/user-dashboard/user-dashboard.module').then(
         (m) => m.UserDashboardModule
       ),
+    canActivate: [DashboardGuard],
   },
   {
     path: '**',

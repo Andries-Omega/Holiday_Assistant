@@ -1,8 +1,9 @@
 export interface Users {
+  userID: string;
   name: string;
   preferredName: string;
   email: string;
-  password: string;
+  password?: string;
 }
 
 export interface PasswordRequirements {

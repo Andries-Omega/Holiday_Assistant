@@ -15,3 +15,8 @@ export const saveSignUpInfo = createAction(
   '[Global] save sign up information',
   props<{ hasEditedSignUp: boolean }>()
 );
+
+export const setLoggedInUser = createAction(
+  '[Global] set logged in user',
+  props<{ loggedInUser: Users }>()
+);
