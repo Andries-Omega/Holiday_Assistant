@@ -14,8 +14,9 @@ import {
 } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectSignUpInfo } from 'src/app/store/global/global.selectors';
+import { signIn } from '../Algorithms/Authentication/authetication';
 
-import { firstSignIn } from '../Algorithms/Authentication/signInPurgatory';
+import { firstSignIn } from '../Algorithms/Authentication/signPurgatory';
 import {
   validateEmail,
   validatePassword,
@@ -108,7 +109,8 @@ export class SignupComponent implements OnInit {
       .then((r: string | boolean) => {
         this.errorMessage = '';
         if (typeof r !== 'boolean') {
-          this.signUpSuccessFull(r);
+          //signIn(r, this.globalStore, this.route);
+          console.log(r);
         } else {
         }
       })
@@ -120,22 +122,5 @@ export class SignupComponent implements OnInit {
             ? 'The email you have provided already exists'
             : 'error occured while signing you, please try again';
       });
-  }
-
-  private signUpSuccessFull(userID: string) {
-    //1. let the state know it is safe to leave sign up route
-    this.globalStore.dispatch(
-      saveSignUpInfo({
-        hasEditedSignUp: false,
-      })
-    );
-    let user = firstSignIn(userID);
-
-    //2. saveUser to session storage ('Just incase of refres')
-    saveUserToSessionStorage(user);
-    //3. set the user to state and localstorage (In case they refresh)
-    this.globalStore.dispatch(setLoggedInUser({ loggedInUser: user }));
-
-    this.route.navigateByUrl('dashboard');
   }
 }

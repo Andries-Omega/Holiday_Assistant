@@ -1,9 +1,18 @@
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Users } from 'src/app/models/Users';
-import { setLoggedInUser } from 'src/app/store/global/global.actions';
+import {
+  saveSignUpInfo,
+  setLoggedInUser,
+} from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
-import { getUserFromSelect, isObjectEmpty } from '../CommonFunctions';
+import {
+  getUserFromSelect,
+  isObjectEmpty,
+  saveUserToSessionStorage,
+} from '../CommonFunctions';
+import { firstSignIn } from './signPurgatory';
 
 export const isSecondPhaseDone = (user: Users): boolean => {
   return user.name && user.email ? true : false;
@@ -34,4 +43,25 @@ export const isUserSignedIn = (globalStore: Store<AppState>): boolean => {
   } else {
     return false;
   }
+};
+
+export const signIn = (
+  userID: string,
+  globalStore: Store<AppState>,
+  route: Router
+) => {
+  //1. let the state know it is safe to leave sign up route
+  globalStore.dispatch(
+    saveSignUpInfo({
+      hasEditedSignUp: false,
+    })
+  );
+  let user = firstSignIn(userID);
+
+  //2. saveUser to session storage ('Just incase of refres')
+  saveUserToSessionStorage(user);
+  //3. set the user to state and localstorage (In case they refresh)
+  globalStore.dispatch(setLoggedInUser({ loggedInUser: user }));
+
+  route.navigateByUrl('dashboard');
 };

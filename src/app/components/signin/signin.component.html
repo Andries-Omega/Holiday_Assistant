@@ -52,6 +52,9 @@
             <p *ngIf="signInForm.get('password')?.invalid" class="text-red-500">
               Password Is Required
             </p>
+            <p *ngIf="errorMessage" class="text-red-500">
+              {{ errorMessage }}
+            </p>
           </nz-form-control>
         </nz-form-item>
         <button

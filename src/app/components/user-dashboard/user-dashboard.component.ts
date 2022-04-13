@@ -11,7 +11,7 @@ import {
   isSecondPhaseDone,
   isThirdPhaseDone,
 } from '../Algorithms/Authentication/authetication';
-import { secondSignIn } from '../Algorithms/Authentication/signInPurgatory';
+import { secondSignIn } from '../Algorithms/Authentication/signPurgatory';
 import {
   getUserFromSelect,
   initUsers,
@@ -52,12 +52,10 @@ export class UserDashboardComponent implements OnInit {
       this.phaseThreeSignIn();
       return;
     }
-    console.log('all passed');
-    console.log(this.user);
   }
   async phaseTwoSignIn() {
     await this.authService
-      .getUser(this.user.userID)
+      .getUserInfo(this.user.userID)
       .then((result: DocumentData | boolean) => {
         if (typeof result !== 'boolean') {
           const theUser: Users = secondSignIn(
