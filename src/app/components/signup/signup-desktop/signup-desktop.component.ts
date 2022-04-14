@@ -21,6 +21,7 @@ export class SignupDesktopComponent {
   );
   // form
   @Input() signUpUserForm!: FormGroup;
+
   @Input('formValuesToState')
   set formStateValues(userInfo: Users) {
     if (userInfo) {
@@ -32,16 +33,11 @@ export class SignupDesktopComponent {
     }
   }
   @Input() readyToSingUp!: boolean;
+  @Input() signingUp!: boolean;
   @Input() errorMessage!: string;
   @Output() signUpUserData = new EventEmitter<Users>();
 
-  passwordValid: PasswordRequirements = {
-    lengthValid: false,
-    upperCaseValid: false,
-    lowerCaseValid: false,
-    charactersValid: false,
-    numbersValid: false,
-  };
+  @Input() passwordValid!: PasswordRequirements;
   passwordsConfirmed: boolean = false;
 
   // passwords visibility
@@ -64,7 +60,8 @@ export class SignupDesktopComponent {
       this.signUpUserForm.get('password')?.enabled &&
       this.signUpUserForm.get('confirmPassword')?.enabled &&
       this.signUpUserForm.value.confirmPassword &&
-      this.passwordsConfirmed
+      this.passwordsConfirmed &&
+      !this.signingUp
     );
   }
   signUpUser() {

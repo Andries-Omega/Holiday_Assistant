@@ -33,14 +33,7 @@ export class UserDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const storedUser = localStorage.getItem('User');
-
-    /**
-     * To avoid loggin
-     */
-    if (storedUser && (JSON.parse(storedUser) as Users)) {
-      //then a user has been saved
-    }
+    console.log(this.router.url);
     this.user = getUserFromSelect(this.user$);
 
     if (!isSecondPhaseDone(this.user)) {

@@ -1,4 +1,3 @@
-import { faUserAlt } from '@fortawesome/free-solid-svg-icons';
 import { map, Observable, Subscription } from 'rxjs';
 import { Users } from 'src/app/models/Users';
 
@@ -41,4 +40,8 @@ export const unSubscribe = (subscription: Subscription) => {
 
 export const saveUserToSessionStorage = (user: Users) => {
   sessionStorage.setItem('User', JSON.stringify(user));
+};
+
+export const removeFromSessionStorage = (key: string) => {
+  sessionStorage.removeItem(key);
 };

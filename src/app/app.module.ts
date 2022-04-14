@@ -28,10 +28,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { globalFeatureKey, reducer } from './store/global/global.reducer';
 import { SwitchStateComponent } from './components/common-components/lightswitch/switchstate/switchstate.component';
 import { ConfirmModalComponent } from './components/common-components/modals/confirm-modal/confirm-modal.component';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideDatabase,getDatabase } from '@angular/fire/database';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideDatabase, getDatabase } from '@angular/fire/database';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { RouterStateSnapshot } from '@angular/router';
 
 registerLocaleData(en);
 

@@ -41,15 +41,11 @@ export class DashboardGuard implements CanActivate, CanDeactivate<unknown> {
       );
       return true;
     } else {
-      return this.loggendInUser.pipe(
-        map(() => {
-          if (isUserSignedIn(this.globalStore)) {
-            return true;
-          } else {
-            return this.routes.parseUrl('/home');
-          }
-        })
-      );
+      if (isUserSignedIn(this.globalStore)) {
+        return true;
+      } else {
+        return this.routes.parseUrl('/home');
+      }
     }
   }
   canDeactivate(

@@ -23,6 +23,7 @@ export class AuthServiceService {
   constructor(private auth: Auth, private fireStore: Firestore) {}
 
   async signUpUser(userData: Users): Promise<boolean | string> {
+    let signedUp: boolean | string = false;
     await createUserWithEmailAndPassword(
       this.auth,
       userData.email,
@@ -30,12 +31,12 @@ export class AuthServiceService {
     )
       .then((cred) => {
         this.setUserInfo(userData, cred.user.uid);
-        return cred.user.uid;
+        signedUp = cred.user.uid;
       })
       .catch((err) => {
         throw new Error(err);
       });
-    return false;
+    return signedUp;
   }
 
   async getUserInfo(userID: string): Promise<DocumentData | boolean> {

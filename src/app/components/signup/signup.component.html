@@ -4,6 +4,8 @@
     [formValuesToState]="signUpUserForm.valueChanges | async"
     [errorMessage]="errorMessage"
     [readyToSingUp]="readyToSingUp"
+    [signingUp]="signingUp"
+    [passwordValid]="passwordValid"
     (signUpUserData)="signUpUser($event)"
   ></app-signup-desktop>
 </div>

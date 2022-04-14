@@ -58,11 +58,6 @@ export class SigninComponent implements OnInit {
         signIn(result.user.uid, this.globalState, this.route);
       })
       .catch((err: Error) => {
-        /**
-         * reason i am checking both is because if a hacker guessed the email right,
-         * it's not smart to let them know that they did. So it's better to let them stay
-         * confused trying to figure out if it's the email, password or both that is wrong
-         */
         this.signingIn = false;
         this.errorMessage =
           err.message === FirebaseResponses.InvalidPassword ||
@@ -70,6 +65,5 @@ export class SigninComponent implements OnInit {
             ? 'Invalid email or (and) password'
             : 'Unable to sign in';
       });
-    console.log(this.signInForm.value);
   }
 }

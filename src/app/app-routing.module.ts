@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NoPageComponent } from './components/no-page/no-page.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { CanAccessSignInOrUpGuard } from './guards/can-access-sign-in-or-up.guard';
 import { CanLeaveSignupGuard } from './guards/can-leave-signup.guard';
 import { DashboardGuard } from './guards/dashboard.guard';
 
@@ -15,10 +16,12 @@ const routes: Routes = [
   {
     path: 'signin',
     component: SigninComponent,
+    canActivate: [CanAccessSignInOrUpGuard],
   },
   {
     path: 'signup',
     component: SignupComponent,
+    canActivate: [CanAccessSignInOrUpGuard],
     canDeactivate: [CanLeaveSignupGuard],
   },
   {
