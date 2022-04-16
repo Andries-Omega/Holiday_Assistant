@@ -32,8 +32,6 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { RouterStateSnapshot } from '@angular/router';
-
 registerLocaleData(en);
 
 @NgModule({
@@ -69,6 +67,7 @@ registerLocaleData(en);
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([]),
+
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),

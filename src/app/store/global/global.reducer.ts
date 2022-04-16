@@ -16,24 +16,39 @@ export interface AppState {
   loggedInUser: Users;
 }
 
-export const initialState: AppState = {
+export const defaultState: AppState = {
   darkMode: matchMedia('(prefers-color-scheme: dark)').matches,
   hasEditedSignUp: false,
   loggedInUser: initUsers(),
 };
 
+const sessionState = sessionStorage.getItem('SavedState');
+const savedState = sessionState && JSON.parse(sessionState);
+console.log(savedState || defaultState);
 export const reducer = createReducer(
-  initialState,
-  on(updateTheme, updateThemeAfterReload, (state, { darkMode }) => ({
-    ...state,
-    darkMode,
-  })),
-  on(saveSignUpInfo, (state, { hasEditedSignUp }) => ({
-    ...state,
-    hasEditedSignUp,
-  })),
-  on(setLoggedInUser, (state, { loggedInUser }) => ({
-    ...state,
-    loggedInUser,
-  }))
+  savedState || defaultState,
+  on(updateTheme, updateThemeAfterReload, (state, { darkMode }) => {
+    const newState = {
+      ...state,
+      darkMode,
+    };
+    sessionStorage.setItem('SavedState', JSON.stringify(newState));
+    return newState;
+  }),
+  on(saveSignUpInfo, (state, { hasEditedSignUp }) => {
+    const newState = {
+      ...state,
+      hasEditedSignUp,
+    };
+    sessionStorage.setItem('SavedState', JSON.stringify(newState));
+    return newState;
+  }),
+  on(setLoggedInUser, (state, { loggedInUser }) => {
+    const newState = {
+      ...state,
+      loggedInUser,
+    };
+    sessionStorage.setItem('SavedState', JSON.stringify(newState));
+    return newState;
+  })
 );

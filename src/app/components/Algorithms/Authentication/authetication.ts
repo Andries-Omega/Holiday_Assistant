@@ -11,8 +11,6 @@ import {
   getUserFromSelect,
   initUsers,
   isObjectEmpty,
-  removeFromSessionStorage,
-  saveUserToSessionStorage,
 } from '../CommonFunctions';
 import { firstSignIn } from './signPurgatory';
 
@@ -25,26 +23,8 @@ export const isThirdPhaseDone = (): boolean => {
 };
 
 export const isUserSignedIn = (globalStore: Store<AppState>): boolean => {
-  //1. get session storage instance of user
-  const userStorage = sessionStorage.getItem('User');
-
-  if (userStorage && (JSON.parse(userStorage) as Users)) {
-    //then we've logged In
-
-    // 2. get state user
-    let user = getUserFromSelect(globalStore.select(selectLoggedInUser));
-
-    // 3. For performance sake, don't  set state if it is already set.
-    if (isObjectEmpty(user)) {
-      globalStore.dispatch(
-        setLoggedInUser({ loggedInUser: JSON.parse(userStorage) as Users })
-      );
-    }
-
-    return true;
-  } else {
-    return false;
-  }
+  let user = getUserFromSelect(globalStore.select(selectLoggedInUser));
+  return !isObjectEmpty(user);
 };
 
 export const signIn = (
@@ -60,19 +40,14 @@ export const signIn = (
   );
   let user = firstSignIn(userID);
 
-  //2. saveUser to session storage ('Just incase of refresh')
-  saveUserToSessionStorage(user);
-  //3. set the user to state and localstorage (In case they refresh)
+  //2. set the user to state and localstorage (In case they refresh)
   globalStore.dispatch(setLoggedInUser({ loggedInUser: user }));
 
   route.navigateByUrl('dashboard');
 };
 
 export const signOutt = (route: Router, globalStore: Store<AppState>) => {
-  // 1. Remove user from session storage
-  removeFromSessionStorage('User');
-
-  // 2. Remove user from global state
+  // 1. Remove user from global state
   globalStore.dispatch(setLoggedInUser({ loggedInUser: initUsers() }));
 
   // 3. Reload page

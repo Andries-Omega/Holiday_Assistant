@@ -14,21 +14,11 @@ import { selectGlobalTheme } from 'src/app/store/global/global.selectors';
 export class LightSwitchComponent implements OnInit {
   darkMode$ = this.globalStore.select(selectGlobalTheme);
 
-  preferredTheme = localStorage.getItem('preferredTheme');
-
   constructor(private globalStore: Store) {}
 
-  ngOnInit(): void {
-    // so that we preserve the state when user refreshes(or reloads) the page
-    if (this.preferredTheme) {
-      this.globalStore.dispatch(
-        updateThemeAfterReload({ darkMode: this.preferredTheme === 'true' })
-      );
-    }
-  }
+  ngOnInit(): void {}
 
   switchTheme(newTheme: boolean) {
-    localStorage.setItem('preferredTheme', String(newTheme));
     this.globalStore.dispatch(updateTheme({ darkMode: newTheme }));
   }
 }

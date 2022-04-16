@@ -27,6 +27,7 @@
     "@ngrx/effects": "^13.1.0",
     "@ngrx/store": "^13.1.0",
     "@ngrx/store-devtools": "^13.1.0",
+    "@trellisorg/ngrx-universal-rehydrate": "^0.0.12",
     "and": "^0.0.3",
     "autoprefixer": "^10.4.4",
     "ng-zorro-antd": "^13.1.1",

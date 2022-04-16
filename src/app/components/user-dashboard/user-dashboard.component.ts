@@ -12,11 +12,7 @@ import {
   isThirdPhaseDone,
 } from '../Algorithms/Authentication/authetication';
 import { secondSignIn } from '../Algorithms/Authentication/signPurgatory';
-import {
-  getUserFromSelect,
-  initUsers,
-  saveUserToSessionStorage,
-} from '../Algorithms/CommonFunctions';
+import { getUserFromSelect, initUsers } from '../Algorithms/CommonFunctions';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -56,8 +52,6 @@ export class UserDashboardComponent implements OnInit {
             result?.['preferredName'],
             result?.['email']
           );
-          //save user to storage (incase of reload)
-          saveUserToSessionStorage(theUser);
 
           //save also to state as this is what we are referrencing
           this.globalStore.dispatch(
@@ -71,9 +65,7 @@ export class UserDashboardComponent implements OnInit {
           location.reload();
         }
       })
-      .catch((err) => location.reload());
-
-    //this.ngOnInit();
+      .catch(() => location.reload());
   }
   phaseThreeSignIn() {
     //this.ngOnInit();
