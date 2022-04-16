@@ -4,7 +4,7 @@
   nzTip="Adding Holiday..."
 >
   <div
-    class="bg-slate-100 rounded-md shadow-2xl h-[775px] grid place-items-center px-10"
+    class="bg-slate-100 rounded-md shadow-2xl h-fit py-14 pb-5 grid place-items-center px-10"
   >
     <app-phase-one
       *ngIf="phase === 0"
@@ -25,7 +25,7 @@
       [errorMessage]="errorMessage"
       (selectedDate)="setSelectedDates($event)"
     ></app-phase-three>
-    <div class="flex justify-between w-full">
+    <div class="flex justify-between w-full mt-10">
       <button
         [disabled]="phase === 0"
         [@fade]="phase === 0 ? 'Out' : 'In'"
@@ -46,19 +46,19 @@
         <i class="fa-solid fa-plus ml-3" *ngIf="phase === 2"></i>
       </button>
     </div>
-    <div class="flex px-5">
+    <div class="flex px-5 mt-7">
       <div
-        class="w-5 h-5 mr-5 rounded-full {{
+        class="w-3 h-3 mr-5 rounded-full {{
           phase === 0 ? 'bg-dark-blue' : 'bg-white'
         }} border-[1px] border-dark-blue duration-1000"
       ></div>
       <div
-        class="w-5 h-5 mr-5 rounded-full {{
+        class="w-3 h-3 mr-5 rounded-full {{
           phase === 1 ? 'bg-dark-blue' : 'bg-white'
         }} border-[1px] border-dark-blue duration-1000"
       ></div>
       <div
-        class="w-5 h-5 mr-5 rounded-full {{
+        class="w-3 h-3 mr-5 rounded-full {{
           phase === 2 ? 'bg-dark-blue' : 'bg-white'
         }} border-[1px] border-dark-blue duration-1000"
       ></div>
