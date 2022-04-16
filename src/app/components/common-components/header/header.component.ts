@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private globalStore: Store<AppState>) {}
 
   ngOnInit(): void {
-    console.log(this.router.url);
     if (this.isUserLoggedIn()) {
       this.user = getUserFromSelect(
         this.globalStore.select(selectLoggedInUser)

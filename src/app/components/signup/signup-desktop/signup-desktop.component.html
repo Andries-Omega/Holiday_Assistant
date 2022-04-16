@@ -1,182 +1,186 @@
-<div
-  class="grid grid-cols-2 w-[950px] bg-slate-100 h-fit rounded-lg divide-x-[1px] divide-dark-blue place-items-center"
->
-  <div>
-    <h1 class="text-3xl text-center animate-bounce">
-      Don't Forget To Do Cool Visual Illustrations Here
-    </h1>
-  </div>
-  <div class="p-5">
-    <h1 class="text-dark-blue text-center text-xl">Sign Up</h1>
-    <form
-      nz-form
-      class="py-7"
-      [formGroup]="signUpUserForm"
-      (submit)="signUpUser()"
-    >
-      <nz-form-item>
-        <nz-form-control class="mr-2">
-          <p class="text-base">Name:</p>
-          <nz-input-group>
-            <input
-              nz-input
-              formControlName="name"
-              type="text"
-              required
-              (keyup)="
-                signUpUserForm.value.name
-                  ? signUpUserForm.get('email')?.enable()
-                  : signUpUserForm.get('email')?.disable()
-              "
-            />
-          </nz-input-group>
-          <p
-            *ngIf="
-              this.signUpUserForm.get('email')?.disabled &&
-              this.signUpUserForm.get('name')?.touched
-            "
-            class="text-red-500"
-          >
-            Name is required
-          </p>
-        </nz-form-control>
-        <nz-form-control>
-          <p class="text-base">Preferred Name:</p>
-          <nz-input-group>
-            <input
-              nz-input
-              formControlName="preferredName"
-              type="text"
-              placeholder="i.e. nickname"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-control nzSpan="30">
-          <p class="text-base">Email:</p>
-          <nz-input-group nzPrefixIcon="mail">
-            <input
-              nz-input
-              formControlName="email"
-              type="email"
-              (keyup)="
-                verifyEmail()
-                  ? signUpUserForm.get('password')?.enable()
-                  : signUpUserForm.get('password')?.disable()
-              "
-            />
-          </nz-input-group>
-          <p
-            *ngIf="
-              signUpUserForm.get('email')?.touched &&
-              signUpUserForm.get('email')?.enabled &&
-              signUpUserForm.get('password')?.disabled
-            "
-            class="text-red-500"
-          >
-            Invalid Email
-          </p>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control nzSpan="30">
-          <p class="text-base">Password:</p>
-          <nz-input-group nzPrefixIcon="lock">
-            <input
-              nz-input
-              formControlName="password"
-              [type]="passwordVisible ? 'text' : 'password'"
-              (keyup)="
-                verifyPassword()
-                  ? signUpUserForm.get('confirmPassword')?.enable()
-                  : signUpUserForm.get('confirmPassword')?.disable()
-              "
-            />
-            <div
-              role="button"
-              class="{{
-                signUpUserForm.get('password')?.disabled
-                  ? 'cursor-not-allowed'
-                  : 'hover:text-blue-500 duration-300 bg-white'
-              }} flex items-center border-[1px] px-2 py-1 text-dark-blue"
-              (click)="
-                signUpUserForm.get('password')?.disabled
-                  ? ''
-                  : (passwordVisible = !passwordVisible)
-              "
-            >
-              <i
-                [class]="
-                  passwordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'
-                "
-              ></i>
-            </div>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control nzSpan="30">
-          <p class="text-base">Confirm Password:</p>
-          <nz-input-group nzPrefixIcon="lock">
-            <input
-              nz-input
-              formControlName="confirmPassword"
-              [type]="confirmPasswordVisible ? 'text' : 'password'"
-              (keyup)="
-                signUpUserForm.value.password ===
-                signUpUserForm.value.confirmPassword
-                  ? (passwordsConfirmed = true)
-                  : (passwordsConfirmed = false)
-              "
-            />
-            <div
-              class="{{
-                signUpUserForm.get('confirmPassword')?.disabled
-                  ? 'cursor-not-allowed'
-                  : 'hover:text-blue-500 duration-300 bg-white'
-              }} flex items-center border-[1px] px-2 py-1 text-dark-blue"
-              (click)="
-                signUpUserForm.get('confirmPassword')?.disabled
-                  ? ''
-                  : (confirmPasswordVisible = !confirmPasswordVisible)
-              "
-            >
-              <i
-                [class]="
-                  confirmPasswordVisible
-                    ? 'fa-solid fa-eye'
-                    : 'fa-solid fa-eye-slash'
-                "
-              ></i>
-            </div>
-          </nz-input-group>
-          <p *ngIf="errorMessage" class="text-center text-red-500 text-base">
-            {{ errorMessage }}
-          </p>
-        </nz-form-control>
-      </nz-form-item>
-
-      <button
-        type="submit"
-        [disabled]="!submitSignUpReady()"
-        class="{{
-          submitSignUpReady()
-            ? 'bg-dark-blue hover:scale-105 duration-300'
-            : ' bg-blue-100 cursor-not-allowed'
-        }} text-white rounded-md w-full h-10 "
+<nz-spin [nzSpinning]="signingUp" nzSize="large" nzTip="Signing Up">
+  <div
+    class="grid grid-cols-2 w-[950px] bg-slate-100 h-fit rounded-lg divide-x-[1px] divide-dark-blue place-items-center"
+  >
+    <div>
+      <h1 class="text-3xl text-center animate-bounce">
+        Don't Forget To Do Cool Visual Illustrations Here
+      </h1>
+    </div>
+    <div class="p-5">
+      <h1 class="text-dark-blue text-center text-xl">Sign Up</h1>
+      <form
+        nz-form
+        class="py-7"
+        [formGroup]="signUpUserForm"
+        (submit)="signUpUser()"
       >
-        Sign Up
-      </button>
-      <p class="text-sm text-center mt-2">
-        Already have an account?
-        <span
-          class="text-dark-blue hover:text-blue-600 cursor-pointer duration-300"
-          routerLink="/signin"
-          >Sign In</span
+        <nz-form-item>
+          <nz-form-control class="mr-2">
+            <p class="text-base">Name:</p>
+            <nz-input-group>
+              <input
+                nz-input
+                formControlName="name"
+                type="text"
+                required
+                (keyup)="
+                  signUpUserForm.value.name
+                    ? signUpUserForm.get('email')?.enable()
+                    : signUpUserForm.get('email')?.disable()
+                "
+              />
+            </nz-input-group>
+            <p
+              *ngIf="
+                this.signUpUserForm.get('email')?.disabled &&
+                this.signUpUserForm.get('name')?.touched
+              "
+              class="text-red-500"
+            >
+              Name is required
+            </p>
+          </nz-form-control>
+          <nz-form-control>
+            <p class="text-base">Preferred Name:</p>
+            <nz-input-group>
+              <input
+                nz-input
+                formControlName="preferredName"
+                type="text"
+                placeholder="i.e. nickname"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control nzSpan="30">
+            <p class="text-base">Email:</p>
+            <nz-input-group nzPrefixIcon="mail">
+              <input
+                nz-input
+                formControlName="email"
+                type="email"
+                (keyup)="
+                  verifyEmail()
+                    ? signUpUserForm.get('password')?.enable()
+                    : signUpUserForm.get('password')?.disable()
+                "
+              />
+            </nz-input-group>
+            <p
+              *ngIf="
+                signUpUserForm.get('email')?.touched &&
+                signUpUserForm.get('email')?.enabled &&
+                signUpUserForm.get('password')?.disabled
+              "
+              class="text-red-500"
+            >
+              Invalid Email
+            </p>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzSpan="30">
+            <p class="text-base">Password:</p>
+            <nz-input-group nzPrefixIcon="lock">
+              <input
+                nz-input
+                formControlName="password"
+                [type]="passwordVisible ? 'text' : 'password'"
+                (keyup)="
+                  verifyPassword()
+                    ? signUpUserForm.get('confirmPassword')?.enable()
+                    : signUpUserForm.get('confirmPassword')?.disable()
+                "
+              />
+              <div
+                role="button"
+                class="{{
+                  signUpUserForm.get('password')?.disabled
+                    ? 'cursor-not-allowed'
+                    : 'hover:text-blue-500 duration-300 bg-white'
+                }} flex items-center border-[1px] px-2 py-1 text-dark-blue"
+                (click)="
+                  signUpUserForm.get('password')?.disabled
+                    ? ''
+                    : (passwordVisible = !passwordVisible)
+                "
+              >
+                <i
+                  [class]="
+                    passwordVisible
+                      ? 'fa-solid fa-eye'
+                      : 'fa-solid fa-eye-slash'
+                  "
+                ></i>
+              </div>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzSpan="30">
+            <p class="text-base">Confirm Password:</p>
+            <nz-input-group nzPrefixIcon="lock">
+              <input
+                nz-input
+                formControlName="confirmPassword"
+                [type]="confirmPasswordVisible ? 'text' : 'password'"
+                (keyup)="
+                  signUpUserForm.value.password ===
+                  signUpUserForm.value.confirmPassword
+                    ? (passwordsConfirmed = true)
+                    : (passwordsConfirmed = false)
+                "
+              />
+              <div
+                class="{{
+                  signUpUserForm.get('confirmPassword')?.disabled
+                    ? 'cursor-not-allowed'
+                    : 'hover:text-blue-500 duration-300 bg-white'
+                }} flex items-center border-[1px] px-2 py-1 text-dark-blue"
+                (click)="
+                  signUpUserForm.get('confirmPassword')?.disabled
+                    ? ''
+                    : (confirmPasswordVisible = !confirmPasswordVisible)
+                "
+              >
+                <i
+                  [class]="
+                    confirmPasswordVisible
+                      ? 'fa-solid fa-eye'
+                      : 'fa-solid fa-eye-slash'
+                  "
+                ></i>
+              </div>
+            </nz-input-group>
+            <p *ngIf="errorMessage" class="text-center text-red-500 text-base">
+              {{ errorMessage }}
+            </p>
+          </nz-form-control>
+        </nz-form-item>
+
+        <button
+          type="submit"
+          [disabled]="!submitSignUpReady()"
+          class="{{
+            submitSignUpReady()
+              ? 'bg-dark-blue hover:scale-105 duration-300'
+              : ' bg-blue-100 cursor-not-allowed'
+          }} text-white rounded-md w-full h-10 "
         >
-      </p>
-    </form>
+          Sign Up
+        </button>
+        <p class="text-sm text-center mt-2">
+          Already have an account?
+          <span
+            class="text-dark-blue hover:text-blue-600 cursor-pointer duration-300"
+            routerLink="/signin"
+            >Sign In</span
+          >
+        </p>
+      </form>
+    </div>
   </div>
-</div>
+</nz-spin>

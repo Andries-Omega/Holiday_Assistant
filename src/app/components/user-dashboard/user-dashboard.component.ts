@@ -33,7 +33,6 @@ export class UserDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.router.url);
     this.user = getUserFromSelect(this.user$);
 
     if (!isSecondPhaseDone(this.user)) {

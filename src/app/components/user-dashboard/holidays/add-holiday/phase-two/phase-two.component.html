@@ -1,0 +1,45 @@
+<div>
+  <h1 class="text-2xl text-dark-blue text-center">Location Of The Place ?</h1>
+  <div class="flex items-center mt-5">
+    <input
+      [(ngModel)]="placeName"
+      type="text"
+      placeholder="e.g. cape town"
+      class="h-10 w-96 focus:outline-none border-[1px] border-r-0 border-dark-blue rounded-md px-5 rounded-r-none text-dark-blue font-mono"
+    />
+    <button
+      class="h-10 w-fit px-5 text-dark-blue bg-white border-[1px] border-dark-blue rounded-md rounded-l-none hover:bg-dark-blue hover:text-white duration-500"
+      (click)="searchForPlace()"
+    >
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </div>
+  <nz-spin
+    [nzSpinning]="isSearching && !!!locationDetails"
+    nzTip="Searching..."
+    nzSize="large"
+  >
+    <div class="mt-5">
+      <p *ngIf="locationDetails" class="text-center text-dark-blue mb-1">
+        Please Confirm By Selecting the Location Below
+      </p>
+
+      <div
+        role="button"
+        class="{{
+          selectedLocation
+            ? 'bg-dark-blue text-white shadow-2xl'
+            : 'bg-white text-dark-blue'
+        }} bg-white w-[440px] h-fit p-5 rounded-md border-[1px] border-dark-blue hover:shadow-2xl hover:scale-105 hover:bg-dark-blue hover:text-white duration-300"
+        *ngIf="locationDetails"
+        (click)="confirmLocation()"
+      >
+        <p>
+          {{ locationDetails?.name }},
+          {{ locationDetails?.country }}
+        </p>
+        <p class="mt-5">time zone: {{ locationDetails?.timezone }}</p>
+      </div>
+    </div>
+  </nz-spin>
+</div>

@@ -4,7 +4,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 @NgModule({
   declarations: [],
   imports: [
@@ -13,6 +14,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzFormModule,
     NzInputModule,
     NzIconModule,
+    NzDatePickerModule,
+    NzSpinModule,
   ],
   exports: [
     NzModalModule,
@@ -20,6 +23,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzInputModule,
     NzIconModule,
     NzModalModule,
+    NzDatePickerModule,
+    NzSpinModule,
   ],
 })
 export class NgZorroModule {}

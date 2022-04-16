@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Auth, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { navShow } from 'src/app/Animations/dashboard-animations';
+
 import { AppState } from 'src/app/store/global/global.reducer';
 import { signOutt } from '../../Algorithms/Authentication/authetication';
 
@@ -18,9 +18,7 @@ export class DashOptionsComponent implements OnInit {
     private globalStore: Store<AppState>
   ) {}
 
-  ngOnInit(): void {
-    console.log(this.router.url);
-  }
+  ngOnInit(): void {}
 
   logOut() {
     signOut(this.auth);
