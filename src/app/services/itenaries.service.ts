@@ -1,6 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { addDoc, collection, Firestore } from '@angular/fire/firestore';
+import {
+  addDoc,
+  collection,
+  Firestore,
+  getDocs,
+} from '@angular/fire/firestore';
+import { query, where } from '@firebase/firestore';
+import { Observable } from 'rxjs';
 
 import { Holiday } from '../models/Itenaries';
 
@@ -15,5 +22,19 @@ export class ItenariesService {
     return await addDoc(docRef, holidayDetails);
   }
 
-  getAllHolidays(userID: string) {}
+  async getAllHolidays(userID: string) {
+    const q = query(
+      collection(this.fireStore, 'Holidays'),
+      where('userID', '==', userID)
+    );
+
+    const qSnapShot = await getDocs(q);
+    let holidays: Holiday[] = [];
+
+    qSnapShot.forEach((doc) => {
+      holidays.push(doc.data() as Holiday);
+    });
+
+    return holidays;
+  }
 }

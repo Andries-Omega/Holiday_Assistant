@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+
 import { Store } from '@ngrx/store';
 import { Users } from 'src/app/models/Users';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
-import { setLoggedInUser } from 'src/app/store/global/global.actions';
+import { ItenariesService } from 'src/app/services/itenaries.service';
+import {
+  saveUserHolidays,
+  setLoggedInUser,
+} from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
 import {
@@ -24,8 +28,8 @@ export class UserDashboardComponent implements OnInit {
   user: Users = initUsers();
   constructor(
     private globalStore: Store<AppState>,
-    private router: Router,
-    private authService: AuthServiceService
+    private authService: AuthServiceService,
+    private itenaryService: ItenariesService
   ) {}
 
   ngOnInit(): void {
@@ -36,7 +40,7 @@ export class UserDashboardComponent implements OnInit {
       return;
     }
 
-    if (!isThirdPhaseDone()) {
+    if (!isThirdPhaseDone(this.globalStore)) {
       this.phaseThreeSignIn();
       return;
     }
@@ -67,7 +71,12 @@ export class UserDashboardComponent implements OnInit {
       })
       .catch(() => location.reload());
   }
+
   phaseThreeSignIn() {
-    //this.ngOnInit();
+    this.itenaryService
+      .getAllHolidays(this.user.userID)
+      .then((holidays) =>
+        this.globalStore.dispatch(saveUserHolidays({ userHolidays: holidays }))
+      );
   }
 }

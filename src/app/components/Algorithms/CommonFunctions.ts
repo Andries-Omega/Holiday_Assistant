@@ -1,4 +1,5 @@
 import { map, Observable, Subscription } from 'rxjs';
+import { Holiday } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
 
 /**
@@ -34,14 +35,24 @@ export const getUserFromSelect = (user$: Observable<Users>): Users => {
   return user;
 };
 
+export const getUserHolidaysFromSelect = (
+  holidays$: Observable<Holiday[] | null>
+): Holiday[] | null => {
+  let holidays = null;
+  if (holidays$) {
+    const theHolidaySubscription = holidays$
+      .pipe(
+        map((h) => {
+          holidays = h;
+        })
+      )
+      .subscribe();
+    //and unsubscribe
+    unSubscribe(theHolidaySubscription);
+  }
+  return holidays;
+};
+
 export const unSubscribe = (subscription: Subscription) => {
   subscription.unsubscribe();
-};
-
-export const saveUserToSessionStorage = (user: Users) => {
-  sessionStorage.setItem('User', JSON.stringify(user));
-};
-
-export const removeFromSessionStorage = (key: string) => {
-  sessionStorage.removeItem(key);
 };

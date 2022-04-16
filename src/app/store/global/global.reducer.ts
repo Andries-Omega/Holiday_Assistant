@@ -1,8 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { initUsers } from 'src/app/components/Algorithms/CommonFunctions';
+import { Holiday } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
 import {
   saveSignUpInfo,
+  saveUserHolidays,
   setLoggedInUser,
   updateTheme,
   updateThemeAfterReload,
@@ -14,17 +16,19 @@ export interface AppState {
   darkMode: boolean;
   hasEditedSignUp: boolean;
   loggedInUser: Users;
+  userHolidays: Holiday[] | null;
 }
 
 export const defaultState: AppState = {
   darkMode: matchMedia('(prefers-color-scheme: dark)').matches,
   hasEditedSignUp: false,
   loggedInUser: initUsers(),
+  userHolidays: null,
 };
 
 const sessionState = sessionStorage.getItem('SavedState');
-const savedState = sessionState && JSON.parse(sessionState);
-console.log(savedState || defaultState);
+const savedState = sessionState && JSON.parse(sessionState); // State rehydration
+
 export const reducer = createReducer(
   savedState || defaultState,
   on(updateTheme, updateThemeAfterReload, (state, { darkMode }) => {
@@ -47,6 +51,14 @@ export const reducer = createReducer(
     const newState = {
       ...state,
       loggedInUser,
+    };
+    sessionStorage.setItem('SavedState', JSON.stringify(newState));
+    return newState;
+  }),
+  on(saveUserHolidays, (state, { userHolidays }) => {
+    const newState = {
+      ...state,
+      userHolidays,
     };
     sessionStorage.setItem('SavedState', JSON.stringify(newState));
     return newState;

@@ -6,9 +6,13 @@ import {
   setLoggedInUser,
 } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
-import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
+import {
+  selectLoggedInUser,
+  selectUserHolidays,
+} from 'src/app/store/global/global.selectors';
 import {
   getUserFromSelect,
+  getUserHolidaysFromSelect,
   initUsers,
   isObjectEmpty,
 } from '../CommonFunctions';
@@ -18,8 +22,12 @@ export const isSecondPhaseDone = (user: Users): boolean => {
   return user.name && user.email ? true : false;
 };
 
-export const isThirdPhaseDone = (): boolean => {
-  return true;
+export const isThirdPhaseDone = (globalStore: Store<AppState>): boolean => {
+  const holidays = getUserHolidaysFromSelect(
+    globalStore.select(selectUserHolidays)
+  );
+  console.log(holidays);
+  return holidays ? true : false;
 };
 
 export const isUserSignedIn = (globalStore: Store<AppState>): boolean => {

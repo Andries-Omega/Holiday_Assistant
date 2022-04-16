@@ -18,3 +18,8 @@ export const selectLoggedInUser = createSelector(
   selectGlobalState,
   (state: AppState) => state.loggedInUser
 );
+
+export const selectUserHolidays = createSelector(
+  selectGlobalState,
+  (state: AppState) => state.userHolidays
+);
