@@ -22,5 +22,5 @@ export interface Holiday {
   holidayLocation: Location | null;
   holidayStartDate: Date | null;
   holidayEndDate: Date | null;
-  holidayItenaries: Itenaries[] | null;
+  holidayItenaries: Itenaries[];
 }

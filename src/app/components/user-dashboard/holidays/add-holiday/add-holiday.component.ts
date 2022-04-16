@@ -32,7 +32,7 @@ export class AddHolidayComponent implements OnInit {
     holidayLocation: null,
     holidayStartDate: null,
     holidayEndDate: null,
-    holidayItenaries: null,
+    holidayItenaries: [],
   };
 
   constructor(
