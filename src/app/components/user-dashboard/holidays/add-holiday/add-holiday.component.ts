@@ -75,8 +75,13 @@ export class AddHolidayComponent implements OnInit {
   }
 
   searchForLocation(pName: string) {
-    this.isSearchingLocation = true;
-    this.locationDetails$ = this.locationService.getLocationInfo(pName, 'en');
+    if (pName) {
+      this.errorMessage = '';
+      this.isSearchingLocation = true;
+      this.locationDetails$ = this.locationService.getLocationInfo(pName, 'en');
+    } else {
+      this.errorMessage = 'Please provide something to search for';
+    }
   }
 
   setSelectedDates(sDates: Date[]) {

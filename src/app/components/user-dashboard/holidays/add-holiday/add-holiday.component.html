@@ -16,6 +16,7 @@
       *ngIf="phase === 1"
       [locationDetails]="locationDetails$ | async"
       [isSearching]="isSearchingLocation"
+      [errorMessage]="errorMessage"
       (searchPlace)="searchForLocation($event)"
       (locationConfirmed)="holidayDetails.holidayLocation = $event"
     ></app-phase-two>

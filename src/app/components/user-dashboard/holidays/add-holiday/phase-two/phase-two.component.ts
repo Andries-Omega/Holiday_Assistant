@@ -8,6 +8,7 @@ import { Location } from 'src/app/models/Itenaries';
 })
 export class PhaseTwoComponent {
   placeName: string = '';
+  @Input() errorMessage!: string;
   @Input() locationDetails!: Location | null;
   @Output() searchPlace = new EventEmitter<string>();
   @Output() locationConfirmed = new EventEmitter<Location>();

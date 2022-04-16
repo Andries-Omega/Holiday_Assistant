@@ -11,6 +11,7 @@
         type="text"
         placeholder="e.g. cape town"
         class="h-10 w-96 focus:outline-none border-[1px] border-r-0 border-dark-blue rounded-md px-5 rounded-r-none text-dark-blue shadow-2xl"
+        (keyup.enter)="searchForPlace()"
       />
       <button
         class="h-10 w-fit px-5 text-dark-blue bg-white border-[1px] border-dark-blue rounded-md rounded-l-none hover:bg-dark-blue hover:text-white duration-500"
@@ -19,7 +20,9 @@
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
     </div>
-
+    <p class="text-red-500 text-center text-sm mt-1" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
     <div class="mt-5">
       <p *ngIf="locationDetails" class="text-center text-dark-blue mb-1">
         Please Confirm By Selecting the Location Below
