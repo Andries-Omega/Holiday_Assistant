@@ -10,13 +10,20 @@ import {
   setLoggedInUser,
 } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
-import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
+import {
+  selectLoggedInUser,
+  selectUserHolidays,
+} from 'src/app/store/global/global.selectors';
 import {
   isSecondPhaseDone,
   isThirdPhaseDone,
 } from '../Algorithms/Authentication/authetication';
 import { secondSignIn } from '../Algorithms/Authentication/signPurgatory';
-import { getUserFromSelect, initUsers } from '../Algorithms/CommonFunctions';
+import {
+  getUserFromSelect,
+  getUserHolidaysFromSelect,
+  initUsers,
+} from '../Algorithms/CommonFunctions';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -37,12 +44,10 @@ export class UserDashboardComponent implements OnInit {
 
     if (!isSecondPhaseDone(this.user)) {
       this.phaseTwoSignIn();
-      return;
     }
 
     if (!isThirdPhaseDone(this.globalStore)) {
       this.phaseThreeSignIn();
-      return;
     }
   }
   async phaseTwoSignIn() {
@@ -56,7 +61,6 @@ export class UserDashboardComponent implements OnInit {
             result?.['preferredName'],
             result?.['email']
           );
-
           //save also to state as this is what we are referrencing
           this.globalStore.dispatch(
             setLoggedInUser({
@@ -73,10 +77,10 @@ export class UserDashboardComponent implements OnInit {
   }
 
   phaseThreeSignIn() {
-    this.itenaryService
-      .getAllHolidays(this.user.userID)
-      .then((holidays) =>
-        this.globalStore.dispatch(saveUserHolidays({ userHolidays: holidays }))
-      );
+    this.itenaryService.getAllHolidays(this.user.userID).then((holidays) => {
+      this.globalStore.dispatch(saveUserHolidays({ userHolidays: holidays }));
+      //refresh component;
+      this.ngOnInit();
+    });
   }
 }

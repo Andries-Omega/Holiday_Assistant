@@ -16,6 +16,7 @@ export class PhaseTwoComponent {
   selectedLocation: boolean = false;
   @Input() isSearching!: boolean;
   searchForPlace() {
+    this.selectedLocation = false;
     this.searchPlace.emit(this.placeName);
   }
 

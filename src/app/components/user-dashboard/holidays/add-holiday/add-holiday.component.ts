@@ -1,12 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { fade, slide } from 'src/app/Animations/dashboard-animations';
 import { getUserFromSelect } from 'src/app/components/Algorithms/CommonFunctions';
 import { Holiday, Location } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
 import { ItenariesService } from 'src/app/services/itenaries.service';
 import { LocationService } from 'src/app/services/location.service';
+import { saveUserHolidays } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
 
@@ -27,14 +28,16 @@ export class AddHolidayComponent implements OnInit {
   isAddingHoliday: boolean = false;
 
   holidayDetails: Holiday = {
+    holidayID: '',
     userID: this.user.userID,
     holidayName: '',
     holidayLocation: null,
-    holidayStartDate: null,
-    holidayEndDate: null,
+    holidayStartDate: '',
+    holidayEndDate: '',
     holidayItenaries: [],
   };
 
+  @Output() newHoliday = new EventEmitter<Holiday>();
   constructor(
     private locationService: LocationService,
     private itenaryService: ItenariesService,
@@ -75,6 +78,7 @@ export class AddHolidayComponent implements OnInit {
   }
 
   searchForLocation(pName: string) {
+    this.holidayDetails.holidayLocation = null;
     if (pName) {
       this.errorMessage = '';
       this.isSearchingLocation = true;
@@ -87,13 +91,13 @@ export class AddHolidayComponent implements OnInit {
   setSelectedDates(sDates: Date[]) {
     if (this.validateDate(sDates)) {
       this.errorMessage = '';
-      this.holidayDetails.holidayStartDate = sDates[0];
-      this.holidayDetails.holidayEndDate = sDates[1];
+      this.holidayDetails.holidayStartDate = sDates[0].toDateString();
+      this.holidayDetails.holidayEndDate = sDates[1].toDateString();
     } else {
       this.errorMessage =
         'Please ensure non of the dates are previous days, and end date is in the future.';
-      this.holidayDetails.holidayStartDate = null;
-      this.holidayDetails.holidayEndDate = null;
+      this.holidayDetails.holidayStartDate = '';
+      this.holidayDetails.holidayEndDate = '';
     }
   }
 
@@ -115,7 +119,8 @@ export class AddHolidayComponent implements OnInit {
     this.isAddingHoliday = true;
     // Add To Database
     this.itenaryService.addNewHoliday(this.holidayDetails).then(() => {
-      location.reload();
+      // send it to holidays so state can be updated with new holiday
+      this.newHoliday.emit(this.holidayDetails);
     });
   }
 }

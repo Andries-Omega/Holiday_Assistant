@@ -19,7 +19,7 @@ export const saveSignUpInfo = createAction(
 
 export const saveUserHolidays = createAction(
   '[Global] save users holidays',
-  props<{ userHolidays: Holiday[] }>()
+  props<{ userHolidays: Holiday[] | null }>()
 );
 
 export const setLoggedInUser = createAction(

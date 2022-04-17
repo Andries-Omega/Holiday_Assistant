@@ -12,10 +12,16 @@
   </button>
   <!-- List Holidays -->
   <div [@fade]="fadeList">
-    <app-list-of-holidays *ngIf="!isAddingHoliday"></app-list-of-holidays>
+    <app-list-of-holidays
+      *ngIf="!isAddingHoliday"
+      [holidays]="holidays"
+    ></app-list-of-holidays>
   </div>
   <!-- Add Holiday -->
   <div [@fade]="fadeAdd">
-    <app-add-holiday *ngIf="isAddingHoliday"></app-add-holiday>
+    <app-add-holiday
+      *ngIf="isAddingHoliday"
+      (newHoliday)="updateListOfHolidays($event)"
+    ></app-add-holiday>
   </div>
 </div>

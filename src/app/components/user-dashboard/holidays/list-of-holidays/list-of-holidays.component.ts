@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Holiday } from 'src/app/models/Itenaries';
 
 @Component({
   selector: 'app-list-of-holidays',
   templateUrl: './list-of-holidays.component.html',
-  styleUrls: ['./list-of-holidays.component.scss']
+  styleUrls: ['./list-of-holidays.component.scss'],
 })
 export class ListOfHolidaysComponent implements OnInit {
+  @Input() holidays!: Holiday[] | null;
+  constructor() {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  identifyHoliday(index: number, holiday: Holiday): string {
+    return holiday.holidayID;
   }
-
 }

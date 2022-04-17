@@ -17,10 +17,16 @@ export interface Location {
 }
 
 export interface Holiday {
+  holidayID: string;
   userID: string;
   holidayName: string;
   holidayLocation: Location | null;
-  holidayStartDate: Date | null;
-  holidayEndDate: Date | null;
+  holidayStartDate: string;
+  holidayEndDate: string;
   holidayItenaries: Itenaries[];
+}
+
+interface TimeStamp {
+  seconds: number;
+  nanoseconds: number;
 }

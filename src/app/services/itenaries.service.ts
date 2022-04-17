@@ -7,7 +7,6 @@ import {
   getDocs,
 } from '@angular/fire/firestore';
 import { query, where } from '@firebase/firestore';
-import { Observable } from 'rxjs';
 
 import { Holiday } from '../models/Itenaries';
 

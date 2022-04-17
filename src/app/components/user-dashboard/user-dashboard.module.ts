@@ -15,6 +15,7 @@ import { PhaseTwoComponent } from './holidays/add-holiday/phase-two/phase-two.co
 import { PhaseThreeComponent } from './holidays/add-holiday/phase-three/phase-three.component';
 import { FormsModule } from '@angular/forms';
 import { NgZorroModule } from 'src/app/modules/ng-zorro/ng-zorro.module';
+import { HolidayComponent } from './holidays/list-of-holidays/holiday/holiday.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { NgZorroModule } from 'src/app/modules/ng-zorro/ng-zorro.module';
     PhaseOneComponent,
     PhaseTwoComponent,
     PhaseThreeComponent,
+    HolidayComponent,
   ],
   imports: [
     CommonModule,

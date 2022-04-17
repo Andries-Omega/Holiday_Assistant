@@ -26,7 +26,7 @@ export const isThirdPhaseDone = (globalStore: Store<AppState>): boolean => {
   const holidays = getUserHolidaysFromSelect(
     globalStore.select(selectUserHolidays)
   );
-  console.log(holidays);
+
   return holidays ? true : false;
 };
 

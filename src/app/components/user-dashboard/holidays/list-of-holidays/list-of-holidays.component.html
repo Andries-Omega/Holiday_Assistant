@@ -1,1 +1,17 @@
-<div class="w-52 h-52 bg-slate-100 rounded-md shadow-2xl"></div>
+<div *ngIf="holidays?.length" class="shadow-sm rounded-md">
+  <h1 class="text-xl text-center text-dark-blue mt-2 mb-3">Your Holidays</h1>
+  <div class="grid grid-cols-3 gap-4 h-[740px] overflow-y-auto p-5">
+    <app-holiday
+      *ngFor="let holiday of holidays"
+      [holiday]="holiday"
+    ></app-holiday>
+  </div>
+</div>
+<div *ngIf="!holidays?.length">
+  <h1 class="text-xl text-center text-dark-blue mt-2 mb-3">
+    You Have 0 Planned Holidays 🤷
+  </h1>
+  <div class="h-[700px] flex justify-center w-full">
+    <img src="../../../../assets/images/empty.svg" />
+  </div>
+</div>
