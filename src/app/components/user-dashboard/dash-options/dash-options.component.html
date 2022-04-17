@@ -1,5 +1,5 @@
 <div
-  class="p-7 bg-slate-100 h-[850px] ml-2 rounded-lg shadow-2xl grid grid-rows-2"
+  class="p-7 bg-slate-100 h-[850px] ml-2 rounded-lg shadow-2xl grid grid-rows-2 sticky top-[20px]"
 >
   <div class="grid h-fit gap-y-5">
     <div
@@ -37,14 +37,14 @@
       Holidays
     </button>
     <button
-      (click)="routeTo('/dashboard/add-itenary')"
+      (click)="routeTo('/dashboard/itenaries')"
       class="border-[1px] border-dark-blue h-fit py-3 rounded-md duration-500 
-    {{
-        routeClicked('/dashboard/add-itenary')
+        {{
+        routeClicked('/dashboard/itenaries')
           ? 'shadow-2xl text-dark-blue scale-105 bg-white duration-500 cursor-default'
           : 'hover:shadow-2xl bg-dark-blue text-white hover:bg-white hover:text-dark-blue hover:scale-105'
       }}
-  "
+        "
     >
       <i class="fa-solid fa-list-check mr-5"></i>
       Itenaries
@@ -53,7 +53,7 @@
     <button
       (click)="routeTo('/dashboard/update-profile')"
       class="border-[1px] border-dark-blue h-fit py-3 rounded-md duration-500 
-            {{
+        {{
         routeClicked('/dashboard/update-profile')
           ? 'shadow-2xl text-dark-blue scale-105 bg-white duration-500 cursor-default'
           : 'hover:shadow-2xl bg-dark-blue text-white hover:bg-white hover:text-dark-blue hover:scale-105'

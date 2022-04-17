@@ -19,11 +19,7 @@ import {
   isThirdPhaseDone,
 } from '../Algorithms/Authentication/authetication';
 import { secondSignIn } from '../Algorithms/Authentication/signPurgatory';
-import {
-  getUserFromSelect,
-  getUserHolidaysFromSelect,
-  initUsers,
-} from '../Algorithms/CommonFunctions';
+import { getUserFromSelect, initUsers } from '../Algorithms/CommonFunctions';
 
 @Component({
   selector: 'app-user-dashboard',

@@ -6,6 +6,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 @NgModule({
   declarations: [],
   imports: [
@@ -16,6 +17,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzIconModule,
     NzDatePickerModule,
     NzSpinModule,
+    NzCalendarModule,
   ],
   exports: [
     NzModalModule,
@@ -25,6 +27,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzModalModule,
     NzDatePickerModule,
     NzSpinModule,
+    NzCalendarModule,
   ],
 })
 export class NgZorroModule {}

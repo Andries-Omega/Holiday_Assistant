@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { AddItenaryComponent } from './add-itenary/add-itenary.component';
-import { AddHolidayComponent } from './holidays/add-holiday/add-holiday.component';
 import { HolidaysComponent } from './holidays/holidays.component';
+import { ItenariesComponent } from './itenaries/itenaries.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
 import { UserDashboardComponent } from './user-dashboard.component';
 import { WelcomeDashComponent } from './welcome-dash/welcome-dash.component';
@@ -18,8 +16,8 @@ const routes: Routes = [
         component: WelcomeDashComponent,
       },
       {
-        path: 'add-itenary',
-        component: AddItenaryComponent,
+        path: 'itenaries',
+        component: ItenariesComponent,
       },
       {
         path: 'holidays',

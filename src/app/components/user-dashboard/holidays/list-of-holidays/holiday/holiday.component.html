@@ -1,9 +1,12 @@
 <div
   class="w-fit h-52 bg-slate-100 rounded-md cursor-pointer p-5 hover:shadow-2xl hover:scale-105 duration-500 px-5"
-  routerLink="/dashboard/add-itenary"
+  routerLink="/dashboard/itenaries"
 >
   <p class="text-base text-dark-blue">
     {{ holiday.holidayName }}
+  </p>
+  <p class="text-base text-dark-blue mt-2">
+    {{ holiday.holidayLocation?.name }}
   </p>
   <p class="text-base text-dark-blue mt-2">
     {{ holiday.holidayItenaries.length }} Itenaries
