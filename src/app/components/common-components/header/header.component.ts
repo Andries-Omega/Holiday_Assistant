@@ -29,12 +29,8 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  navigateToSignUp() {
-    this.router.navigateByUrl('signup');
-  }
-
-  navigateToSignIn() {
-    this.router.navigateByUrl('signin');
+  navigateTo(url: string) {
+    this.router.navigateByUrl(url);
   }
 
   isUserLoggedIn(): boolean {
