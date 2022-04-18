@@ -1,6 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { Holiday } from 'src/app/models/Itenaries';
-import * as UserdashboardActions from './userdashboard.actions';
+import {
+  setHolidayOfItenary,
+  setIsAddingItenary,
+} from './userdashboard.actions';
 
 export const userdashboardFeatureKey = 'userdashboard';
 
@@ -14,4 +17,26 @@ export const initialState: DashState = {
   holidayOfCurrentItenary: null,
 };
 
-export const reducer = createReducer(initialState);
+const sessionDashState = sessionStorage.getItem('SavedDashState');
+const savedDashState: DashState =
+  sessionDashState && JSON.parse(sessionDashState);
+
+export const reducer = createReducer(
+  savedDashState || initialState,
+  on(setIsAddingItenary, (state, { isAddingItenary }) => {
+    const newState = {
+      ...state,
+      isAddingItenary,
+    };
+    sessionStorage.setItem('SavedDashState', JSON.stringify(newState));
+    return newState;
+  }),
+  on(setHolidayOfItenary, (state, { holidayOfCurrentItenary }) => {
+    const newState = {
+      ...state,
+      holidayOfCurrentItenary,
+    };
+    sessionStorage.setItem('SavedDashState', JSON.stringify(newState));
+    return newState;
+  })
+);
