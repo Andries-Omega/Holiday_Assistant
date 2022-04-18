@@ -31,6 +31,8 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import * as fromUserdashboard from './store/userdashboard/userdashboard.reducer';
+import { UserdashboardEffects } from './store/userdashboard/userdashboard.effects';
 registerLocaleData(en);
 
 @NgModule({
@@ -71,6 +73,8 @@ registerLocaleData(en);
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
+    StoreModule.forFeature(fromUserdashboard.userdashboardFeatureKey, fromUserdashboard.reducer),
+    EffectsModule.forFeature([UserdashboardEffects]),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
