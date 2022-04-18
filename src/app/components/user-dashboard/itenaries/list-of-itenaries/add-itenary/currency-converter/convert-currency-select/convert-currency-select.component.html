@@ -1,0 +1,28 @@
+<div class="md:flex grid gap-2 md:gap-0">
+  <button
+    class="h-10 border-[1px] w-full md:w-fit flex px-3 items-center justify-center border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-slate-100 duration-500 rounded-md md:border-r-0 md:rounded-r-none"
+    (click)="handleFromClick()"
+  >
+    {{ fromCurrency.code }}
+    <span class="icon">
+      <i class="fa-solid fa-caret-{{ fromDropOpen ? 'up' : 'down' }} ml-3"></i>
+    </span>
+  </button>
+  <input
+    type="number"
+    class="focus:outline-none rounded-md border-[1px] border-blue-500 md:border-l-0 md:rounded-l-none w-full pl-3 h-10"
+    placeholder="From"
+    [(ngModel)]="whatToConvertValue"
+    (keyup)="handleKeyUp()"
+  />
+  <p class="text-lg ml-2 text-center">To</p>
+  <button
+    class="h-10 md:ml-3 border-[1px] flex px-3 md:w-fit w-full justify-center items-center border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-slate-100 duration-500 rounded-md"
+    (click)="handleToClick()"
+  >
+    {{ toCurrency.code }}
+    <span class="icon">
+      <i class="fa-solid fa-caret-{{ toDropOpen ? 'up' : 'down' }} ml-3"></i>
+    </span>
+  </button>
+</div>

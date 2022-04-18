@@ -9,8 +9,10 @@ import { Holiday } from 'src/app/models/Itenaries';
 export class ListOfItenariesComponent {
   @Input() holidays!: Holiday[] | null;
   @Input() isAddingItenary!: boolean | null;
+
   @Output() changeIsAdding = new EventEmitter<boolean>();
   @Output() dateSelected = new EventEmitter<Date>();
+
   handleChangeIsAdding(isAdding: boolean) {
     this.changeIsAdding.emit(isAdding);
   }

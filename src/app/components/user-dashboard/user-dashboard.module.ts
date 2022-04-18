@@ -26,6 +26,10 @@ import { GetListOfDatesPipe } from 'src/app/pipes/get-list-of-dates.pipe';
 import { PhaseOneIComponent } from './itenaries/list-of-itenaries/add-itenary/phase-one-i/phase-one-i.component';
 import { PhaseTwoIComponent } from './itenaries/list-of-itenaries/add-itenary/phase-two-i/phase-two-i.component';
 import { CurrencyConverterComponent } from './itenaries/list-of-itenaries/add-itenary/currency-converter/currency-converter.component';
+import { ConvertCurrencySelectComponent } from './itenaries/list-of-itenaries/add-itenary/currency-converter/convert-currency-select/convert-currency-select.component';
+import { ListOfCurrenciesComponent } from './itenaries/list-of-itenaries/add-itenary/currency-converter/list-of-currencies/list-of-currencies.component';
+import { ConvertConvertedCurrencyPipe } from 'src/app/pipes/convert-converted-currency.pipe';
+import { ListOfCurrenciesToArrPipe } from 'src/app/pipes/list-of-currencies-to-arr.pipe';
 
 @NgModule({
   declarations: [
@@ -50,6 +54,10 @@ import { CurrencyConverterComponent } from './itenaries/list-of-itenaries/add-it
     PhaseOneIComponent,
     PhaseTwoIComponent,
     CurrencyConverterComponent,
+    ConvertCurrencySelectComponent,
+    ListOfCurrenciesComponent,
+    ListOfCurrenciesToArrPipe,
+    ConvertConvertedCurrencyPipe,
   ],
   imports: [
     CommonModule,

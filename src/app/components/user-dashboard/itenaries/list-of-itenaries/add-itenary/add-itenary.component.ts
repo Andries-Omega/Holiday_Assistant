@@ -11,6 +11,7 @@ export class AddItenaryComponent {
   @Input() selectedDate!: Date;
   @Input() listOfAvailableDates!: Date[];
   @Input() holiday!: Holiday;
+
   currentPhase: number = 0;
 
   itenaryDetails: Itenaries = {
