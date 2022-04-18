@@ -1,5 +1,8 @@
 import { Component, Input, Output } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
 import { Holiday, Itenaries } from 'src/app/models/Itenaries';
+import { CurrencyConvertService } from 'src/app/services/currency-convert.service';
 
 @Component({
   selector: 'app-add-itenary',
@@ -12,6 +15,16 @@ export class AddItenaryComponent {
   @Input() listOfAvailableDates!: Date[];
   @Input() holiday!: Holiday;
 
+  dropDownOpen = false;
+  fromDropOpen: boolean = false;
+  toDropOpen: boolean = false;
+  fromCurrency: Currency = { code: 'USD', value: 1 };
+  toCurrency: Currency = { code: 'ZAR', value: 14 };
+
+  converstionCurrency$!: Observable<ListOfCurrencies>;
+
+  constructor(private currencyService: CurrencyConvertService) {}
+
   currentPhase: number = 0;
 
   itenaryDetails: Itenaries = {
@@ -22,7 +35,29 @@ export class AddItenaryComponent {
     costEstimate: 0,
     costEstimateCurrency: '',
   };
-  next() {}
 
-  previous() {}
+  handleCurrencySelect(currency: Currency) {
+    if (this.fromDropOpen) {
+      this.fromCurrency = currency;
+      this.fromDropOpen = false;
+    } else {
+      // if this functions runs then one of the drop downs MUST be open
+      this.toCurrency = currency;
+      this.toDropOpen = false;
+    }
+  }
+
+  setFromDrop(b: boolean) {
+    console.log('here');
+    this.fromDropOpen = b;
+  }
+  convertCurrency(whatToConvertValue: number) {
+    if (whatToConvertValue) {
+      this.converstionCurrency$ = this.currencyService.convertCurrency(
+        whatToConvertValue,
+        this.fromCurrency.code,
+        this.toCurrency.code
+      );
+    }
+  }
 }

@@ -6,6 +6,6 @@ import { ListOfCurrencies } from '../models/Currencies';
 })
 export class ConvertConvertedCurrencyPipe implements PipeTransform {
   transform(recievedData: ListOfCurrencies, toCurrency: string): number {
-    return recievedData.data[toCurrency].value;
+    return recievedData?.data[toCurrency].value;
   }
 }

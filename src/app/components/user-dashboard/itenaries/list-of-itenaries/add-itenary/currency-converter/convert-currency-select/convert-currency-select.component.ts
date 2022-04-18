@@ -25,6 +25,7 @@ export class ConvertCurrencySelectComponent implements OnInit {
     this.fromDropOpen = !this.fromDropOpen;
     if (this.fromDropOpen) {
       this.toDropOpen = false;
+      this.toDropChange.emit(this.toDropOpen);
     }
     this.fromDropChange.emit(this.fromDropOpen);
   }
@@ -33,6 +34,7 @@ export class ConvertCurrencySelectComponent implements OnInit {
     this.toDropOpen = !this.toDropOpen;
     if (this.toDropOpen) {
       this.fromDropOpen = false;
+      this.fromDropChange.emit(this.fromDropOpen);
     }
     this.toDropChange.emit(this.toDropOpen);
   }

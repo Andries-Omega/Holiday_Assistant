@@ -1,10 +1,19 @@
-<div class="w-full h-[700px] bg-slate-100 rounded-xl overflow-auto">
+<div class="w-full h-[700px] bg-slate-100 rounded-xl">
   <div *ngIf="isAddingItenary" class="py-10">
     <h1 class="text-center text-lg text-dark-blue">Adding An Itenary</h1>
     <app-phase-one-i
       [listOfAvailableDates]="holiday | getListOfDates"
       [itenaryDetails]="itenaryDetails"
       [startDate]="holiday.holidayStartDate"
+      [fromCurrency]="fromCurrency"
+      [fromDropOpen]="fromDropOpen"
+      [toCurrency]="toCurrency"
+      [toDropOpen]="toDropOpen"
+      [converstionCurrency$]="converstionCurrency$"
+      (fromDropChange)="setFromDrop($event)"
+      (toDropChange)="toDropOpen = $event"
+      (converting)="convertCurrency($event)"
+      (selectedCurrency)="handleCurrencySelect($event)"
     ></app-phase-one-i>
   </div>
 </div>

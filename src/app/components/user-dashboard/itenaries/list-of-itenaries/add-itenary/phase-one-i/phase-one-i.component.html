@@ -1,4 +1,4 @@
-<div class="grid py-4">
+<div class="grid py-4 overflow-auto">
   <!--Date-->
   <div class="w-full justify-center flex">
     <nz-input-group class="w-full mx-80">
@@ -65,10 +65,24 @@
       ></nz-time-picker>
     </nz-input-group>
   </div>
+  <app-currency-converter
+    (converting)="handleConverting($event)"
+    [fromCurrency]="fromCurrency"
+    [fromDropOpen]="fromDropOpen"
+    [toCurrency]="toCurrency"
+    [toDropOpen]="toDropOpen"
+    [converstionCurrency$]="converstionCurrency$"
+    (fromDropChange)="handleFromDropChange($event)"
+    (toDropChange)="handleToDropChange($event)"
+    (selectedCurrency)="handleCurrencySelect($event)"
+  ></app-currency-converter>
   <!--Submit-->
-  <div class="w-full justify-center flex mt-10">
-    <button class="w-full mx-80 bg-dark-blue h-10 text-white rounded-md">
-      Next
+  <div class="w-full justify-center flex">
+    <button
+      class="w-full mx-80 bg-dark-blue border-[1px] border-dark-blue h-10 text-white rounded-md hover:scale-105 hover:bg-white hover:text-dark-blue hover:shadow-2xl duration-500"
+      *ngIf="!toDropOpen || !fromDropOpen"
+    >
+      Add Itenary
     </button>
   </div>
 </div>

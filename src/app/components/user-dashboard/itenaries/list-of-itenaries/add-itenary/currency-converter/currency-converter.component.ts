@@ -1,45 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
-import { CurrencyConvertService } from 'src/app/services/currency-convert.service';
-
 @Component({
   selector: 'app-currency-converter',
   templateUrl: './currency-converter.component.html',
   styleUrls: ['./currency-converter.component.scss'],
 })
-export class CurrencyConverterComponent implements OnInit {
-  dropDownOpen = false;
-  fromDropOpen: boolean = false;
-  toDropOpen: boolean = false;
-  fromCurrency: Currency = { code: 'USD', value: 1 };
-  toCurrency: Currency = { code: 'ZAR', value: 14 };
+export class CurrencyConverterComponent {
   whatToConvertValue: number = 0;
 
-  converstionCurrency$!: Observable<ListOfCurrencies>;
+  @Input() fromDropOpen!: boolean;
+  @Input() toDropOpen!: boolean;
+  @Input() fromCurrency!: Currency;
+  @Input() toCurrency!: Currency;
+  @Input() converstionCurrency$!: Observable<ListOfCurrencies>;
 
-  constructor(private currencyService: CurrencyConvertService) {}
+  @Output() fromDropChange = new EventEmitter<boolean>();
+  @Output() toDropChange = new EventEmitter<boolean>();
 
-  ngOnInit(): void {}
+  @Output() selectedCurrency = new EventEmitter<Currency>();
+  @Output() converting = new EventEmitter<number>();
 
   handleCurrencySelect(currency: Currency) {
-    if (this.fromDropOpen) {
-      this.fromCurrency = currency;
-      this.fromDropOpen = false;
-    } else {
-      // if this functions runs then one of the drop downs MUST be open
-      this.toCurrency = currency;
-      this.toDropOpen = false;
-    }
+    this.selectedCurrency.emit(currency);
   }
 
   convertCurrency() {
-    if (this.whatToConvertValue) {
-      this.converstionCurrency$ = this.currencyService.convertCurrency(
-        this.whatToConvertValue,
-        this.fromCurrency.code,
-        this.toCurrency.code
-      );
-    }
+    this.converting.emit(this.whatToConvertValue);
+  }
+
+  handleFromDropChange(fromD: boolean) {
+    this.fromDropChange.emit(fromD);
+  }
+
+  handleToDropChange(toD: boolean) {
+    this.toDropChange.emit(toD);
   }
 }

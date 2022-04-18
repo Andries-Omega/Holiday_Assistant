@@ -6,6 +6,6 @@ import { Currency, ListOfCurrencies } from '../models/Currencies';
 })
 export class ListOfCurrenciesToArrPipe implements PipeTransform {
   transform(lOfCurrencies: ListOfCurrencies): Currency[] {
-    return Object.values(lOfCurrencies.data);
+    return lOfCurrencies?.data ? Object?.values(lOfCurrencies?.data) : [];
   }
 }
