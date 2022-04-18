@@ -1,3 +1,27 @@
 <div class="px-10">
-  <app-list-of-itenaries [holidays]="holidays"></app-list-of-itenaries>
+  <!-- If -->
+  <div *ngIf="holidays && holidays?.length">
+    <!-- 1. Show List Of Holiday Calendars (sorry for naming component wrong, but list of itenaries will be displayed withing a day of a calendar) -->
+    <app-list-of-itenaries
+      [holidays]="holidays"
+      [isAddingItenary]="isAddingItenary | async"
+      (changeIsAdding)="updateIsAdding($event)"
+      (dateSelected)="handleDateSelected($event)"
+    ></app-list-of-itenaries>
+  </div>
+  <!-- else -->
+  <div *ngIf="!(holidays && holidays?.length)">
+    <h1 class="text-2xl text-center text-dark-blue mb-3">
+      You Have 0 Holidays, Please Add Holiday(Or Trip)
+    </h1>
+    <div class="h-[550px] flex justify-center w-full">
+      <img src="../../../../assets/images/empty.svg" />
+    </div>
+  </div>
+
+  <app-add-itenary-popup
+    [askToAddItenary]="askToAddItenary"
+    [selectedDate]="selectedDate"
+    (addItenary)="handleAddItenaryFromPopup($event)"
+  ></app-add-itenary-popup>
 </div>

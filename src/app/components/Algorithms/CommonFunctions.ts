@@ -53,6 +53,37 @@ export const getUserHolidaysFromSelect = (
   return holidays;
 };
 
+export const getIsAddingItenaryFromSelect = (
+  isAddingHoliday$: Observable<boolean>
+): boolean => {
+  let isAdding = false;
+  const theIsAddingSubscription = isAddingHoliday$
+    .pipe(
+      map((adding) => {
+        isAdding = adding;
+      })
+    )
+    .subscribe();
+  //and unsubacribe
+  unSubscribe(theIsAddingSubscription);
+  return isAdding;
+};
 export const unSubscribe = (subscription: Subscription) => {
   subscription.unsubscribe();
+};
+
+export const createListOfAvailableDates = (
+  startDate: Date,
+  endDate: Date
+): Date[] => {
+  let listOfAvailableDates: Date[] = [];
+
+  for (
+    let date = startDate;
+    date <= endDate;
+    date.setDate(date.getDate() + 1)
+  ) {
+    listOfAvailableDates.push(new Date(date));
+  }
+  return listOfAvailableDates;
 };

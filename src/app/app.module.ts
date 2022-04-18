@@ -33,13 +33,13 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import * as fromUserdashboard from './store/userdashboard/userdashboard.reducer';
 import { UserdashboardEffects } from './store/userdashboard/userdashboard.effects';
+
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-
     ScrollUpComponent,
     HomeComponent,
     SigninComponent,
@@ -73,7 +73,10 @@ registerLocaleData(en);
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
-    StoreModule.forFeature(fromUserdashboard.userdashboardFeatureKey, fromUserdashboard.reducer),
+    StoreModule.forFeature(
+      fromUserdashboard.userdashboardFeatureKey,
+      fromUserdashboard.reducer
+    ),
     EffectsModule.forFeature([UserdashboardEffects]),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],

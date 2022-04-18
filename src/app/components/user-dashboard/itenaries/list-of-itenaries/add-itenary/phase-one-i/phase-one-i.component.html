@@ -1,0 +1,74 @@
+<div class="grid py-4">
+  <!--Date-->
+  <div class="w-full justify-center flex">
+    <nz-input-group class="w-full mx-80">
+      <p class="mb-1 text-center">Please Select Date For This Itenary:</p>
+      <nz-select
+        [(ngModel)]="itenaryDate"
+        [nzPlaceHolder]="itenaryDate"
+        (ngModelChange)="handleSelectedDate()"
+        class="w-full"
+      >
+        <nz-option
+          *ngFor="let date of listOfAvailableDates"
+          [nzValue]="date"
+          [nzLabel]="getDateString(date)"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-input-group>
+  </div>
+  <!--Name And Tag-->
+  <div class="flex w-full justify-around px-10 mt-5">
+    <nz-input-group class="w-full mx-8">
+      <label class="mb-1">Name Of Itenarary:</label>
+      <input
+        nz-input
+        [(ngModel)]="itenaryDetails.itenaryName"
+        type="text"
+        placeholder="Name Of Itenary"
+      />
+    </nz-input-group>
+    <nz-input-group class="w-full mx-8">
+      <label class="mb-1">Itenarary Tag</label>
+      <nz-select
+        [(ngModel)]="itenaryDate"
+        [nzPlaceHolder]="itenaryDate"
+        (ngModelChange)="handleSelectedDate()"
+        class="w-full"
+      >
+        <nz-option
+          *ngFor="let date of listOfAvailableDates"
+          [nzValue]="date"
+          [nzLabel]="getDateString(date)"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-input-group>
+  </div>
+  <!--Start Time And End Time-->
+  <div class="flex w-full justify-around px-10 mt-5">
+    <div class="w-full mx-8">
+      <label class="mb-1">Start Time</label>
+      <nz-time-picker
+        [(ngModel)]="startTime"
+        class="w-full"
+        nzFormat="h:mm a"
+      ></nz-time-picker>
+    </div>
+    <nz-input-group class="w-full mx-8">
+      <label class="mb-1">End Time</label>
+      <nz-time-picker
+        [(ngModel)]="endTime"
+        class="w-full"
+        nzFormat="h:mm a"
+      ></nz-time-picker>
+    </nz-input-group>
+  </div>
+  <!--Submit-->
+  <div class="w-full justify-center flex mt-10">
+    <button class="w-full mx-80 bg-dark-blue h-10 text-white rounded-md">
+      Next
+    </button>
+  </div>
+</div>

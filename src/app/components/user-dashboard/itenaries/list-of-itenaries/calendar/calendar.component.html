@@ -1,0 +1,20 @@
+<div class="w-full h-[700px] bg-slate-100 rounded-xl overflow-x-auto px-5">
+  <nz-calendar
+    nzFullscreen="true"
+    [(ngModel)]="selectedDate"
+    *ngIf="!isAddingItenary"
+    (nzSelectChange)="handleDateSelected()"
+  >
+    <ul *nzDateCell="let date">
+      <!-- To Show Their Holiday Plans (hence the date they can add itenaries on)-->
+      <ng-container
+        *ngIf="date >= startDate && date <= endDate"
+        class="bg-blue-400"
+      >
+        <div
+          class="bg-dark-blue bg-opacity-80 w-screen h-fit min-h-screen"
+        ></div>
+      </ng-container>
+    </ul>
+  </nz-calendar>
+</div>

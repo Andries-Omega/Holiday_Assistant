@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Holiday } from 'src/app/models/Itenaries';
 
 @Component({
@@ -6,10 +6,16 @@ import { Holiday } from 'src/app/models/Itenaries';
   templateUrl: './list-of-itenaries.component.html',
   styleUrls: ['./list-of-itenaries.component.scss'],
 })
-export class ListOfItenariesComponent implements OnInit {
+export class ListOfItenariesComponent {
   @Input() holidays!: Holiday[] | null;
-  showCalendarLarge: boolean = true;
+  @Input() isAddingItenary!: boolean | null;
+  @Output() changeIsAdding = new EventEmitter<boolean>();
+  @Output() dateSelected = new EventEmitter<Date>();
+  handleChangeIsAdding(isAdding: boolean) {
+    this.changeIsAdding.emit(isAdding);
+  }
 
-  constructor() {}
-  ngOnInit(): void {}
+  handleDateSelected(selectedDate: Date) {
+    this.dateSelected.emit(selectedDate);
+  }
 }

@@ -1,6 +1,6 @@
 export interface Itenaries {
   itenaryName: string;
-  itenaryTage: string;
+  itenaryTag: string;
   itenaryStartTime: string;
   itenaryEndTime: string;
   costEstimate: number;

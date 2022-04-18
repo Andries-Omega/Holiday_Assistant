@@ -1,72 +1,75 @@
-<div *ngIf="holidays">
-  <div
-    *ngFor="let holiday of holidays"
-    class="flex flex-wrap mb-14 border-[1px] border-dark-blue p-10 rounded-xl"
-  >
-    <div class="flex w-full justify-between mb-10">
-      <div>
-        <h1 class="text-xl text-dark-blue">
-          {{ holiday.holidayName }}
-        </h1>
-        <h3 class="text-sm text-dark-blue">
-          {{ holiday.holidayLocation?.name }},
-          {{ holiday.holidayLocation?.country }}
-        </h3>
-        <h3 class="text-sm text-dark-blue">
-          {{ holiday.holidayItenaries.length }} itenaries
-        </h3>
-        <h3 class="text-sm mt-1">
-          {{ holiday.holidayStartDate | date: "fullDate" }}
-          <span class="mx-5"> ~ </span>
-          {{ holiday.holidayEndDate | date: "fullDate" }}
-        </h3>
-        <div class="flex mt-5">
-          <button
-            class="px-3 border-[1px] border-dark-blue border-r-0 text-dark-blue h-fit duration-1000 {{
-              showCalendarLarge
-                ? 'bg-white text-dark-blue'
-                : 'bg-dark-blue text-white py-1 '
-            }}"
-            (click)="showCalendarLarge = false"
-          >
-            <i class="fa-solid fa-plus"></i>
-          </button>
-          <button
-            class="px-3 border-[1px] border-dark-blue h-fit duration-1000 {{
-              showCalendarLarge
-                ? 'bg-dark-blue text-white py-1'
-                : 'bg-white text-dark-blue'
-            }}"
-            (click)="showCalendarLarge = true"
-          >
-            <i class="fa-solid fa-calendar-days"></i>
-          </button>
-        </div>
+<div
+  *ngFor="let holiday of holidays"
+  class="flex flex-wrap mb-14 border-[1px] border-dark-blue p-10 rounded-xl"
+>
+  <!-- 1. Header -->
+  <div class="flex w-full justify-between mb-10">
+    <div>
+      <!-- Having it in div so i can have details listed vertically -->
+      <h1 class="text-xl text-dark-blue">
+        {{ holiday.holidayName }}
+      </h1>
+      <h3 class="text-sm text-dark-blue">
+        {{ holiday.holidayLocation?.name }},
+        {{ holiday.holidayLocation?.country }}
+      </h3>
+      <h3 class="text-sm text-dark-blue">
+        {{ holiday.holidayItenaries.length }} itenaries
+      </h3>
+      <h3 class="text-sm mt-1">
+        {{ holiday.holidayStartDate | date: "fullDate" }}
+        <span class="mx-5"> ~ </span>
+        {{ holiday.holidayEndDate | date: "fullDate" }}
+      </h3>
+      <!-- Putting in flex so i can have them side by side -->
+      <div class="flex mt-5">
+        <button
+          class="px-3 border-[1px] border-dark-blue border-r-0 h-fit duration-1000 {{
+            isAddingItenary
+              ? 'bg-dark-blue text-white py-1'
+              : 'bg-white text-dark-blue'
+          }}"
+          (click)="handleChangeIsAdding(true)"
+        >
+          <i class="fa-solid fa-plus"></i>
+        </button>
+        <button
+          class="px-3 border-[1px] border-dark-blue text-dark-blue h-fit duration-1000 {{
+            isAddingItenary
+              ? 'bg-white text-dark-blue'
+              : 'bg-dark-blue text-white py-1 '
+          }}"
+          (click)="handleChangeIsAdding(false)"
+        >
+          <i class="fa-solid fa-calendar-days"></i>
+        </button>
       </div>
-      <button class="bg-dark-blue text-white h-fit py-3 px-4 rounded-md">
-        <i class="fa-solid fa-plus mr-2"></i>
-        Add Holiday
-      </button>
     </div>
-    <hr />
-    <app-map
-      class="{{
-        showCalendarLarge
-          ? 'w-[10%]'
-          : 'w-[90%] shadow-2xl scale-105 duration-1000'
-      }}"
-    >
-    </app-map>
-    <app-calendar
-      [itenaries]="holiday.holidayItenaries"
-      [holidayStartDate]="holiday.holidayStartDate | date"
-      [holidayEndDate]="holiday.holidayEndDate | date"
-      class="{{
-        showCalendarLarge
-          ? 'w-[90%] shadow-2xl scale-105 duration-1000'
-          : 'w-[10%]'
-      }}"
-    >
-    </app-calendar>
+    <button class="bg-dark-blue text-white h-fit py-3 px-4 rounded-md">
+      <i class="fa-solid fa-plus mr-2"></i>
+      Add Holiday
+    </button>
   </div>
+
+  <app-add-itenary
+    [isAddingItenary]="isAddingItenary"
+    [holiday]="holiday"
+    class="{{
+      isAddingItenary
+        ? 'w-[90%] shadow-2xl scale-105 duration-1000'
+        : 'w-[10%] '
+    }}"
+  >
+  </app-add-itenary>
+  <app-calendar
+    [itenaries]="holiday.holidayItenaries"
+    [holidayStartDate]="holiday.holidayStartDate | date"
+    [holidayEndDate]="holiday.holidayEndDate | date"
+    [isAddingItenary]="isAddingItenary"
+    (dateSelected)="handleDateSelected($event)"
+    class="{{
+      isAddingItenary ? 'w-[10%]' : 'w-[90%] shadow-2xl scale-105 duration-1000'
+    }}"
+  >
+  </app-calendar>
 </div>
