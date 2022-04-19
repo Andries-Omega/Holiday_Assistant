@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Holiday } from 'src/app/models/Itenaries';
 
 @Component({
@@ -8,7 +8,8 @@ import { Holiday } from 'src/app/models/Itenaries';
 })
 export class ListOfItenariesComponent {
   @Input() holidays!: Holiday[] | null;
-  @Input() isAddingItenary!: boolean | null;
+  @Input() isAddingItenary!: boolean;
+  @Input() selectedDate!: Date | null;
 
   @Output() changeIsAdding = new EventEmitter<boolean>();
   @Output() dateSelected = new EventEmitter<Date>();

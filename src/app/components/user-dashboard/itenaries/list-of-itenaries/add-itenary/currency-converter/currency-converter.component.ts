@@ -13,7 +13,7 @@ export class CurrencyConverterComponent {
   @Input() toDropOpen!: boolean;
   @Input() fromCurrency!: Currency;
   @Input() toCurrency!: Currency;
-  @Input() converstionCurrency$!: Observable<ListOfCurrencies>;
+  @Input() converstionCurrency!: number;
 
   @Output() fromDropChange = new EventEmitter<boolean>();
   @Output() toDropChange = new EventEmitter<boolean>();

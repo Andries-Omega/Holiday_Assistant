@@ -9,8 +9,12 @@
       [fromDropOpen]="fromDropOpen"
       [toCurrency]="toCurrency"
       [toDropOpen]="toDropOpen"
-      [converstionCurrency$]="converstionCurrency$"
-      (fromDropChange)="setFromDrop($event)"
+      [selectedDate]="selectedDate"
+      [converstionCurrency]="
+        (converstionCurrency$ | async)!
+          | convertConvertedCurrency: toCurrency.code
+      "
+      (fromDropChange)="fromDropOpen = $event"
       (toDropChange)="toDropOpen = $event"
       (converting)="convertCurrency($event)"
       (selectedCurrency)="handleCurrencySelect($event)"

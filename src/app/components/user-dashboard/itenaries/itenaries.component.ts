@@ -22,7 +22,6 @@ export class ItenariesComponent implements OnInit {
 
   askToAddItenary: boolean = false;
 
-  selectedDate!: Date;
   constructor(
     private globalStore: Store<AppState>,
     private dashStore: Store<DashState>
@@ -30,21 +29,30 @@ export class ItenariesComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  updateIsAdding(isAdding: boolean) {
-    this.dashStore.dispatch(setIsAddingItenary({ isAddingItenary: isAdding }));
+  updateIsAdding(isAddingItenary: boolean, selectedDate: Date | null) {
+    this.dashStore.dispatch(
+      setIsAddingItenary({
+        isAddingItenary: {
+          isAddingItenary,
+          selectedDate,
+        },
+      })
+    );
   }
 
   handleDateSelected(selectedDate: Date) {
-    this.selectedDate = selectedDate;
+    this.updateIsAdding(false, selectedDate);
     this.askToAddItenary = true;
   }
 
-  handleAddItenaryFromPopup(addItenary: boolean) {
-    addItenary ? this.switchToAddItenary() : (this.askToAddItenary = false);
+  handleAddItenaryFromPopup(addItenary: boolean, selectedDate: Date | null) {
+    addItenary
+      ? this.switchToAddItenary(selectedDate)
+      : (this.askToAddItenary = false);
   }
 
-  switchToAddItenary() {
-    this.dashStore.dispatch(setIsAddingItenary({ isAddingItenary: true }));
+  switchToAddItenary(selectedDate: Date | null) {
+    this.updateIsAdding(true, selectedDate);
     this.askToAddItenary = false;
   }
 }

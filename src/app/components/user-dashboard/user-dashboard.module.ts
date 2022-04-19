@@ -17,14 +17,13 @@ import { FormsModule } from '@angular/forms';
 import { NgZorroModule } from 'src/app/modules/ng-zorro/ng-zorro.module';
 import { HolidayComponent } from './holidays/list-of-holidays/holiday/holiday.component';
 import { ItenariesComponent } from './itenaries/itenaries.component';
-import { MapComponent } from './itenaries/map/map.component';
+
 import { ListOfItenariesComponent } from './itenaries/list-of-itenaries/list-of-itenaries.component';
 import { AddItenaryComponent } from './itenaries/list-of-itenaries/add-itenary/add-itenary.component';
 import { CalendarComponent } from './itenaries/list-of-itenaries/calendar/calendar.component';
 import { AddItenaryPopupComponent } from './itenaries/add-itenary-popup/add-itenary-popup.component';
 import { GetListOfDatesPipe } from 'src/app/pipes/get-list-of-dates.pipe';
 import { PhaseOneIComponent } from './itenaries/list-of-itenaries/add-itenary/phase-one-i/phase-one-i.component';
-import { PhaseTwoIComponent } from './itenaries/list-of-itenaries/add-itenary/phase-two-i/phase-two-i.component';
 import { CurrencyConverterComponent } from './itenaries/list-of-itenaries/add-itenary/currency-converter/currency-converter.component';
 import { ConvertCurrencySelectComponent } from './itenaries/list-of-itenaries/add-itenary/currency-converter/convert-currency-select/convert-currency-select.component';
 import { ListOfCurrenciesComponent } from './itenaries/list-of-itenaries/add-itenary/currency-converter/list-of-currencies/list-of-currencies.component';
@@ -46,13 +45,11 @@ import { ListOfCurrenciesToArrPipe } from 'src/app/pipes/list-of-currencies-to-a
     HolidayComponent,
     ItenariesComponent,
     AddItenaryComponent,
-    MapComponent,
     CalendarComponent,
     ListOfItenariesComponent,
     AddItenaryPopupComponent,
     GetListOfDatesPipe,
     PhaseOneIComponent,
-    PhaseTwoIComponent,
     CurrencyConverterComponent,
     ConvertCurrencySelectComponent,
     ListOfCurrenciesComponent,

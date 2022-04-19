@@ -10,7 +10,7 @@ import { Itenaries } from 'src/app/models/Itenaries';
 })
 export class PhaseOneIComponent implements OnInit {
   // For entire Form
-  @Input() selectedDate!: string;
+  @Input() selectedDate!: Date | null;
   @Input() itenaryDetails!: Itenaries;
   @Input() listOfAvailableDates!: Date[];
   @Input() startDate!: string | null;
@@ -19,7 +19,7 @@ export class PhaseOneIComponent implements OnInit {
   @Input() toDropOpen!: boolean;
   @Input() fromCurrency!: Currency;
   @Input() toCurrency!: Currency;
-  @Input() converstionCurrency$!: Observable<ListOfCurrencies>;
+  @Input() converstionCurrency!: number;
 
   @Output() fromDropChange = new EventEmitter<boolean>();
   @Output() toDropChange = new EventEmitter<boolean>();
@@ -34,9 +34,29 @@ export class PhaseOneIComponent implements OnInit {
       this.itenaryDate = this.startDate;
     }
   }
+
+  readyToAddItenary(): boolean {
+    return !!(
+      this.itenaryDetails.itenaryName &&
+      this.selectedDate &&
+      this.itenaryDetails.itenaryTag &&
+      this.startTime &&
+      this.endTime &&
+      this.converstionCurrency &&
+      this.toCurrency.code &&
+      this.validTimeRange()
+    );
+  }
+
+  validTimeRange(): boolean {
+    if (this.startTime && this.endTime) {
+      return this.endTime > this.startTime;
+    } else {
+      return true;
+    }
+  }
   handleSelectedDate() {
-    this.selectedDate = this.itenaryDate;
-    console.log(this.itenaryDate);
+    this.selectedDate = new Date(this.itenaryDate);
   }
 
   getDateString(date: Date): string {
@@ -56,5 +76,27 @@ export class PhaseOneIComponent implements OnInit {
 
   handleToDropChange(toD: boolean) {
     this.toDropChange.emit(toD);
+  }
+
+  editDate() {
+    this.selectedDate = null;
+    this.ngOnInit();
+  }
+
+  addItenarary() {
+    if (this.startTime && this.endTime && this.selectedDate) {
+      this.selectedDate = new Date(this.selectedDate);
+      this.itenaryDetails.itenaryDate = this.selectedDate.toDateString();
+      this.itenaryDetails.itenaryStartTime = this.startTime
+        ?.toTimeString()
+        ?.toString();
+      this.itenaryDetails.itenaryEndTime = this.endTime
+        ?.toTimeString()
+        ?.toString();
+    }
+    this.itenaryDetails.costEstimate = this.converstionCurrency;
+    this.itenaryDetails.costEstimateCurrency = this.toCurrency.code;
+
+    console.log(this.itenaryDetails);
   }
 }

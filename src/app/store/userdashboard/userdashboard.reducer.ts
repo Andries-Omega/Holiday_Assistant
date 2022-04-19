@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { Holiday } from 'src/app/models/Itenaries';
+import { Holiday, AddItenarary } from 'src/app/models/Itenaries';
 import {
   setHolidayOfItenary,
   setIsAddingItenary,
@@ -8,12 +8,12 @@ import {
 export const userdashboardFeatureKey = 'userdashboard';
 
 export interface DashState {
-  isAddingItenary: boolean;
+  isAddingItenary: AddItenarary;
   holidayOfCurrentItenary: Holiday | null;
 }
 
 export const initialState: DashState = {
-  isAddingItenary: false,
+  isAddingItenary: { isAddingItenary: false, selectedDate: null },
   holidayOfCurrentItenary: null,
 };
 

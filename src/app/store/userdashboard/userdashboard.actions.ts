@@ -1,9 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { Holiday } from 'src/app/models/Itenaries';
+import { AddItenarary, Holiday } from 'src/app/models/Itenaries';
 
 export const setIsAddingItenary = createAction(
   '[Userdashboard] Specify Whether user is currently adding itenary or not',
-  props<{ isAddingItenary: boolean }>()
+  props<{ isAddingItenary: AddItenarary }>()
 );
 
 export const setHolidayOfItenary = createAction(

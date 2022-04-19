@@ -11,8 +11,7 @@ import { CurrencyConvertService } from 'src/app/services/currency-convert.servic
 })
 export class AddItenaryComponent {
   @Input() isAddingItenary!: boolean | null;
-  @Input() selectedDate!: Date;
-  @Input() listOfAvailableDates!: Date[];
+  @Input() selectedDate!: Date | null;
   @Input() holiday!: Holiday;
 
   dropDownOpen = false;
@@ -30,6 +29,7 @@ export class AddItenaryComponent {
   itenaryDetails: Itenaries = {
     itenaryName: '',
     itenaryTag: '',
+    itenaryDate: '',
     itenaryStartTime: '',
     itenaryEndTime: '',
     costEstimate: 0,
@@ -47,10 +47,6 @@ export class AddItenaryComponent {
     }
   }
 
-  setFromDrop(b: boolean) {
-    console.log('here');
-    this.fromDropOpen = b;
-  }
   convertCurrency(whatToConvertValue: number) {
     if (whatToConvertValue) {
       this.converstionCurrency$ = this.currencyService.convertCurrency(

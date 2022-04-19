@@ -1,6 +1,7 @@
 export interface Itenaries {
   itenaryName: string;
   itenaryTag: string;
+  itenaryDate: string;
   itenaryStartTime: string;
   itenaryEndTime: string;
   costEstimate: number;
@@ -24,6 +25,11 @@ export interface Holiday {
   holidayStartDate: string;
   holidayEndDate: string;
   holidayItenaries: Itenaries[];
+}
+
+export interface AddItenarary {
+  isAddingItenary: boolean;
+  selectedDate: Date | null;
 }
 
 interface TimeStamp {
