@@ -7,9 +7,9 @@ import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
 import { isUserSignedIn } from '../../Algorithms/Authentication/authetication';
 import {
   getUserFromSelect,
-  initUsers,
   isObjectEmpty,
 } from '../../Algorithms/CommonFunctions';
+import { initUsers } from '../../Algorithms/ModelInitialisers';
 
 @Component({
   selector: 'app-header',
