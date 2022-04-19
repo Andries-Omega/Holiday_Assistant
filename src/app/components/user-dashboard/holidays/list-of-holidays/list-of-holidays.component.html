@@ -6,7 +6,7 @@
   <hr class="border-dark-blue" />
   <div class="grid grid-cols-3 gap-4 h-[735px] overflow-y-auto p-5">
     <app-holiday
-      *ngFor="let holiday of holidays"
+      *ngFor="let holiday of holidays; trackBy: identifyHoliday"
       [holiday]="holiday"
     ></app-holiday>
   </div>

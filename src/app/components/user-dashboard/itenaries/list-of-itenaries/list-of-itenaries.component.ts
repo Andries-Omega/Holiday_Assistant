@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Holiday } from 'src/app/models/Itenaries';
+import { Holiday, Itenaries } from 'src/app/models/Itenaries';
 
 @Component({
   selector: 'app-list-of-itenaries',
@@ -13,6 +13,7 @@ export class ListOfItenariesComponent {
 
   @Output() changeIsAdding = new EventEmitter<boolean>();
   @Output() dateSelected = new EventEmitter<Date>();
+  @Output() addItenaryDetails = new EventEmitter<Itenaries>();
 
   handleChangeIsAdding(isAdding: boolean) {
     this.changeIsAdding.emit(isAdding);
@@ -20,5 +21,13 @@ export class ListOfItenariesComponent {
 
   handleDateSelected(selectedDate: Date) {
     this.dateSelected.emit(selectedDate);
+  }
+
+  handleAddItenaryDetails(itenaryDetails: Itenaries) {
+    this.addItenaryDetails.emit(itenaryDetails);
+  }
+
+  identifyHoliday(index: number, holiday: Holiday) {
+    return holiday.holidayID;
   }
 }

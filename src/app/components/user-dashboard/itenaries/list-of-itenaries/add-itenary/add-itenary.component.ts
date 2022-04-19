@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
 import { Holiday, Itenaries } from 'src/app/models/Itenaries';
@@ -13,6 +13,8 @@ export class AddItenaryComponent {
   @Input() isAddingItenary!: boolean | null;
   @Input() selectedDate!: Date | null;
   @Input() holiday!: Holiday;
+
+  @Output() addItenaryDetails = new EventEmitter<Itenaries>();
 
   dropDownOpen = false;
   fromDropOpen: boolean = false;
@@ -45,6 +47,10 @@ export class AddItenaryComponent {
       this.toCurrency = currency;
       this.toDropOpen = false;
     }
+  }
+
+  handleAddItenaryDetails(itenaryDetails: Itenaries) {
+    this.addItenaryDetails.emit(itenaryDetails);
   }
 
   convertCurrency(whatToConvertValue: number) {

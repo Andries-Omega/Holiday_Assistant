@@ -25,7 +25,7 @@ export class PhaseOneIComponent implements OnInit {
   @Output() toDropChange = new EventEmitter<boolean>();
   @Output() converting = new EventEmitter<number>();
   @Output() selectedCurrency = new EventEmitter<Currency>();
-
+  @Output() addItenaryDetails = new EventEmitter<Itenaries>();
   itenaryDate: string = new Date().toDateString();
   startTime: Date | null = null;
   endTime: Date | null = null;
@@ -97,6 +97,6 @@ export class PhaseOneIComponent implements OnInit {
     this.itenaryDetails.costEstimate = this.converstionCurrency;
     this.itenaryDetails.costEstimateCurrency = this.toCurrency.code;
 
-    console.log(this.itenaryDetails);
+    this.addItenaryDetails.emit(this.itenaryDetails);
   }
 }

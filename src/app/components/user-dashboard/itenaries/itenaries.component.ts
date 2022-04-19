@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Holiday } from 'src/app/models/Itenaries';
+import { Holiday, Itenaries } from 'src/app/models/Itenaries';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectUserHolidays } from 'src/app/store/global/global.selectors';
 import { setIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.actions';
@@ -54,5 +54,9 @@ export class ItenariesComponent implements OnInit {
   switchToAddItenary(selectedDate: Date | null) {
     this.updateIsAdding(true, selectedDate);
     this.askToAddItenary = false;
+  }
+
+  handleAddItenaryDetails(itenaryDetails: Itenaries) {
+    console.log(itenaryDetails);
   }
 }
