@@ -1,6 +1,7 @@
 import { map, Observable, Subscription } from 'rxjs';
 import { Holiday, Itenaries } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
+import { initUsers } from './ModelInitialisers';
 
 /**
  *
@@ -8,16 +9,6 @@ import { Users } from 'src/app/models/Users';
  */
 export const isObjectEmpty = (obj: Object): boolean => {
   return !Object.values(obj).some((object) => object);
-};
-
-export const initUsers = (): Users => {
-  return {
-    userID: '',
-    name: '',
-    email: '',
-    password: '',
-    preferredName: '',
-  };
 };
 
 export const getUserFromSelect = (user$: Observable<Users>): Users => {
