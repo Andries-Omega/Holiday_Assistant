@@ -8,7 +8,11 @@ import { selectUserHolidays } from 'src/app/store/global/global.selectors';
 import { setIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.actions';
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
 import { selectIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.selectors';
-import { getUserHolidaysFromSelect } from '../../Algorithms/CommonFunctions';
+import {
+  getArrayWithout,
+  getIndexOfItenary,
+  getUserHolidaysFromSelect,
+} from '../../Algorithms/CommonFunctions';
 
 @Component({
   selector: 'app-itenaries',
@@ -73,32 +77,21 @@ export class ItenariesComponent implements OnInit {
           ],
         };
 
-        this.itenaryService.updateHoliday(newHoliday).then(() => {
-          //this will for phase three (fetching list of holidays) from dashboard to run
-          this.globalStore.dispatch(saveUserHolidays({ userHolidays: null }));
-          location.reload();
-        });
+        this.updateHoliday(newHoliday);
       } else {
-        let index = this.focusedHoliday.holidayItenaries.findIndex(
-          (itenar) => itenar == this.itenary
+        let index = getIndexOfItenary(
+          this.itenary,
+          this.focusedHoliday.holidayItenaries
         );
 
         const newHoliday = {
           ...this.focusedHoliday,
           holidayItenaries: [
-            ...this.getArrayWithout(index, this.itenary),
+            ...getArrayWithout(index, this.itenary, this.focusedHoliday),
             itenaryDetails,
           ],
         };
-        console.log(this.itenary);
-        console.log(itenaryDetails);
-        console.log(this.getArrayWithout(index, this.itenary));
-
-        this.itenaryService.updateHoliday(newHoliday).then(() => {
-          //this will for phase three (fetching list of holidays) from dashboard to run
-          this.globalStore.dispatch(saveUserHolidays({ userHolidays: null }));
-          location.reload();
-        });
+        this.updateHoliday(newHoliday);
       }
     }
   }
@@ -113,13 +106,29 @@ export class ItenariesComponent implements OnInit {
       this.addIntention = doing;
       this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
     } else {
+      const newHoliday = {
+        ...this.focusedHoliday,
+        holidayItenaries: [
+          ...getArrayWithout(
+            getIndexOfItenary(
+              this.itenary,
+              this.focusedHoliday.holidayItenaries
+            ),
+            this.itenary,
+            this.focusedHoliday
+          ),
+        ],
+      };
+      this.updateHoliday(newHoliday);
     }
     this.itenaryClicked = false;
   }
 
-  getArrayWithout(index: number, itenaray: Itenaries): Itenaries[] {
-    return this.focusedHoliday.holidayItenaries.filter(
-      (item) => item !== this.focusedHoliday.holidayItenaries[index]
-    );
+  updateHoliday(newHoliday: Holiday) {
+    this.itenaryService.updateHoliday(newHoliday).then(() => {
+      //this will for phase three (fetching list of holidays) from dashboard to run
+      this.globalStore.dispatch(saveUserHolidays({ userHolidays: null }));
+      location.reload();
+    });
   }
 }

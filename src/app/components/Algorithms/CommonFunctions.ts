@@ -1,5 +1,5 @@
 import { map, Observable, Subscription } from 'rxjs';
-import { Holiday } from 'src/app/models/Itenaries';
+import { Holiday, Itenaries } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
 
 /**
@@ -90,4 +90,21 @@ export const createListOfAvailableDates = (
 
 export const getHolidayById = (id: string, holidays: Holiday[]): Holiday => {
   return holidays.filter((holiday) => holiday.holidayID === id)[0];
+};
+
+export const getArrayWithout = (
+  index: number,
+  itenaray: Itenaries,
+  focusedHoliday: Holiday
+): Itenaries[] => {
+  return focusedHoliday.holidayItenaries.filter(
+    (item) => item !== focusedHoliday.holidayItenaries[index]
+  );
+};
+
+export const getIndexOfItenary = (
+  itenary: Itenaries,
+  itenaries: Itenaries[]
+): number => {
+  return itenaries.findIndex((itenar) => itenar == itenary);
 };
