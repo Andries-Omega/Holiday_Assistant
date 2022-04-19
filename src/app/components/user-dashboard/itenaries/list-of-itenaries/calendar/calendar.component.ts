@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Itenaries } from 'src/app/models/Itenaries';
+import { Itenary } from 'src/app/models/Itenaries';
 
 @Component({
   selector: 'app-calendar',
@@ -7,12 +7,12 @@ import { Itenaries } from 'src/app/models/Itenaries';
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
-  @Input() itenaries!: Itenaries[];
+  @Input() itenaries!: Itenary[];
   @Input() holidayStartDate!: string | null;
   @Input() holidayEndDate!: string | null;
   @Input() isAddingItenary!: boolean | null;
   @Output() dateSelected = new EventEmitter<Date>();
-  @Output() itenaryClicked = new EventEmitter<Itenaries>();
+  @Output() itenaryClicked = new EventEmitter<Itenary>();
   startDate: Date = new Date();
   endDate: Date = new Date();
   selectedDate: Date = new Date();
@@ -40,10 +40,10 @@ export class CalendarComponent implements OnInit {
       }, 1500);
     }
   }
-  identifyItenary(index: number, itenary: Itenaries) {
+  identifyItenary(index: number, itenary: Itenary) {
     return itenary;
   }
-  handleItenaryClicked(itenary: Itenaries) {
+  handleItenaryClicked(itenary: Itenary) {
     this.itenaryClicked.emit(itenary);
   }
 }

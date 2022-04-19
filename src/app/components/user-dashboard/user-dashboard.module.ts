@@ -30,6 +30,8 @@ import { ListOfCurrenciesComponent } from './itenaries/list-of-itenaries/add-ite
 import { ConvertConvertedCurrencyPipe } from 'src/app/pipes/convert-converted-currency.pipe';
 import { ListOfCurrenciesToArrPipe } from 'src/app/pipes/list-of-currencies-to-arr.pipe';
 import { OptionsForItenaryPopUpComponent } from './itenaries/list-of-itenaries/options-for-itenary-pop-up/options-for-itenary-pop-up.component';
+import { MobileOptionsComponent } from './dash-options/mobile-options/mobile-options.component';
+import { DesktopOptionsComponent } from './dash-options/desktop-options/desktop-options.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import { OptionsForItenaryPopUpComponent } from './itenaries/list-of-itenaries/o
     ListOfCurrenciesToArrPipe,
     ConvertConvertedCurrencyPipe,
     OptionsForItenaryPopUpComponent,
+    MobileOptionsComponent,
+    DesktopOptionsComponent,
   ],
   imports: [
     CommonModule,

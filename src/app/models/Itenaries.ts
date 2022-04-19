@@ -1,4 +1,4 @@
-export interface Itenaries {
+export interface Itenary {
   itenaryName: string;
   itenaryTag: string;
   itenaryDate: string;
@@ -24,7 +24,7 @@ export interface Holiday {
   holidayLocation: Location | null;
   holidayStartDate: string;
   holidayEndDate: string;
-  holidayItenaries: Itenaries[];
+  holidayItenaries: Itenary[];
 }
 
 export interface AddItenarary {

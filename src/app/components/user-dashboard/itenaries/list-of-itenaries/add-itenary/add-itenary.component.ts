@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
-import { Holiday, Itenaries } from 'src/app/models/Itenaries';
+import { Holiday, Itenary } from 'src/app/models/Itenaries';
 import { CurrencyConvertService } from 'src/app/services/currency-convert.service';
 
 @Component({
@@ -13,9 +13,9 @@ export class AddItenaryComponent {
   @Input() isAddingItenary!: boolean | null;
   @Input() selectedDate!: Date | null;
   @Input() holiday!: Holiday;
-  @Input() itenary!: Itenaries;
+  @Input() itenary!: Itenary;
   @Input() addIntention!: string;
-  @Output() addItenaryDetails = new EventEmitter<Itenaries>();
+  @Output() addItenaryDetails = new EventEmitter<Itenary>();
 
   dropDownOpen = false;
   fromDropOpen: boolean = false;
@@ -29,7 +29,7 @@ export class AddItenaryComponent {
 
   currentPhase: number = 0;
 
-  itenaryDetails: Itenaries = {
+  itenaryDetails: Itenary = {
     itenaryName: this.itenary?.itenaryName || '',
     itenaryTag: this.itenary?.itenaryTag || '',
     itenaryDate: this.itenary?.itenaryDate || '',
@@ -50,7 +50,7 @@ export class AddItenaryComponent {
     }
   }
 
-  handleAddItenaryDetails(itenaryDetails: Itenaries) {
+  handleAddItenaryDetails(itenaryDetails: Itenary) {
     this.addItenaryDetails.emit(itenaryDetails);
   }
 

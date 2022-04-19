@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Holiday, Itenaries } from 'src/app/models/Itenaries';
+import { Holiday, Itenary } from 'src/app/models/Itenaries';
 import { ItenariesService } from 'src/app/services/itenaries.service';
 import { saveUserHolidays } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
@@ -29,7 +29,7 @@ export class ItenariesComponent implements OnInit {
 
   askToAddItenary: boolean = false;
   itenaryClicked: boolean = false;
-  itenary!: Itenaries;
+  itenary!: Itenary;
   addIntention: string = 'ADDING';
   constructor(
     private globalStore: Store<AppState>,
@@ -66,7 +66,7 @@ export class ItenariesComponent implements OnInit {
     this.askToAddItenary = false;
   }
 
-  handleAddItenaryDetails(itenaryDetails: Itenaries) {
+  handleAddItenaryDetails(itenaryDetails: Itenary) {
     if (this.focusedHoliday) {
       if (this.addIntention === 'ADDING') {
         const newHoliday = {
@@ -96,7 +96,7 @@ export class ItenariesComponent implements OnInit {
     }
   }
 
-  handleItenaryClicked(itenary: Itenaries) {
+  handleItenaryClicked(itenary: Itenary) {
     this.itenary = itenary;
     this.itenaryClicked = true;
   }
