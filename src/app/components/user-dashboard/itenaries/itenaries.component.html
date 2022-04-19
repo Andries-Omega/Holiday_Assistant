@@ -7,9 +7,13 @@
       [holidays]="holidays"
       [isAddingItenary]="isAddingI.isAddingItenary"
       [selectedDate]="isAddingI.selectedDate"
+      [addIntention]="addIntention"
+      [itenary]="itenary"
       (addItenaryDetails)="handleAddItenaryDetails($event)"
+      (holidayUpdating)="focusedHoliday = $event"
       (changeIsAdding)="updateIsAdding($event, null)"
       (dateSelected)="handleDateSelected($event)"
+      (itenaryClicked)="handleItenaryClicked($event)"
     ></app-list-of-itenaries>
   </div>
   <!-- else -->
@@ -28,4 +32,10 @@
     [selectedDate]="isAddingI?.selectedDate!"
     (addItenary)="handleAddItenaryFromPopup($event, isAddingI.selectedDate)"
   ></app-add-itenary-popup>
+  <app-options-for-itenary-pop-up
+    (userUpdating)="handleUserUpdating($event)"
+    [itenaryClicked]="itenaryClicked"
+    [theItenary]="itenary"
+  >
+  </app-options-for-itenary-pop-up>
 </div>

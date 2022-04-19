@@ -14,24 +14,28 @@ export class PhaseOneIComponent implements OnInit {
   @Input() itenaryDetails!: Itenaries;
   @Input() listOfAvailableDates!: Date[];
   @Input() startDate!: string | null;
+  @Input() addIntention!: string;
   //For Currency
   @Input() fromDropOpen!: boolean;
   @Input() toDropOpen!: boolean;
   @Input() fromCurrency!: Currency;
   @Input() toCurrency!: Currency;
   @Input() converstionCurrency!: number;
+  @Input() itenary!: Itenaries;
 
   @Output() fromDropChange = new EventEmitter<boolean>();
   @Output() toDropChange = new EventEmitter<boolean>();
   @Output() converting = new EventEmitter<number>();
   @Output() selectedCurrency = new EventEmitter<Currency>();
   @Output() addItenaryDetails = new EventEmitter<Itenaries>();
+
   itenaryDate: string = new Date().toDateString();
+
   startTime: Date | null = null;
   endTime: Date | null = null;
   ngOnInit() {
     if (this.startDate) {
-      this.itenaryDate = this.startDate;
+      this.itenaryDate = this.itenary?.itenaryDate || this.startDate;
     }
   }
 
@@ -42,7 +46,6 @@ export class PhaseOneIComponent implements OnInit {
       this.itenaryDetails.itenaryTag &&
       this.startTime &&
       this.endTime &&
-      this.converstionCurrency &&
       this.toCurrency.code &&
       this.validTimeRange()
     );
@@ -94,8 +97,8 @@ export class PhaseOneIComponent implements OnInit {
         ?.toTimeString()
         ?.toString();
     }
-    this.itenaryDetails.costEstimate = this.converstionCurrency;
-    this.itenaryDetails.costEstimateCurrency = this.toCurrency.code;
+    this.itenaryDetails.costEstimate = this.converstionCurrency || 3;
+    this.itenaryDetails.costEstimateCurrency = this.toCurrency.code || 'ZAR';
 
     this.addItenaryDetails.emit(this.itenaryDetails);
   }

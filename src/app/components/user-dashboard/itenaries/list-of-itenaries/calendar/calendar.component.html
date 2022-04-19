@@ -11,9 +11,31 @@
         *ngIf="date >= startDate && date <= endDate"
         class="bg-blue-400"
       >
-        <div
-          class="bg-dark-blue bg-opacity-80 w-screen h-fit min-h-screen"
-        ></div>
+        <div class="bg-dark-blue bg-opacity-80 w-full h-fit min-h-screen">
+          <div
+            *ngFor="let itenary of itenaries; trackBy: identifyItenary"
+            class="pt-1"
+          >
+            <div
+              *ngIf="
+                (itenary.itenaryDate | date: 'shortDate') ===
+                (date | date: 'shortDate')
+              "
+              class="text-white px-3 flex w-full h-full items-center border-[1px] hover:border-dark-blue mt-2 hover:bg-white hover:text-dark-blue hover:scale-105 duration-500"
+              (click)="handleItenaryClicked(itenary); $event.stopPropagation()"
+            >
+              <div
+                class="w-2 h-2 rounded-full {{
+                  itenary.itenaryTag === 'Destination Event'
+                    ? 'bg-green-400'
+                    : 'bg-yellow-200'
+                }}"
+                [title]="itenary.itenaryTag"
+              ></div>
+              <p class="text-sm ml-2">{{ itenary.itenaryName }}</p>
+            </div>
+          </div>
+        </div>
       </ng-container>
     </ul>
   </nz-calendar>

@@ -12,13 +12,11 @@ export class CalendarComponent implements OnInit {
   @Input() holidayEndDate!: string | null;
   @Input() isAddingItenary!: boolean | null;
   @Output() dateSelected = new EventEmitter<Date>();
-
+  @Output() itenaryClicked = new EventEmitter<Itenaries>();
   startDate: Date = new Date();
   endDate: Date = new Date();
   selectedDate: Date = new Date();
   timeOut: ReturnType<typeof setTimeout> | null = null;
-
-  constructor() {}
 
   ngOnInit(): void {
     if (this.holidayStartDate && this.holidayEndDate) {
@@ -41,5 +39,11 @@ export class CalendarComponent implements OnInit {
         this.dateSelected.emit(this.selectedDate);
       }, 1500);
     }
+  }
+  identifyItenary(index: number, itenary: Itenaries) {
+    return itenary;
+  }
+  handleItenaryClicked(itenary: Itenaries) {
+    this.itenaryClicked.emit(itenary);
   }
 }

@@ -75,8 +75,8 @@ export class UserDashboardComponent implements OnInit {
   phaseThreeSignIn() {
     this.itenaryService.getAllHolidays(this.user.userID).then((holidays) => {
       this.globalStore.dispatch(saveUserHolidays({ userHolidays: holidays }));
-      //refresh component;
-      this.ngOnInit();
+      //refresh ;
+      location.reload();
     });
   }
 }

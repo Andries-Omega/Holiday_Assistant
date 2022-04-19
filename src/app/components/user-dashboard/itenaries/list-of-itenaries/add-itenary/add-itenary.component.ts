@@ -13,7 +13,8 @@ export class AddItenaryComponent {
   @Input() isAddingItenary!: boolean | null;
   @Input() selectedDate!: Date | null;
   @Input() holiday!: Holiday;
-
+  @Input() itenary!: Itenaries;
+  @Input() addIntention!: string;
   @Output() addItenaryDetails = new EventEmitter<Itenaries>();
 
   dropDownOpen = false;
@@ -29,13 +30,13 @@ export class AddItenaryComponent {
   currentPhase: number = 0;
 
   itenaryDetails: Itenaries = {
-    itenaryName: '',
-    itenaryTag: '',
-    itenaryDate: '',
-    itenaryStartTime: '',
-    itenaryEndTime: '',
-    costEstimate: 0,
-    costEstimateCurrency: '',
+    itenaryName: this.itenary?.itenaryName || '',
+    itenaryTag: this.itenary?.itenaryTag || '',
+    itenaryDate: this.itenary?.itenaryDate || '',
+    itenaryStartTime: this.itenary?.itenaryStartTime || '',
+    itenaryEndTime: this.itenary?.itenaryEndTime || '',
+    costEstimate: this.itenary?.costEstimate || 0,
+    costEstimateCurrency: this.itenary?.costEstimateCurrency || '',
   };
 
   handleCurrencySelect(currency: Currency) {

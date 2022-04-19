@@ -118,9 +118,11 @@ export class AddHolidayComponent implements OnInit {
     this.phase = 2; // just ensure it doesn't exit 2.
     this.isAddingHoliday = true;
     // Add To Database
-    this.itenaryService.addNewHoliday(this.holidayDetails).then(() => {
-      // send it to holidays so state can be updated with new holiday
-      this.newHoliday.emit(this.holidayDetails);
-    });
+    this.itenaryService
+      .addNewHoliday(this.holidayDetails)
+      .then((details: Holiday) => {
+        // send it to holidays so state can be updated with new holiday
+        this.newHoliday.emit(details);
+      });
   }
 }

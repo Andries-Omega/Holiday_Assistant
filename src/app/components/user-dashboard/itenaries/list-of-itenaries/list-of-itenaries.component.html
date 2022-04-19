@@ -1,5 +1,5 @@
 <div
-  *ngFor="let holiday of holidays"
+  *ngFor="let holiday of holidays; trackBy: identifyHoliday"
   class="flex flex-wrap mb-14 border-[1px] border-dark-blue p-10 rounded-xl"
 >
   <!-- 1. Header -->
@@ -29,7 +29,7 @@
               ? 'bg-dark-blue text-white py-1'
               : 'bg-white text-dark-blue'
           }}"
-          (click)="handleChangeIsAdding(true)"
+          (click)="handleChangeIsAdding(true, holiday.holidayID)"
         >
           <i class="fa-solid fa-plus"></i>
         </button>
@@ -39,7 +39,7 @@
               ? 'bg-white text-dark-blue'
               : 'bg-dark-blue text-white py-1 '
           }}"
-          (click)="handleChangeIsAdding(false)"
+          (click)="handleChangeIsAdding(false, holiday.holidayID)"
         >
           <i class="fa-solid fa-calendar-days"></i>
         </button>
@@ -55,7 +55,9 @@
     [isAddingItenary]="isAddingItenary"
     [holiday]="holiday"
     [selectedDate]="selectedDate"
-    (addItenaryDetails)="handleAddItenaryDetails($event)"
+    [addIntention]="addIntention"
+    [itenary]="itenary"
+    (addItenaryDetails)="handleAddItenaryDetails($event, holiday.holidayID)"
     class="{{
       isAddingItenary ? 'w-[90%] shadow-2xl scale-105 duration-1000' : 'w-[10%]'
     }}"
@@ -66,7 +68,8 @@
     [holidayStartDate]="holiday.holidayStartDate | date"
     [holidayEndDate]="holiday.holidayEndDate | date"
     [isAddingItenary]="isAddingItenary"
-    (dateSelected)="handleDateSelected($event)"
+    (dateSelected)="handleDateSelected($event, holiday.holidayID)"
+    (itenaryClicked)="handleItenaryClicked($event, holiday.holidayID)"
     class="{{
       isAddingItenary ? 'w-[10%]' : 'w-[90%] shadow-2xl scale-105 duration-1000'
     }}"

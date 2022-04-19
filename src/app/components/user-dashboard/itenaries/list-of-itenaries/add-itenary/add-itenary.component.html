@@ -1,6 +1,8 @@
 <div class="w-full h-[700px] bg-slate-100 rounded-xl">
   <div *ngIf="isAddingItenary" class="py-10">
-    <h1 class="text-center text-lg text-dark-blue">Adding An Itenary</h1>
+    <h1 class="text-center text-lg text-dark-blue">
+      {{ addIntention === "ADDING" ? "Adding " : "Updating " }} An Itenary
+    </h1>
     <app-phase-one-i
       [listOfAvailableDates]="holiday | getListOfDates"
       [itenaryDetails]="itenaryDetails"
@@ -10,10 +12,13 @@
       [toCurrency]="toCurrency"
       [toDropOpen]="toDropOpen"
       [selectedDate]="selectedDate"
+      [itenary]="itenary"
+      [addIntention]="addIntention"
       [converstionCurrency]="
         (converstionCurrency$ | async)!
           | convertConvertedCurrency: toCurrency.code
       "
+      [itenary]="itenary"
       (fromDropChange)="fromDropOpen = $event"
       (toDropChange)="toDropOpen = $event"
       (converting)="convertCurrency($event)"

@@ -17,26 +17,14 @@ export const initialState: DashState = {
   holidayOfCurrentItenary: null,
 };
 
-const sessionDashState = sessionStorage.getItem('SavedDashState');
-const savedDashState: DashState =
-  sessionDashState && JSON.parse(sessionDashState);
-
 export const reducer = createReducer(
-  savedDashState || initialState,
-  on(setIsAddingItenary, (state, { isAddingItenary }) => {
-    const newState = {
-      ...state,
-      isAddingItenary,
-    };
-    sessionStorage.setItem('SavedDashState', JSON.stringify(newState));
-    return newState;
-  }),
-  on(setHolidayOfItenary, (state, { holidayOfCurrentItenary }) => {
-    const newState = {
-      ...state,
-      holidayOfCurrentItenary,
-    };
-    sessionStorage.setItem('SavedDashState', JSON.stringify(newState));
-    return newState;
-  })
+  initialState,
+  on(setIsAddingItenary, (state, { isAddingItenary }) => ({
+    ...state,
+    isAddingItenary,
+  })),
+  on(setHolidayOfItenary, (state, { holidayOfCurrentItenary }) => ({
+    ...state,
+    holidayOfCurrentItenary,
+  }))
 );

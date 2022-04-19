@@ -87,3 +87,7 @@ export const createListOfAvailableDates = (
   }
   return listOfAvailableDates;
 };
+
+export const getHolidayById = (id: string, holidays: Holiday[]): Holiday => {
+  return holidays.filter((holiday) => holiday.holidayID === id)[0];
+};

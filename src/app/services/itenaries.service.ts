@@ -8,6 +8,7 @@ import {
   getDocs,
 } from '@angular/fire/firestore';
 import { query, updateDoc, where } from '@firebase/firestore';
+import { Observable } from 'rxjs';
 
 import { Holiday } from '../models/Itenaries';
 
@@ -30,7 +31,7 @@ export class ItenariesService {
       'Holidays',
       holidayDetails.holidayID
     );
-    return await updateDoc(holidayDoc, {
+    const newHoliday = {
       holidayID: holidayDetails.holidayID,
       userID: holidayDetails.userID,
       holidayName: holidayDetails.holidayName,
@@ -38,6 +39,9 @@ export class ItenariesService {
       holidayStartDate: holidayDetails.holidayStartDate,
       holidayEndDate: holidayDetails.holidayEndDate,
       holidayItenaries: holidayDetails.holidayItenaries,
+    };
+    return await updateDoc(holidayDoc, newHoliday).then(() => {
+      return newHoliday;
     });
   }
   async getAllHolidays(userID: string) {

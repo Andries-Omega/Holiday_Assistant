@@ -3,7 +3,7 @@
 
   <div class="w-full justify-center flex">
     <p *ngIf="this.selectedDate && this.itenaryDate" class="text-base">
-      Please Add An Itenary For
+      Please {{ addIntention === "ADDING" ? "Add" : "Update" }} An Itenary For
       <span class="text-dark-blue font-mono">
         {{ selectedDate | date: "fullDate" }}
       </span>
@@ -107,7 +107,7 @@
           : 'opacity-50'
       }} w-full mx-80 bg-dark-blue border-[1px] border-dark-blue h-10 text-white rounded-md  duration-500"
     >
-      Add Itenary
+      {{ addIntention === "ADDING" ? "Add " : "Update " }}Itenary
     </button>
   </div>
 </div>

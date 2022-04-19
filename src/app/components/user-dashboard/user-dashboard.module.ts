@@ -29,6 +29,7 @@ import { ConvertCurrencySelectComponent } from './itenaries/list-of-itenaries/ad
 import { ListOfCurrenciesComponent } from './itenaries/list-of-itenaries/add-itenary/currency-converter/list-of-currencies/list-of-currencies.component';
 import { ConvertConvertedCurrencyPipe } from 'src/app/pipes/convert-converted-currency.pipe';
 import { ListOfCurrenciesToArrPipe } from 'src/app/pipes/list-of-currencies-to-arr.pipe';
+import { OptionsForItenaryPopUpComponent } from './itenaries/list-of-itenaries/options-for-itenary-pop-up/options-for-itenary-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { ListOfCurrenciesToArrPipe } from 'src/app/pipes/list-of-currencies-to-a
     ListOfCurrenciesComponent,
     ListOfCurrenciesToArrPipe,
     ConvertConvertedCurrencyPipe,
+    OptionsForItenaryPopUpComponent,
   ],
   imports: [
     CommonModule,
