@@ -28,9 +28,15 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
+              "src/theme.less",
               "src/styles.scss"
             ],
             "scripts": []
@@ -103,9 +109,22 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "Holiday_Assistant:build:production",
+            "firebaseProject": "the-holiday-assistant",
+            "firebaseHostingSite": "the-holiday-assistant"
+          }
         }
       }
     }
   },
-  "defaultProject": "Holiday_Assistant"
+  "defaultProject": "Holiday_Assistant",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

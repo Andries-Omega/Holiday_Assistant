@@ -1,0 +1,21 @@
+<div
+  *ngIf="holidays?.length"
+  class="shadow-sm rounded-md border-[1px] border-dark-blue"
+>
+  <h1 class="text-xl text-center text-dark-blue mt-2 mb-3">Your Holidays</h1>
+  <hr class="border-dark-blue" />
+  <div class="grid grid-cols-3 gap-4 h-[735px] overflow-y-auto p-5">
+    <app-holiday
+      *ngFor="let holiday of holidays; trackBy: identifyHoliday"
+      [holiday]="holiday"
+    ></app-holiday>
+  </div>
+</div>
+<div *ngIf="!holidays?.length">
+  <h1 class="text-2xl text-center text-dark-blue mt-2 mb-3">
+    You Have 0 Planned Holidays 🤷
+  </h1>
+  <div class="h-[700px] flex justify-center w-full">
+    <img src="../../../../assets/images/empty.svg" />
+  </div>
+</div>
