@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "the-holiday-assistant"
+  },
+  "targets": {
+    "the-holiday-assistant": {
+      "hosting": {
+        "Holiday_Assistant": [
+          "the-holiday-assistant"
+        ]
+      }
+    }
   }
 }
