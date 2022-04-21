@@ -8,8 +8,10 @@
     class="grid md:grid-cols-3 gap-4 h-[570px] md:h-[735px] overflow-y-auto md:p-5 p-3"
   >
     <app-holiday
+      role="button"
       *ngFor="let holiday of holidays; trackBy: identifyHoliday"
       [holiday]="holiday"
+      (click)="handleHolidayClicked(holiday)"
     ></app-holiday>
   </div>
 </div>

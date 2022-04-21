@@ -15,13 +15,21 @@
     <app-list-of-holidays
       *ngIf="!isAddingHoliday"
       [holidays]="holidays"
+      (holidayClick)="handleHolidayClicked($event)"
     ></app-list-of-holidays>
   </div>
   <!-- Add Holiday -->
   <div [@fade]="fadeAdd">
     <app-add-holiday
       *ngIf="isAddingHoliday"
+      [addingIntentions]="addingIntentions"
+      [theHoliday]="selectedHoliday"
       (newHoliday)="updateListOfHolidays($event)"
     ></app-add-holiday>
   </div>
+  <app-options-for-holiday-pop-up
+    [isHolidayOptionsClicked]="isHolidayOptionsClicked"
+    [theHoliday]="selectedHoliday"
+    (userOption)="handleUserHolidayOption($event)"
+  ></app-options-for-holiday-pop-up>
 </div>

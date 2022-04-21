@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { fade, slide } from 'src/app/Animations/dashboard-animations';
@@ -18,6 +18,9 @@ import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
   animations: [fade, slide],
 })
 export class AddHolidayComponent implements OnInit {
+  @Input() addingIntentions!: string;
+  @Input() theHoliday!: Holiday | null;
+
   phase: number = 0;
   errorMessage: string = '';
   locationDetails$!: Observable<Location>;
@@ -38,6 +41,7 @@ export class AddHolidayComponent implements OnInit {
   };
 
   @Output() newHoliday = new EventEmitter<Holiday>();
+
   constructor(
     private locationService: LocationService,
     private itenaryService: ItenariesService,
@@ -57,20 +61,27 @@ export class AddHolidayComponent implements OnInit {
   isNextDisabled(): boolean {
     switch (this.phase) {
       case 0:
-        return !!this.holidayDetails.holidayName && !this.isAddingHoliday;
+        return (
+          (!!this.holidayDetails.holidayName && !this.isAddingHoliday) ||
+          !!this.theHoliday?.holidayName
+        );
       case 1:
         return !!(
-          this.holidayDetails.holidayLocation &&
-          this.holidayDetails.holidayName &&
-          !this.isAddingHoliday
+          (this.holidayDetails.holidayLocation &&
+            this.holidayDetails.holidayName &&
+            !this.isAddingHoliday) ||
+          !!this.theHoliday?.holidayLocation
         );
       case 2:
         return !!(
-          this.holidayDetails.holidayEndDate &&
-          this.holidayDetails.holidayStartDate &&
-          this.holidayDetails.holidayName &&
-          this.holidayDetails.holidayLocation &&
-          !this.isAddingHoliday
+          (this.holidayDetails.holidayEndDate &&
+            this.holidayDetails.holidayStartDate &&
+            this.holidayDetails.holidayName &&
+            this.holidayDetails.holidayLocation &&
+            !this.isAddingHoliday) ||
+          !!(
+            this.theHoliday?.holidayStartDate && this.theHoliday.holidayEndDate
+          )
         );
       default:
         return false;
@@ -78,6 +89,9 @@ export class AddHolidayComponent implements OnInit {
   }
 
   searchForLocation(pName: string) {
+    if (this.theHoliday) {
+      this.theHoliday = { ...this.theHoliday, holidayLocation: null };
+    }
     this.holidayDetails.holidayLocation = null;
     if (pName) {
       this.errorMessage = '';

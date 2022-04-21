@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 
 import { fade } from 'src/app/Animations/dashboard-animations';
 import { Holiday } from 'src/app/models/Itenaries';
-import { ItenariesService } from 'src/app/services/itenaries.service';
 import { saveUserHolidays } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
 import {
@@ -28,6 +27,9 @@ export class HolidaysComponent implements OnInit {
 
   isAddingHoliday: boolean = false;
   addingHoliday: boolean = false;
+  addingIntentions: string = 'ADDING';
+  selectedHoliday!: Holiday | null;
+  isHolidayOptionsClicked: boolean = false;
 
   holidays = getUserHolidaysFromSelect(
     this.globalStore.select(selectUserHolidays)
@@ -68,6 +70,8 @@ export class HolidaysComponent implements OnInit {
       // waiting for the fade animation
       this.isAddingHoliday = false;
       this.fadeList = 'In'; // Initiate fade in animation
+      this.addingIntentions = 'ADDING'; // make sure the default intentions are to add a new one
+      this.selectedHoliday = null;
     }, 1000);
   }
 
@@ -77,5 +81,20 @@ export class HolidaysComponent implements OnInit {
       this.isAddingHoliday = true;
       this.fadeAdd = 'In';
     }, 1000);
+  }
+
+  handleHolidayClicked(holiday: Holiday) {
+    this.selectedHoliday = holiday;
+    this.isHolidayOptionsClicked = true;
+  }
+  handleUserHolidayOption(doing: string) {
+    if (doing === 'UPDATE') {
+      this.addingIntentions = 'UPDATING';
+      this.listToAdd();
+      console.log('Updating');
+    } else {
+      console.log('Deleted');
+    }
+    this.isHolidayOptionsClicked = false;
   }
 }

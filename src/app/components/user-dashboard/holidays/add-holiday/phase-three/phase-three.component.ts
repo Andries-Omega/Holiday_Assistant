@@ -7,8 +7,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class PhaseThreeComponent {
   date!: Date[];
-  @Input() mobileStartDate!: Date;
-  @Input() mobileEndDate!: Date;
+  @Input() mobileStartDate!: Date | null;
+  @Input() mobileEndDate!: Date | null;
   @Input() errorMessage!: string;
 
   @Output() selectedDate = new EventEmitter<Date[]>();

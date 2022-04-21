@@ -34,6 +34,9 @@ import { DesktopOptionsComponent } from './dash-options/desktop-options/desktop-
 import { ListOfItenaryItemsComponent } from './itenaries/list-of-itenaries/calendar/list-of-itenary-items/list-of-itenary-items.component';
 import { AddOrUpdateItenaryComponent } from './itenaries/list-of-itenaries/add-itenary/add-or-update-itenary/add-or-update-itenary.component';
 
+import { OptionsForHolidayPopUpComponent } from './holidays/options-for-holiday-pop-up/options-for-holiday-pop-up.component';
+import { GetDateFromStringPipe } from 'src/app/pipes/get-date-from-string.pipe';
+
 @NgModule({
   declarations: [
     UserDashboardComponent,
@@ -63,6 +66,8 @@ import { AddOrUpdateItenaryComponent } from './itenaries/list-of-itenaries/add-i
     DesktopOptionsComponent,
     ListOfItenaryItemsComponent,
     AddOrUpdateItenaryComponent,
+    GetDateFromStringPipe,
+    OptionsForHolidayPopUpComponent,
   ],
   imports: [
     CommonModule,

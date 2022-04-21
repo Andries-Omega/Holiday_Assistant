@@ -1,6 +1,10 @@
 <div>
   <h1 class="text-lg md:text-2xl text-dark-blue text-center">
-    What's the holiday name?
+    {{
+      addingIntentions === "ADDING"
+        ? " What is the holiday name?"
+        : "Your holiday:"
+    }}
   </h1>
 
   <input
