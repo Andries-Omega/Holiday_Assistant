@@ -4,13 +4,19 @@
   nzSize="large"
 >
   <div>
-    <h1 class="text-2xl text-dark-blue text-center">Location Of The Place ?</h1>
-    <div class="flex items-center mt-5">
+    <h1 class="text-lg md:text-2xl text-dark-blue text-center">
+      {{
+        addingIntentions === "ADDING"
+          ? "Location Of The Place ?"
+          : "Your Location:"
+      }}
+    </h1>
+    <div class="flex items-center mt-5 mx-2">
       <input
         [(ngModel)]="placeName"
         type="text"
         placeholder="e.g. cape town"
-        class="h-10 w-96 focus:outline-none border-[1px] border-r-0 border-dark-blue rounded-md px-5 rounded-r-none text-dark-blue shadow-2xl"
+        class="h-10 w-[250px] md:w-[400px] focus:outline-none border-[1px] border-r-0 border-dark-blue rounded-md px-5 rounded-r-none text-dark-blue shadow-2xl"
         (keyup.enter)="searchForPlace()"
       />
       <button
@@ -34,7 +40,7 @@
           selectedLocation
             ? 'bg-dark-blue text-white shadow-2xl'
             : 'bg-white text-dark-blue'
-        }} bg-white w-[440px] h-fit p-5 rounded-md border-[1px] border-dark-blue hover:shadow-2xl hover:scale-105 hover:bg-dark-blue hover:text-white duration-300"
+        }} bg-white md:w-[440px] h-fit p-5 rounded-md border-[1px] border-dark-blue hover:shadow-2xl hover:scale-105 hover:bg-dark-blue hover:text-white duration-300"
         *ngIf="locationDetails"
         (click)="confirmLocation()"
       >

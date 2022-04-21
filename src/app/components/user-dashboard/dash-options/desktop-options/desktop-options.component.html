@@ -1,0 +1,72 @@
+<div
+  class="p-7 bg-slate-100 h-[850px] ml-2 rounded-lg shadow-2xl grid grid-rows-2 sticky top-[20px]"
+>
+  <div class="grid h-fit gap-y-5">
+    <div
+      class="h-28 cursor-pointer hover:scale-105 duration-300 flex justify-center w-full"
+      routerLink="/"
+    >
+      <img src="../../../../assets/images/logo.png" />
+    </div>
+    <button
+      (click)="handleRouteTo('/dashboard')"
+      class="border-[1px] border-dark-blue h-fit py-3 rounded-md duration-500 
+          {{
+        routerURL === '/dashboard'
+          ? 'shadow-2xl text-dark-blue scale-105 bg-white duration-500 cursor-default'
+          : 'hover:shadow-2xl bg-dark-blue text-white hover:bg-white hover:text-dark-blue hover:scale-105'
+      }}
+        "
+    >
+      <i class="fa-solid fa-chart-line mr-5"></i>
+      Dashboard
+    </button>
+    <button
+      (click)="handleRouteTo('/dashboard/holidays')"
+      class="border-[1px] border-dark-blue h-fit py-3 rounded-md duration-500 
+        {{
+        routerURL === '/dashboard/holidays'
+          ? 'shadow-2xl text-dark-blue scale-105 bg-white duration-500 cursor-default'
+          : 'hover:shadow-2xl bg-dark-blue text-white hover:bg-white hover:text-dark-blue hover:scale-105'
+      }}
+      "
+    >
+      <i class="fa-solid fa-champagne-glasses mr-5"></i>
+      Holidays
+    </button>
+    <button
+      (click)="handleRouteTo('/dashboard/itenaries')"
+      class="border-[1px] border-dark-blue h-fit py-3 rounded-md duration-500 
+          {{
+        routerURL === '/dashboard/itenaries'
+          ? 'shadow-2xl text-dark-blue scale-105 bg-white duration-500 cursor-default'
+          : 'hover:shadow-2xl bg-dark-blue text-white hover:bg-white hover:text-dark-blue hover:scale-105'
+      }}
+          "
+    >
+      <i class="fa-solid fa-list-check mr-5"></i>
+      Itenaries
+    </button>
+    <hr class="border-dark-blue" />
+    <button
+      (click)="handleRouteTo('/dashboard/update-profile')"
+      class="border-[1px] border-dark-blue h-fit py-3 rounded-md duration-500 
+          {{
+        routerURL === '/dashboard/update-profile'
+          ? 'shadow-2xl text-dark-blue scale-105 bg-white duration-500 cursor-default'
+          : 'hover:shadow-2xl bg-dark-blue text-white hover:bg-white hover:text-dark-blue hover:scale-105'
+      }}
+              "
+    >
+      <i class="fa-solid fa-user mr-5"></i>
+      Manage Profile
+    </button>
+  </div>
+  <button
+    class="border-[1px] border-dark-blue text-dark-blue w-full h-fit py-3 bg-white place-self-end text-sm rounded-md hover:bg-red-500 hover:border-red-500 hover:text-white duration-300"
+    (click)="handleLogout()"
+  >
+    <i class="fa-solid fa-arrow-right-from-bracket mr-5"></i>
+    Logout
+  </button>
+</div>

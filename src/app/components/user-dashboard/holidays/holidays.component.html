@@ -1,27 +1,41 @@
-<div class="px-10">
-  <button
-    (click)="handleSwitchComponents()"
-    class=" {{
-      isAddingHoliday
-        ? 'text-dark-blue bg-white hover:shadow-2xl '
-        : 'bg-dark-blue text-white hover:text-dark-blue hover:bg-white '
-    }} h-fit w-full px-5 py-3 border-[1px] border-dark-blue rounded-md mb-5 duration-500"
-  >
-    <i class="fa-solid fa-{{ isAddingHoliday ? 'x' : 'plus' }} mr-4"></i>
-    {{ isAddingHoliday ? "Cancel" : "Add Holiday" }}
-  </button>
-  <!-- List Holidays -->
-  <div [@fade]="fadeList">
-    <app-list-of-holidays
-      *ngIf="!isAddingHoliday"
-      [holidays]="holidays"
-    ></app-list-of-holidays>
+<nz-spin
+  [nzSpinning]="processingDeleteOrUpdate"
+  nzSize="large"
+  nzTip="Deleting..."
+>
+  <div class="px-2 md:px-10 w-full">
+    <button
+      (click)="handleSwitchComponents()"
+      class=" {{
+        isAddingHoliday
+          ? 'text-dark-blue bg-white hover:shadow-2xl '
+          : 'bg-dark-blue text-white hover:text-dark-blue hover:bg-white '
+      }} h-fit w-full px-5 py-3 border-[1px] border-dark-blue rounded-md mb-5 duration-500"
+    >
+      <i class="fa-solid fa-{{ isAddingHoliday ? 'x' : 'plus' }} mr-4"></i>
+      {{ isAddingHoliday ? "Cancel" : "Add Holiday" }}
+    </button>
+    <!-- List Holidays -->
+    <div [@fade]="fadeList">
+      <app-list-of-holidays
+        *ngIf="!isAddingHoliday"
+        [holidays]="holidays"
+        (holidayClick)="handleHolidayClicked($event)"
+      ></app-list-of-holidays>
+    </div>
+    <!-- Add Holiday -->
+    <div [@fade]="fadeAdd">
+      <app-add-holiday
+        *ngIf="isAddingHoliday"
+        [addingIntentions]="addingIntentions"
+        [theHoliday]="selectedHoliday"
+        (newHoliday)="updateListOfHolidays($event)"
+      ></app-add-holiday>
+    </div>
+    <app-options-for-holiday-pop-up
+      [isHolidayOptionsClicked]="isHolidayOptionsClicked"
+      [theHoliday]="selectedHoliday"
+      (userOption)="handleUserHolidayOption($event)"
+    ></app-options-for-holiday-pop-up>
   </div>
-  <!-- Add Holiday -->
-  <div [@fade]="fadeAdd">
-    <app-add-holiday
-      *ngIf="isAddingHoliday"
-      (newHoliday)="updateListOfHolidays($event)"
-    ></app-add-holiday>
-  </div>
-</div>
+</nz-spin>

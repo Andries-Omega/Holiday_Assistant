@@ -23,13 +23,19 @@ import { AddItenaryComponent } from './itenaries/list-of-itenaries/add-itenary/a
 import { CalendarComponent } from './itenaries/list-of-itenaries/calendar/calendar.component';
 import { AddItenaryPopupComponent } from './itenaries/add-itenary-popup/add-itenary-popup.component';
 import { GetListOfDatesPipe } from 'src/app/pipes/get-list-of-dates.pipe';
-import { PhaseOneIComponent } from './itenaries/list-of-itenaries/add-itenary/phase-one-i/phase-one-i.component';
 import { CurrencyConverterComponent } from './itenaries/list-of-itenaries/add-itenary/currency-converter/currency-converter.component';
 import { ConvertCurrencySelectComponent } from './itenaries/list-of-itenaries/add-itenary/currency-converter/convert-currency-select/convert-currency-select.component';
 import { ListOfCurrenciesComponent } from './itenaries/list-of-itenaries/add-itenary/currency-converter/list-of-currencies/list-of-currencies.component';
 import { ConvertConvertedCurrencyPipe } from 'src/app/pipes/convert-converted-currency.pipe';
 import { ListOfCurrenciesToArrPipe } from 'src/app/pipes/list-of-currencies-to-arr.pipe';
 import { OptionsForItenaryPopUpComponent } from './itenaries/list-of-itenaries/options-for-itenary-pop-up/options-for-itenary-pop-up.component';
+import { MobileOptionsComponent } from './dash-options/mobile-options/mobile-options.component';
+import { DesktopOptionsComponent } from './dash-options/desktop-options/desktop-options.component';
+import { ListOfItenaryItemsComponent } from './itenaries/list-of-itenaries/calendar/list-of-itenary-items/list-of-itenary-items.component';
+import { AddOrUpdateItenaryComponent } from './itenaries/list-of-itenaries/add-itenary/add-or-update-itenary/add-or-update-itenary.component';
+
+import { OptionsForHolidayPopUpComponent } from './holidays/options-for-holiday-pop-up/options-for-holiday-pop-up.component';
+import { GetDateFromStringPipe } from 'src/app/pipes/get-date-from-string.pipe';
 
 @NgModule({
   declarations: [
@@ -50,13 +56,18 @@ import { OptionsForItenaryPopUpComponent } from './itenaries/list-of-itenaries/o
     ListOfItenariesComponent,
     AddItenaryPopupComponent,
     GetListOfDatesPipe,
-    PhaseOneIComponent,
     CurrencyConverterComponent,
     ConvertCurrencySelectComponent,
     ListOfCurrenciesComponent,
     ListOfCurrenciesToArrPipe,
     ConvertConvertedCurrencyPipe,
     OptionsForItenaryPopUpComponent,
+    MobileOptionsComponent,
+    DesktopOptionsComponent,
+    ListOfItenaryItemsComponent,
+    AddOrUpdateItenaryComponent,
+    GetDateFromStringPipe,
+    OptionsForHolidayPopUpComponent,
   ],
   imports: [
     CommonModule,

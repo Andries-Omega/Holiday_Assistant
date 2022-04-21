@@ -13,9 +13,9 @@ import {
 import {
   getUserFromSelect,
   getUserHolidaysFromSelect,
-  initUsers,
   isObjectEmpty,
 } from '../CommonFunctions';
+import { initUsers } from '../ModelInitialisers';
 import { firstSignIn } from './signPurgatory';
 
 export const isSecondPhaseDone = (user: Users): boolean => {

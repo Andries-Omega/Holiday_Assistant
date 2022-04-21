@@ -1,17 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
-import { Itenaries } from 'src/app/models/Itenaries';
+import { Currency } from 'src/app/models/Currencies';
+import { Itenary } from 'src/app/models/Itenaries';
 
 @Component({
-  selector: 'app-phase-one-i',
-  templateUrl: './phase-one-i.component.html',
-  styleUrls: ['./phase-one-i.component.scss'],
+  selector: 'app-add-or-update-itenary',
+  templateUrl: './add-or-update-itenary.component.html',
+  styleUrls: ['./add-or-update-itenary.component.scss'],
 })
-export class PhaseOneIComponent implements OnInit {
+export class AddOrUpdateItenaryComponent implements OnInit {
   // For entire Form
   @Input() selectedDate!: Date | null;
-  @Input() itenaryDetails!: Itenaries;
+  @Input() itenaryDetails!: Itenary;
   @Input() listOfAvailableDates!: Date[];
   @Input() startDate!: string | null;
   @Input() addIntention!: string;
@@ -21,13 +20,13 @@ export class PhaseOneIComponent implements OnInit {
   @Input() fromCurrency!: Currency;
   @Input() toCurrency!: Currency;
   @Input() converstionCurrency!: number;
-  @Input() itenary!: Itenaries;
+  @Input() itenary!: Itenary;
 
   @Output() fromDropChange = new EventEmitter<boolean>();
   @Output() toDropChange = new EventEmitter<boolean>();
   @Output() converting = new EventEmitter<number>();
   @Output() selectedCurrency = new EventEmitter<Currency>();
-  @Output() addItenaryDetails = new EventEmitter<Itenaries>();
+  @Output() addItenaryDetails = new EventEmitter<Itenary>();
 
   itenaryDate: string = new Date().toDateString();
 

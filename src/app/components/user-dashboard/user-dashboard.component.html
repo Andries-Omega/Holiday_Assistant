@@ -1,8 +1,10 @@
-<div class="flex w-screen p-5">
-  <div class="w-1/5">
-    <app-dash-options></app-dash-options>
+<nz-spin [nzSpinning]="isLoading" nzSize="large" [nzTip]="tip">
+  <div class="flex flex-wrap w-screen p-5">
+    <div class="w-full md:w-1/5">
+      <app-dash-options></app-dash-options>
+    </div>
+    <div class="w-full md:w-3/4">
+      <router-outlet></router-outlet>
+    </div>
   </div>
-  <div class="w-3/4">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+</nz-spin>

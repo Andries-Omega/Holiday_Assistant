@@ -7,7 +7,7 @@ import {
   Firestore,
   getDocs,
 } from '@angular/fire/firestore';
-import { query, updateDoc, where } from '@firebase/firestore';
+import { deleteDoc, query, updateDoc, where } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 
 import { Holiday } from '../models/Itenaries';
@@ -59,5 +59,13 @@ export class ItenariesService {
     });
 
     return holidays;
+  }
+
+  async deleteHoliday(holidayID: string) {
+    return await deleteDoc(doc(this.fireStore, 'Holidays', holidayID)).then(
+      (r) => {
+        return r;
+      }
+    );
   }
 }

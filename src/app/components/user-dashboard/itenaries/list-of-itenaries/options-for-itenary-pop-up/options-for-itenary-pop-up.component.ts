@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Itenaries } from 'src/app/models/Itenaries';
+import { Itenary } from 'src/app/models/Itenaries';
 
 @Component({
   selector: 'app-options-for-itenary-pop-up',
@@ -8,7 +8,7 @@ import { Itenaries } from 'src/app/models/Itenaries';
 })
 export class OptionsForItenaryPopUpComponent {
   @Input() itenaryClicked!: boolean;
-  @Input() theItenary!: Itenaries;
+  @Input() theItenary!: Itenary;
 
   @Output() userUpdating = new EventEmitter<string>();
   handleClick(doing: string) {
