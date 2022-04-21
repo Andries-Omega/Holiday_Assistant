@@ -1,9 +1,8 @@
 <div
-  class="text-white border-2 border-dark-blue mr-20 mb-3 h-14 w-10 rounded-md font-mono duration-300"
+  class="text-white border-2 border-dark-blue mr-10 mb-3 h-14 w-10 rounded-md font-mono duration-300"
 >
-  <div
-    class="w-full h-6 bg-dark-blue rounded-b-md hover:scale-105 cursor-pointer"
-  >
-    <p class="text-sm text-center">On</p>
-  </div>
+  <app-switchstate
+    (newMode)="switchTheme($event)"
+    [currentMode]="(darkMode$ | async)!"
+  ></app-switchstate>
 </div>

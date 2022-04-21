@@ -1,0 +1,25 @@
+<nz-modal
+  [(nzVisible)]="askToAddItenary"
+  nzTitle="Add itinerary"
+  (nzOnCancel)="handleClick(false)"
+  (nzOnOk)="handleClick(true)"
+  nzOkText="Yes"
+  nzCancelText="No"
+>
+  <div *nzModalContent>
+    <p
+      *ngIf="!!selectedDate"
+      class="text-sm text-center font-mono text-dark-blue"
+    >
+      Would you like to add an itinerary for
+      {{ selectedDate | date: "fullDate" }} ?
+    </p>
+
+    <p
+      *ngIf="!!!selectedDate"
+      class="text-sm text-center font-mono text-dark-blue"
+    >
+      Would you like to add an itinerary?
+    </p>
+  </div>
+</nz-modal>

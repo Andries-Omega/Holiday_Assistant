@@ -1,5 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserCredential } from '@firebase/auth';
+import { Store } from '@ngrx/store';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { AppState } from 'src/app/store/global/global.reducer';
+import { signIn } from '../Algorithms/Authentication/authetication';
+
+enum FirebaseResponses {
+  InvalidPassword = 'Firebase: Error (auth/wrong-password).',
+  UserNotFound = 'Firebase: Error (auth/user-not-found).',
+}
 
 @Component({
   selector: 'app-signin',
@@ -9,8 +20,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SigninComponent implements OnInit {
   signInForm!: FormGroup;
   passwordVisible: boolean = false;
+  errorMessage!: string;
+  signingIn: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthServiceService,
+    private globalState: Store<AppState>,
+    private route: Router
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -26,9 +44,26 @@ export class SigninComponent implements OnInit {
     });
   }
   submitSignInReady(): boolean {
-    return this.signInForm.value.email && this.signInForm.value.password;
+    return (
+      this.signInForm.value.email &&
+      this.signInForm.value.password &&
+      !this.signingIn
+    );
   }
   signInUser() {
-    console.log(this.signInForm.value);
+    this.signingIn = true;
+    this.authService
+      .signInUser(this.signInForm.value.email, this.signInForm.value.password)
+      .then((result: UserCredential) => {
+        signIn(result.user.uid, this.globalState, this.route);
+      })
+      .catch((err: Error) => {
+        this.signingIn = false;
+        this.errorMessage =
+          err.message === FirebaseResponses.InvalidPassword ||
+          FirebaseResponses.UserNotFound
+            ? 'Invalid email or (and) password'
+            : 'Unable to sign in';
+      });
   }
 }

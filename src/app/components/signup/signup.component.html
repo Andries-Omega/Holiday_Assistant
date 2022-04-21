@@ -1,3 +1,11 @@
 <div class="md:flex hidden w-screen h-full justify-center py-20">
-  <app-signup-desktop></app-signup-desktop>
+  <app-signup-desktop
+    [signUpUserForm]="signUpUserForm"
+    [formValuesToState]="signUpUserForm.valueChanges | async"
+    [errorMessage]="errorMessage"
+    [readyToSingUp]="readyToSingUp"
+    [signingUp]="signingUp"
+    [passwordValid]="passwordValid"
+    (signUpUserData)="signUpUser($event)"
+  ></app-signup-desktop>
 </div>

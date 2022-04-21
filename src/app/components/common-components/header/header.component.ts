@@ -1,5 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterStateSnapshot } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Users } from 'src/app/models/Users';
+import { AppState } from 'src/app/store/global/global.reducer';
+import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
+import { isUserSignedIn } from '../../Algorithms/Authentication/authetication';
+import {
+  getUserFromSelect,
+  initUsers,
+  isObjectEmpty,
+} from '../../Algorithms/CommonFunctions';
 
 @Component({
   selector: 'app-header',
@@ -7,13 +17,34 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  constructor(private route: Router) {}
+  user: Users = initUsers();
 
-  ngOnInit(): void {}
-  navigateToSignUp() {
-    this.route.navigateByUrl('signup');
+  constructor(private router: Router, private globalStore: Store<AppState>) {}
+
+  ngOnInit(): void {
+    if (this.isUserLoggedIn()) {
+      this.user = getUserFromSelect(
+        this.globalStore.select(selectLoggedInUser)
+      );
+    }
   }
-  navigateToSignIn() {
-    this.route.navigateByUrl('signin');
+
+  navigateTo(url: string) {
+    this.router.navigateByUrl(url);
   }
+
+  isUserLoggedIn(): boolean {
+    const isSignedIn = isUserSignedIn(this.globalStore);
+    if (isObjectEmpty(this.user) && isSignedIn) {
+      this.user = getUserFromSelect(
+        this.globalStore.select(selectLoggedInUser)
+      );
+    }
+    return isSignedIn;
+  }
+
+  isNotDashboard() {
+    return !this.router.url.includes('/dashboard');
+  }
+  setUserLoggedIn() {}
 }

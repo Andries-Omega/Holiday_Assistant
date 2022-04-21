@@ -109,9 +109,22 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "Holiday_Assistant:build:production",
+            "firebaseProject": "the-holiday-assistant",
+            "firebaseHostingSite": "the-holiday-assistant"
+          }
         }
       }
     }
   },
-  "defaultProject": "Holiday_Assistant"
+  "defaultProject": "Holiday_Assistant",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

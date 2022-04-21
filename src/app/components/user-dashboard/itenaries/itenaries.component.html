@@ -1,0 +1,41 @@
+<div class="px-10">
+  <!-- If -->
+  <div *ngIf="holidays && holidays?.length">
+    <!-- 1. Show List Of Holiday Calendars (sorry for naming component wrong, but list of itenaries will be displayed withing a day of a calendar) -->
+    <app-list-of-itenaries
+      *ngIf="isAddingItenary | async as isAddingI"
+      [holidays]="holidays"
+      [isAddingItenary]="isAddingI.isAddingItenary"
+      [selectedDate]="isAddingI.selectedDate"
+      [addIntention]="addIntention"
+      [itenary]="itenary"
+      (addItenaryDetails)="handleAddItenaryDetails($event)"
+      (holidayUpdating)="focusedHoliday = $event"
+      (changeIsAdding)="updateIsAdding($event, null)"
+      (dateSelected)="handleDateSelected($event)"
+      (itenaryClicked)="handleItenaryClicked($event)"
+    ></app-list-of-itenaries>
+  </div>
+  <!-- else -->
+  <div *ngIf="!(holidays && holidays?.length)">
+    <h1 class="text-2xl text-center text-dark-blue mb-3">
+      You Have 0 Holidays, Please Add Holiday(Or Trip)
+    </h1>
+    <div class="h-[550px] flex justify-center w-full">
+      <img src="../../../../assets/images/empty.svg" />
+    </div>
+  </div>
+
+  <app-add-itenary-popup
+    *ngIf="isAddingItenary | async as isAddingI"
+    [askToAddItenary]="askToAddItenary"
+    [selectedDate]="isAddingI?.selectedDate!"
+    (addItenary)="handleAddItenaryFromPopup($event, isAddingI.selectedDate)"
+  ></app-add-itenary-popup>
+  <app-options-for-itenary-pop-up
+    (userUpdating)="handleUserUpdating($event)"
+    [itenaryClicked]="itenaryClicked"
+    [theItenary]="itenary"
+  >
+  </app-options-for-itenary-pop-up>
+</div>

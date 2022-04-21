@@ -1,4 +1,7 @@
-<nav class="bg-slate-100 flex justify-between px-20 sticky top-0">
+<nav
+  class="bg-slate-100 flex justify-between px-20 sticky top-0 shadow-2xl"
+  *ngIf="isNotDashboard()"
+>
   <div
     class="h-20 w-20 cursor-pointer hover:scale-105 duration-300"
     routerLink="/"
@@ -7,16 +10,26 @@
   </div>
   <div class="flex justify-around items-center">
     <button
+      *ngIf="!isUserLoggedIn()"
       class="mr-3 w-fit px-3 text-dark-blue h-10 rounded-md hover:text-black duration-300"
-      (click)="navigateToSignIn()"
+      (click)="navigateTo('signin')"
     >
       Sign In
     </button>
     <button
-      class="bg-dark-blue w-fit px-3 text-white h-10 rounded-md hover:scale-110 duration-300"
-      (click)="navigateToSignUp()"
+      *ngIf="!isUserLoggedIn()"
+      class="bg-dark-blue w-fit px-3 text-white h-10 rounded-md shadow-xl hover:scale-110 duration-300"
+      (click)="navigateTo('signup')"
     >
       Sign Up
+    </button>
+    <button
+      *ngIf="isUserLoggedIn()"
+      class="flex items-center justify-around w-fit px-5 h-10 rounded-md border-[1px] border-dark-blue shadow-xl hover:bg-dark-blue hover:text-white duration-500"
+      (click)="navigateTo('dashboard')"
+    >
+      {{ user.preferredName || user.name }}
+      <i class="fa-solid fa-caret-down float-right pl-3"></i>
     </button>
   </div>
 </nav>
