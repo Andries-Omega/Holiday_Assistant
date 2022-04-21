@@ -1,88 +1,82 @@
-
-  <nz-spin [nzSpinning]="signingIn" nzSize="large" nzTip="Signing In...">
-    <div
-      class="grid grid-cols-2 w-[950px] bg-slate-100 h-fit rounded-lg divide-x-[1px] divide-dark-blue hover:shadow-2xl duration-500"
-    >
-      <div class="flex items-center">
-        <h1 class="text-3xl text-center animate-bounce">
-          Don't Forget To Do Cool Visual Illustrations Here
-        </h1>
-      </div>
-      <div class="p-5">
-        <h1 class="text-dark-blue text-center text-xl">Sign In</h1>
-        <form
-          nz-form
-          class="py-7"
-          [formGroup]="signInForm"
-          (submit)="signInUser()"
-
-        >
-          <nz-form-item>
-            <nz-form-control nzSpan="30">
-              <p class="text-base">Email:</p>
-              <nz-input-group nzPrefixIcon="mail">
-                <input nz-input formControlName="email" type="email" />
-              </nz-input-group>
-              <p *ngIf="signInForm.get('email')?.invalid" class="text-red-500">
-                Email Is Required
-              </p>
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-control nzSpan="30">
-              <p class="text-base">Password:</p>
-              <nz-input-group nzPrefixIcon="lock">
-                <input
-                  nz-input
-                  formControlName="password"
-                  [type]="passwordVisible ? 'text' : 'password'"
-                />
-                <div
-                  role="button"
-                  class="flex items-center border-[1px] float-right px-2 py-1 text-dark-blue hover:text-blue-500 duration-300 bg-white"
-                  (click)="passwordVisible = !passwordVisible"
-                >
-                  <i
-                    [class]="
-                      passwordVisible
-                        ? 'fa-solid fa-eye'
-                        : 'fa-solid fa-eye-slash'
-                    "
-                  ></i>
-                </div>
-              </nz-input-group>
-              <p
-                *ngIf="signInForm.get('password')?.invalid"
-                class="text-red-500"
-              >
-                Password Is Required
-              </p>
-              <p *ngIf="errorMessage" class="text-red-500">
-                {{ errorMessage }}
-              </p>
-            </nz-form-control>
-          </nz-form-item>
-          <button
-            [disabled]="!submitSignInReady()"
-            type="submit"
-            class="{{
-              submitSignInReady()
-                ? 'bg-dark-blue hover:scale-105 duration-300'
-                : ' bg-blue-100 cursor-not-allowed'
-            }} text-white rounded-md w-full h-10 "
-          >
-            Sign In
-          </button>
-          <p class="text-sm text-center mt-2">
-            Don't have an account?
-            <span
-              class="text-dark-blue hover:text-blue-600 cursor-pointer duration-300"
-              routerLink="/signup"
-              >Sign Up</span
-            >
-          </p>
-        </form>
-      </div>
+<nz-spin [nzSpinning]="signingIn" nzSize="large" nzTip="Signing In...">
+  <div
+    class="grid grid-cols-2 w-[950px] bg-slate-100 h-fit rounded-lg divide-x-[1px] divide-dark-blue hover:shadow-2xl duration-500"
+  >
+    <div class="flex items-center">
+      <h1 class="text-3xl text-center animate-bounce">
+        Don't Forget To Do Cool Visual Illustrations Here
+      </h1>
     </div>
-  </nz-spin>
-</div>
+    <div class="p-5">
+      <h1 class="text-dark-blue text-center text-xl">Sign In</h1>
+      <form
+        nz-form
+        class="py-7"
+        [formGroup]="signInForm"
+        (submit)="signInUser()"
+      >
+        <nz-form-item>
+          <nz-form-control nzSpan="30">
+            <p class="text-base">Email:</p>
+            <nz-input-group nzPrefixIcon="mail">
+              <input nz-input formControlName="email" type="email" />
+            </nz-input-group>
+            <p *ngIf="signInForm.get('email')?.invalid" class="text-red-500">
+              Email Is Required
+            </p>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzSpan="30">
+            <p class="text-base">Password:</p>
+            <nz-input-group nzPrefixIcon="lock">
+              <input
+                nz-input
+                formControlName="password"
+                [type]="passwordVisible ? 'text' : 'password'"
+              />
+              <div
+                role="button"
+                class="flex items-center border-[1px] float-right px-2 py-1 text-dark-blue hover:text-blue-500 duration-300 bg-white"
+                (click)="passwordVisible = !passwordVisible"
+              >
+                <i
+                  [class]="
+                    passwordVisible
+                      ? 'fa-solid fa-eye'
+                      : 'fa-solid fa-eye-slash'
+                  "
+                ></i>
+              </div>
+            </nz-input-group>
+            <p *ngIf="signInForm.get('password')?.invalid" class="text-red-500">
+              Password Is Required
+            </p>
+            <p *ngIf="errorMessage" class="text-red-500">
+              {{ errorMessage }}
+            </p>
+          </nz-form-control>
+        </nz-form-item>
+        <button
+          [disabled]="!submitSignInReady()"
+          type="submit"
+          class="{{
+            submitSignInReady()
+              ? 'bg-dark-blue hover:scale-105 duration-300'
+              : ' bg-blue-100 cursor-not-allowed'
+          }} text-white rounded-md w-full h-10 "
+        >
+          Sign In
+        </button>
+        <p class="text-sm text-center mt-2">
+          Don't have an account?
+          <span
+            class="text-dark-blue hover:text-blue-600 cursor-pointer duration-300"
+            routerLink="/signup"
+            >Sign Up</span
+          >
+        </p>
+      </form>
+    </div>
+  </div>
+</nz-spin>
