@@ -9,6 +9,7 @@ import { setIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.ac
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
 import { selectIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.selectors';
 import {
+  forceHolidaysRefetch,
   getArrayWithout,
   getIndexOfItenary,
   getUserHolidaysFromSelect,
@@ -144,9 +145,7 @@ export class ItenariesComponent implements OnInit {
 
   updateHoliday(newHoliday: Holiday) {
     this.itenaryService.updateHoliday(newHoliday).then(() => {
-      //this will for phase three (fetching list of holidays) from dashboard to run
-      this.globalStore.dispatch(saveUserHolidays({ userHolidays: null }));
-      location.reload();
+      forceHolidaysRefetch(this.globalStore);
     });
   }
 }

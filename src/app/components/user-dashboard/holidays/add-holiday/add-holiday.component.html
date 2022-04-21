@@ -1,8 +1,4 @@
-<nz-spin
-  [nzSpinning]="isAddingHoliday"
-  nzSize="large"
-  nzTip="Adding Holiday..."
->
+<nz-spin [nzSpinning]="isAddingHoliday" nzSize="large" [nzTip]="tip">
   <div
     class="bg-slate-100 rounded-md w-full shadow-2xl h-fit py-14 grid place-items-center md:px-10"
   >
@@ -22,7 +18,7 @@
       [errorMessage]="errorMessage"
       [addingIntentions]="addingIntentions"
       (searchPlace)="searchForLocation($event)"
-      (locationConfirmed)="holidayDetails.holidayLocation = $event"
+      (locationConfirmed)="setHolidayLocation($event)"
     ></app-phase-two>
 
     <app-phase-three

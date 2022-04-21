@@ -1,9 +1,9 @@
-<div class="flex w-screen h-screen justify-center py-20">
+<div class="flex w-screen h-screen justify-center">
   <nz-spin
     [nzSpinning]="signingIn"
     nzSize="large"
     nzTip="Signing In..."
-    class="w-full overflow-x-hidden px-6"
+    class="md:w-fit w-full px-6 my-60"
   >
     <div
       class="grid md:grid-cols-2 md:w-[950px] w-full bg-slate-100 h-fit rounded-lg md:divide-x-[1px] divide-dark-blue hover:shadow-2xl duration-500"
@@ -13,7 +13,7 @@
           Don't Forget To Do Cool Visual Illustrations Here
         </h1>
       </div>
-      <div class="p-5">
+      <div class="p-5 w-full">
         <h1 class="text-dark-blue text-center text-xl">Sign In</h1>
         <form
           nz-form

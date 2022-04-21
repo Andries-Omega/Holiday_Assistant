@@ -1,6 +1,9 @@
+import { Store } from '@ngrx/store';
 import { map, Observable, Subscription } from 'rxjs';
 import { Holiday, Itenary } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
+import { saveUserHolidays } from 'src/app/store/global/global.actions';
+import { AppState } from 'src/app/store/global/global.reducer';
 import { initUsers } from './ModelInitialisers';
 
 /**
@@ -98,4 +101,10 @@ export const getIndexOfItenary = (
   itenaries: Itenary[]
 ): number => {
   return itenaries.findIndex((itenar) => itenar == itenary);
+};
+
+export const forceHolidaysRefetch = (globalStore: Store<AppState>) => {
+  //this will for phase three (fetching list of holidays) from dashboard to run
+  globalStore.dispatch(saveUserHolidays({ userHolidays: null }));
+  location.reload();
 };

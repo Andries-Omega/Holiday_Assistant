@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { fade } from 'src/app/Animations/dashboard-animations';
 import { Holiday } from 'src/app/models/Itenaries';
+import { ItenariesService } from 'src/app/services/itenaries.service';
 import { saveUserHolidays } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
 import {
@@ -11,6 +11,7 @@ import {
   selectUserHolidays,
 } from 'src/app/store/global/global.selectors';
 import {
+  forceHolidaysRefetch,
   getUserFromSelect,
   getUserHolidaysFromSelect,
 } from '../../Algorithms/CommonFunctions';
@@ -30,13 +31,17 @@ export class HolidaysComponent implements OnInit {
   addingIntentions: string = 'ADDING';
   selectedHoliday!: Holiday | null;
   isHolidayOptionsClicked: boolean = false;
+  processingDeleteOrUpdate: boolean = false;
 
   holidays = getUserHolidaysFromSelect(
     this.globalStore.select(selectUserHolidays)
   );
   user = getUserFromSelect(this.globalStore.select(selectLoggedInUser));
 
-  constructor(private router: Router, private globalStore: Store<AppState>) {}
+  constructor(
+    private globalStore: Store<AppState>,
+    private itenaryService: ItenariesService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -91,9 +96,15 @@ export class HolidaysComponent implements OnInit {
     if (doing === 'UPDATE') {
       this.addingIntentions = 'UPDATING';
       this.listToAdd();
-      console.log('Updating');
     } else {
-      console.log('Deleted');
+      if (this.selectedHoliday) {
+        this.processingDeleteOrUpdate = true;
+        this.itenaryService
+          .deleteHoliday(this.selectedHoliday?.holidayID)
+          .then(() => {
+            forceHolidaysRefetch(this.globalStore);
+          });
+      }
     }
     this.isHolidayOptionsClicked = false;
   }

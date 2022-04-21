@@ -1,8 +1,11 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { iif, Observable } from 'rxjs';
 import { fade, slide } from 'src/app/Animations/dashboard-animations';
-import { getUserFromSelect } from 'src/app/components/Algorithms/CommonFunctions';
+import {
+  forceHolidaysRefetch,
+  getUserFromSelect,
+} from 'src/app/components/Algorithms/CommonFunctions';
 import { Holiday, Location } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
 import { ItenariesService } from 'src/app/services/itenaries.service';
@@ -29,6 +32,7 @@ export class AddHolidayComponent implements OnInit {
   user: Users = getUserFromSelect(this.globalStore.select(selectLoggedInUser));
 
   isAddingHoliday: boolean = false;
+  tip: string = 'Adding Holiday...';
 
   holidayDetails: Holiday = {
     holidayID: '',
@@ -115,6 +119,12 @@ export class AddHolidayComponent implements OnInit {
     }
   }
 
+  setHolidayLocation(location: Location) {
+    this.holidayDetails.holidayLocation = location;
+    if (this.theHoliday) {
+      this.theHoliday = { ...this.theHoliday, holidayLocation: location };
+    }
+  }
   validateDate(sDates: Date[]): boolean {
     console.log(
       new Date(sDates[0].toDateString()) >= new Date(new Date().toDateString())
@@ -130,13 +140,48 @@ export class AddHolidayComponent implements OnInit {
 
   addHoliday() {
     this.phase = 2; // just ensure it doesn't exit 2.
-    this.isAddingHoliday = true;
-    // Add To Database
-    this.itenaryService
-      .addNewHoliday(this.holidayDetails)
-      .then((details: Holiday) => {
-        // send it to holidays so state can be updated with new holiday
-        this.newHoliday.emit(details);
-      });
+    if (this.addingIntentions === 'ADDING') {
+      this.isAddingHoliday = true;
+      // Add To Database
+      this.itenaryService
+        .addNewHoliday(this.holidayDetails)
+        .then((details: Holiday) => {
+          // send it to holidays so state can be updated with new holiday
+          this.newHoliday.emit(details);
+        });
+    } else {
+      //then update
+      this.isAddingHoliday = true;
+      this.tip = 'Updating Holiday...';
+      const updatedHoliday = this.createUpdatedObject();
+      if (updatedHoliday) {
+        this.itenaryService.updateHoliday(updatedHoliday).then(() => {
+          forceHolidaysRefetch(this.globalStore);
+        });
+      } else {
+        this.errorMessage = 'Failed To Update Holiday';
+        this.isAddingHoliday = false;
+      }
+    }
+  }
+
+  createUpdatedObject(): Holiday | null {
+    if (this.theHoliday) {
+      return {
+        ...this.theHoliday,
+        holidayName:
+          this.holidayDetails.holidayName || this.theHoliday?.holidayName,
+        holidayLocation:
+          this.holidayDetails.holidayLocation ||
+          this.theHoliday.holidayLocation,
+        holidayStartDate:
+          this.holidayDetails.holidayStartDate ||
+          this.theHoliday.holidayStartDate,
+        holidayEndDate:
+          this.holidayDetails.holidayEndDate || this.theHoliday.holidayEndDate,
+      };
+    } else {
+      return null;
+    }
   }
 }
