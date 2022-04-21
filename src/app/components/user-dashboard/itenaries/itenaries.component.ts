@@ -31,6 +31,7 @@ export class ItenariesComponent implements OnInit {
   itenaryClicked: boolean = false;
   itenary!: Itenary;
   addIntention: string = 'ADDING';
+  isMobileShowingItinararies: boolean = false;
   constructor(
     private globalStore: Store<AppState>,
     private dashStore: Store<DashState>,
@@ -49,10 +50,20 @@ export class ItenariesComponent implements OnInit {
       })
     );
   }
-
+  handleAddItenaryMobile(selectedDate: Date) {
+    this.isMobileShowingItinararies = false;
+    setTimeout(() => {
+      this.updateIsAdding(true, selectedDate);
+    }, 700);
+  }
   handleDateSelected(selectedDate: Date) {
     this.updateIsAdding(false, selectedDate);
     this.askToAddItenary = true;
+  }
+
+  handleDateSelectedMobile(selectedDate: Date) {
+    this.updateIsAdding(false, selectedDate);
+    this.isMobileShowingItinararies = true;
   }
 
   handleAddItenaryFromPopup(addItenary: boolean, selectedDate: Date | null) {
@@ -104,7 +115,14 @@ export class ItenariesComponent implements OnInit {
   handleUserUpdating(doing: string) {
     if (doing === 'UPDATE') {
       this.addIntention = doing;
-      this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
+      if (this.isMobileShowingItinararies) {
+        this.isMobileShowingItinararies = false;
+        setTimeout(() => {
+          this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
+        }, 700);
+      } else {
+        this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
+      }
     } else {
       const newHoliday = {
         ...this.focusedHoliday,

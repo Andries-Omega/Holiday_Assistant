@@ -1,18 +1,23 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { slide } from 'src/app/Animations/dashboard-animations';
 import { Itenary } from 'src/app/models/Itenaries';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
+  animations: [slide],
 })
 export class CalendarComponent implements OnInit {
   @Input() itenaries!: Itenary[];
   @Input() holidayStartDate!: string | null;
   @Input() holidayEndDate!: string | null;
   @Input() isAddingItenary!: boolean | null;
+
   @Output() dateSelected = new EventEmitter<Date>();
+  @Output() dateSelectedMobile = new EventEmitter<Date>();
   @Output() itenaryClicked = new EventEmitter<Itenary>();
+
   startDate: Date = new Date();
   endDate: Date = new Date();
   selectedDate: Date = new Date();
@@ -26,7 +31,7 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  handleDateSelected() {
+  handleDateSelectedDesktop() {
     if (this.timeOut) {
       clearTimeout(this.timeOut); //so you don't get double popoups
     }
@@ -38,6 +43,14 @@ export class CalendarComponent implements OnInit {
       this.timeOut = setTimeout(() => {
         this.dateSelected.emit(this.selectedDate);
       }, 1500);
+    }
+  }
+  handleDateSelectedMobile() {
+    if (
+      this.selectedDate >= this.startDate &&
+      this.selectedDate <= this.endDate
+    ) {
+      this.dateSelectedMobile.emit(this.selectedDate);
     }
   }
   identifyItenary(index: number, itenary: Itenary) {

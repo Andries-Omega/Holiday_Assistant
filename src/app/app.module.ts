@@ -33,8 +33,6 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import * as fromUserdashboard from './store/userdashboard/userdashboard.reducer';
 import { UserdashboardEffects } from './store/userdashboard/userdashboard.effects';
-import { ListOfCurrenciesToArrPipe } from './pipes/list-of-currencies-to-arr.pipe';
-import { ConvertConvertedCurrencyPipe } from './pipes/convert-converted-currency.pipe';
 
 registerLocaleData(en);
 

@@ -4,7 +4,7 @@
   nzTip="Adding Holiday..."
 >
   <div
-    class="bg-slate-100 rounded-md shadow-2xl h-fit py-14 pb-5 grid place-items-center px-10"
+    class="bg-slate-100 rounded-md w-full shadow-2xl h-fit py-14 grid place-items-center md:px-10"
   >
     <app-phase-one
       *ngIf="phase === 0"
@@ -31,7 +31,7 @@
         [disabled]="phase === 0"
         [@fade]="phase === 0 ? 'Out' : 'In'"
         (click)="previous()"
-        class="bg-white text-dark-blue border-[1px] border-dark-blue rounded-md w-32 h-fit px-5 py-2 float-right hover:shadow-2xl duration-150"
+        class="bg-white text-dark-blue border-[1px] border-dark-blue rounded-md w-fit h-fit px-2 md:px-5 py-2 ml-7 float-right hover:shadow-2xl duration-150"
       >
         Previous
       </button>
@@ -40,7 +40,7 @@
         (click)="next()"
         class="{{
           isNextDisabled() ? ' hover:shadow-2xl ' : ' opacity-50'
-        }} text-white rounded-md w-32 h-fit px-5 py-2 float-right bg-dark-blue  duration-150"
+        }} text-white rounded-md w-fit px-6 mr-7 md:px-10 h-fit py-2 float-right bg-dark-blue  duration-150"
       >
         {{ phase === 2 ? "Add" : "Next" }}
 

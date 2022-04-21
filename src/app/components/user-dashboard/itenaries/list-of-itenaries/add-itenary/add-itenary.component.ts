@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
+import { slide } from 'src/app/Animations/dashboard-animations';
 import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
 import { Holiday, Itenary } from 'src/app/models/Itenaries';
 import { CurrencyConvertService } from 'src/app/services/currency-convert.service';

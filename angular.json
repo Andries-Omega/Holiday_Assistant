@@ -33,11 +33,19 @@
                 "glob": "**/*",
                 "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
                 "output": "/assets/"
+              },
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/ionicons/dist/ionicons/svg",
+                "output": "./svg"
               }
             ],
             "styles": [
               "src/theme.less",
-              "src/styles.scss"
+              "src/styles.scss",
+              {
+                "input": "src/theme/variables.css"
+              }
             ],
             "scripts": []
           },
@@ -102,7 +110,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/ionicons/dist/ionicons/svg",
+                "output": "./svg"
+              }
             ],
             "styles": [
               "src/styles.scss"
@@ -118,6 +131,30 @@
             "browserTarget": "Holiday_Assistant:build:production",
             "firebaseProject": "the-holiday-assistant",
             "firebaseHostingSite": "the-holiday-assistant"
+          }
+        },
+        "ionic-cordova-serve": {
+          "builder": "@ionic/angular-toolkit:cordova-serve",
+          "options": {
+            "cordovaBuildTarget": "Holiday_Assistant:ionic-cordova-build",
+            "devServerTarget": "Holiday_Assistant:serve"
+          },
+          "configurations": {
+            "production": {
+              "cordovaBuildTarget": "Holiday_Assistant:ionic-cordova-build:production",
+              "devServerTarget": "Holiday_Assistant:serve:production"
+            }
+          }
+        },
+        "ionic-cordova-build": {
+          "builder": "@ionic/angular-toolkit:cordova-build",
+          "options": {
+            "browserTarget": "Holiday_Assistant:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "Holiday_Assistant:build:production"
+            }
           }
         }
       }

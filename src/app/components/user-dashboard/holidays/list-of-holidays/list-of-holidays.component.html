@@ -1,10 +1,12 @@
 <div
   *ngIf="holidays?.length"
-  class="shadow-sm rounded-md border-[1px] border-dark-blue"
+  class="shadow-2xl rounded-md border-[1px] border-dark-blue"
 >
   <h1 class="text-xl text-center text-dark-blue mt-2 mb-3">Your Holidays</h1>
   <hr class="border-dark-blue" />
-  <div class="grid grid-cols-3 gap-4 h-[735px] overflow-y-auto p-5">
+  <div
+    class="grid md:grid-cols-3 gap-4 h-[600px] md:h-[735px] overflow-y-auto p-5"
+  >
     <app-holiday
       *ngFor="let holiday of holidays; trackBy: identifyHoliday"
       [holiday]="holiday"

@@ -1,0 +1,69 @@
+<div class="w-full h-full bg-slate-100 rounded-xl py-7">
+  <h1 class="text-center text-sm mb-2">
+    <span class="text-dark-blue font-mono mr-1">{{
+      selectedDate | date: "fullDate"
+    }}</span>
+    Itinararies
+  </h1>
+  <!-- Add New Or Cancel -->
+  <div class="flex w-full justify-between px-5">
+    <button
+      class="w-fit h-fit px-4 py-1 bg-dark-blue text-sm text-white rounded-md"
+      (click)="handleAddItenary()"
+    >
+      <i class="fa-solid fa-plus mr-3"></i>
+      Add New
+    </button>
+    <button
+      class="w-fit h-fit px-4 py-1 bg-white text-sm rounded md text-red-500 border-[1px] border-red-500"
+      (click)="handlecloseViewOfI()"
+    >
+      <i class="fa-solid fa-ban mr-3"></i>
+      Cancel
+    </button>
+  </div>
+  <div class="h-full overflow-auto">
+    <div
+      *ngFor="let itenary of itenaries; trackBy: identifyItenary"
+      class="pt-1"
+    >
+      <div
+        *ngIf="
+          (itenary.itenaryDate | date: 'shortDate') ===
+          (selectedDate | date: 'shortDate')
+        "
+        class="text-dark-blue mx-1 py-1 px-2 flex flex-wrap w-full h-full items-center border-b-[1px] mt-2 hover:bg-white hover:scale-105 duration-500"
+        (click)="handleItenaryClicked(itenary)"
+      >
+        <div
+          class="w-[2%] h-14 {{
+            itenary.itenaryTag === 'Destination Event'
+              ? 'bg-green-400'
+              : 'bg-yellow-200'
+          }}"
+          [title]="itenary.itenaryTag"
+        ></div>
+        <div class="flex flex-wrap justify-between w-[97%]">
+          <p class="text-sm ml-2">{{ itenary.itenaryName }}</p>
+          <p class="text-[11px] mr-3 mb-2">
+            {{
+              itenary?.costEstimate
+                | currency
+                  : (itenary.costEstimateCurrency === "ZAR"
+                      ? "R "
+                      : itenary.costEstimateCurrency)
+            }}
+          </p>
+          <div class="flex w-full justify-between mx-2">
+            <p>{{ itenary.itenaryTag }}</p>
+            <p class="text-[11px]">
+              {{ getTime(itenary.itenaryStartTime) }}
+              <span class="mx-2"> ~ </span>
+              {{ getTime(itenary.itenaryEndTime) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
