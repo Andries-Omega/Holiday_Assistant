@@ -18,6 +18,8 @@ export class DashOptionsComponent implements OnInit {
     private globalStore: Store<AppState>
   ) {}
 
+  currentURL: string = this.router.url;
+
   ngOnInit(): void {}
 
   logOut() {
@@ -25,11 +27,8 @@ export class DashOptionsComponent implements OnInit {
     signOutt(this.router, this.globalStore);
   }
 
-  routeClicked(url: string) {
-    return this.router.url === url;
-  }
-
   routeTo(url: string) {
+    this.currentURL = url;
     this.router.navigateByUrl(url);
   }
 }

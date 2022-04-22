@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class PhaseOneComponent {
   @Input() holidayName!: string;
+  @Input() addingIntentions!: string;
   @Output() newHolidayName = new EventEmitter<string>();
 
   updateParentOnHolidayName() {

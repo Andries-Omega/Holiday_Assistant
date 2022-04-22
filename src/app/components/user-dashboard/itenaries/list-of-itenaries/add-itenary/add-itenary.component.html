@@ -1,9 +1,9 @@
-<div class="w-full h-[700px] bg-slate-100 rounded-xl">
-  <div *ngIf="isAddingItenary" class="py-10">
+<div class="w-full h-full md:h-[700px] bg-slate-100 rounded-xl">
+  <div *ngIf="isAddingItenary" class="md:py-10 py-3 h-full overflow-y-auto">
     <h1 class="text-center text-lg text-dark-blue">
       {{ addIntention === "ADDING" ? "Adding " : "Updating " }} An Itenary
     </h1>
-    <app-phase-one-i
+    <app-add-or-update-itenary
       [listOfAvailableDates]="holiday | getListOfDates"
       [itenaryDetails]="itenaryDetails"
       [startDate]="holiday.holidayStartDate"
@@ -24,6 +24,6 @@
       (converting)="convertCurrency($event)"
       (selectedCurrency)="handleCurrencySelect($event)"
       (addItenaryDetails)="handleAddItenaryDetails($event)"
-    ></app-phase-one-i>
+    ></app-add-or-update-itenary>
   </div>
 </div>

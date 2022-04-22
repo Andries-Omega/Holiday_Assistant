@@ -1,0 +1,55 @@
+<div class="fixed bottom-0 inset-x-0 flex rounded-t-xl h-fit z-40">
+  <div
+    class="flex justify-around items-center w-full bg-slate-100 py-2 shadow-2xl"
+  >
+    <button
+      (click)="handleRouteTo('/dashboard')"
+      class="border-[1px] border-dark-blue rounded-full duration-500 
+    {{
+        routerURL === '/dashboard'
+          ? 'shadow-2xl text-dark-blue scale-105 bg-white duration-500 h-12 w-12  text-lg cursor-default'
+          : 'hover:shadow-2xl bg-dark-blue text-white h-8 w-8'
+      }}
+  "
+    >
+      <i class="fa-solid fa-chart-line"></i>
+    </button>
+    <button
+      (click)="handleRouteTo('/dashboard/holidays')"
+      class="border-[1px] border-dark-blue rounded-full duration-500 
+  {{
+        routerURL === '/dashboard/holidays'
+          ? 'shadow-2xl text-dark-blue scale-105 bg-white duration-500 h-12 w-12  text-lg cursor-default'
+          : 'hover:shadow-2xl bg-dark-blue text-white h-8 w-8'
+      }}
+"
+    >
+      <i class="fa-solid fa-champagne-glasses"></i>
+    </button>
+    <button
+      (click)="handleRouteTo('/dashboard/itenaries')"
+      class="border-[1px] border-dark-blue rounded-full duration-500 
+    {{
+        routerURL === '/dashboard/itenaries'
+          ? 'shadow-2xl text-dark-blue scale-105 bg-white duration-500 h-12 w-12 text-lg cursor-default'
+          : 'hover:shadow-2xl bg-dark-blue text-white h-8 w-8'
+      }}
+    "
+    >
+      <i class="fa-solid fa-list-check"></i>
+    </button>
+
+    <button
+      (click)="handleRouteTo('/dashboard/update-profile')"
+      class="border-[1px] border-dark-blue rounded-full duration-500 
+    {{
+        routerURL === '/dashboard/update-profile'
+          ? 'shadow-2xl text-dark-blue scale-105 bg-white duration-500 h-12 w-12  text-lg cursor-default'
+          : 'hover:shadow-2xl bg-dark-blue text-white h-8 w-8'
+      }}
+        "
+    >
+      <i class="fa-solid fa-user"></i>
+    </button>
+  </div>
+</div>

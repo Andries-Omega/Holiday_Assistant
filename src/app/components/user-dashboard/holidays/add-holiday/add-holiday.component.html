@@ -1,29 +1,31 @@
-<nz-spin
-  [nzSpinning]="isAddingHoliday"
-  nzSize="large"
-  nzTip="Adding Holiday..."
->
+<nz-spin [nzSpinning]="isAddingHoliday" nzSize="large" [nzTip]="tip">
   <div
-    class="bg-slate-100 rounded-md shadow-2xl h-fit py-14 pb-5 grid place-items-center px-10"
+    class="bg-slate-100 rounded-md w-full shadow-2xl h-fit py-14 grid place-items-center md:px-10"
   >
     <app-phase-one
       *ngIf="phase === 0"
-      [holidayName]="holidayDetails.holidayName"
+      [addingIntentions]="addingIntentions"
+      [holidayName]="theHoliday?.holidayName || holidayDetails.holidayName"
       (newHolidayName)="holidayDetails.holidayName = $event"
     ></app-phase-one>
 
     <app-phase-two
       *ngIf="phase === 1"
-      [locationDetails]="locationDetails$ | async"
+      [locationDetails]="
+        theHoliday?.holidayLocation || (locationDetails$ | async)
+      "
       [isSearching]="isSearchingLocation"
       [errorMessage]="errorMessage"
+      [addingIntentions]="addingIntentions"
       (searchPlace)="searchForLocation($event)"
-      (locationConfirmed)="holidayDetails.holidayLocation = $event"
+      (locationConfirmed)="setHolidayLocation($event)"
     ></app-phase-two>
 
     <app-phase-three
       *ngIf="phase === 2"
       [errorMessage]="errorMessage"
+      [mobileStartDate]="theHoliday?.holidayStartDate | getDateFromString"
+      [mobileEndDate]="theHoliday?.holidayEndDate | getDateFromString"
       (selectedDate)="setSelectedDates($event)"
     ></app-phase-three>
     <div class="flex justify-between w-full mt-10">
@@ -31,7 +33,7 @@
         [disabled]="phase === 0"
         [@fade]="phase === 0 ? 'Out' : 'In'"
         (click)="previous()"
-        class="bg-white text-dark-blue border-[1px] border-dark-blue rounded-md w-32 h-fit px-5 py-2 float-right hover:shadow-2xl duration-150"
+        class="bg-white text-dark-blue border-[1px] border-dark-blue rounded-md w-fit h-fit px-2 md:px-5 py-2 ml-7 float-right hover:shadow-2xl duration-150"
       >
         Previous
       </button>
@@ -40,11 +42,22 @@
         (click)="next()"
         class="{{
           isNextDisabled() ? ' hover:shadow-2xl ' : ' opacity-50'
-        }} text-white rounded-md w-32 h-fit px-5 py-2 float-right bg-dark-blue  duration-150"
+        }} text-white rounded-md w-fit px-6 mr-7 md:px-10 h-fit py-2 float-right bg-dark-blue  duration-150"
       >
-        {{ phase === 2 ? "Add" : "Next" }}
+        {{
+          phase === 2
+            ? addingIntentions === "ADDING"
+              ? "Add"
+              : "Update"
+            : "Next"
+        }}
 
-        <i class="fa-solid fa-plus ml-3" *ngIf="phase === 2"></i>
+        <i
+          class="fa-solid {{
+            addingIntentions === 'ADDING' ? 'fa-plus' : 'fa-arrows-rotate'
+          }} ml-3"
+          *ngIf="phase === 2"
+        ></i>
       </button>
     </div>
     <div class="flex px-5 mt-7">

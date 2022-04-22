@@ -10,6 +10,8 @@ export class PhaseTwoComponent {
   placeName: string = '';
   @Input() errorMessage!: string;
   @Input() locationDetails!: Location | null;
+  @Input() addingIntentions!: string;
+
   @Output() searchPlace = new EventEmitter<string>();
   @Output() locationConfirmed = new EventEmitter<Location>();
 

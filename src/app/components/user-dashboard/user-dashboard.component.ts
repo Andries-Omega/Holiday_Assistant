@@ -19,7 +19,8 @@ import {
   isThirdPhaseDone,
 } from '../Algorithms/Authentication/authetication';
 import { secondSignIn } from '../Algorithms/Authentication/signPurgatory';
-import { getUserFromSelect, initUsers } from '../Algorithms/CommonFunctions';
+import { getUserFromSelect } from '../Algorithms/CommonFunctions';
+import { initUsers } from '../Algorithms/ModelInitialisers';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -29,6 +30,8 @@ import { getUserFromSelect, initUsers } from '../Algorithms/CommonFunctions';
 export class UserDashboardComponent implements OnInit {
   user$ = this.globalStore.select(selectLoggedInUser);
   user: Users = initUsers();
+  isLoading: boolean = false;
+  tip: string = 'Phase Two Sign In';
   constructor(
     private globalStore: Store<AppState>,
     private authService: AuthServiceService,
@@ -36,6 +39,7 @@ export class UserDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = false;
     this.user = getUserFromSelect(this.user$);
 
     if (!isSecondPhaseDone(this.user)) {
@@ -47,6 +51,7 @@ export class UserDashboardComponent implements OnInit {
     }
   }
   async phaseTwoSignIn() {
+    this.isLoading = true;
     await this.authService
       .getUserInfo(this.user.userID)
       .then((result: DocumentData | boolean) => {
@@ -63,6 +68,7 @@ export class UserDashboardComponent implements OnInit {
               loggedInUser: theUser,
             })
           );
+
           //refresh the component to go to phase three or complete sign in
           this.ngOnInit();
         } else {
@@ -73,6 +79,8 @@ export class UserDashboardComponent implements OnInit {
   }
 
   phaseThreeSignIn() {
+    this.isLoading = true;
+    this.tip = 'Adding User Holidays...';
     this.itenaryService.getAllHolidays(this.user.userID).then((holidays) => {
       this.globalStore.dispatch(saveUserHolidays({ userHolidays: holidays }));
       //refresh ;

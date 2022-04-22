@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { fade } from 'src/app/Animations/dashboard-animations';
@@ -12,6 +11,7 @@ import {
   selectUserHolidays,
 } from 'src/app/store/global/global.selectors';
 import {
+  forceHolidaysRefetch,
   getUserFromSelect,
   getUserHolidaysFromSelect,
 } from '../../Algorithms/CommonFunctions';
@@ -28,13 +28,20 @@ export class HolidaysComponent implements OnInit {
 
   isAddingHoliday: boolean = false;
   addingHoliday: boolean = false;
+  addingIntentions: string = 'ADDING';
+  selectedHoliday!: Holiday | null;
+  isHolidayOptionsClicked: boolean = false;
+  processingDeleteOrUpdate: boolean = false;
 
   holidays = getUserHolidaysFromSelect(
     this.globalStore.select(selectUserHolidays)
   );
   user = getUserFromSelect(this.globalStore.select(selectLoggedInUser));
 
-  constructor(private router: Router, private globalStore: Store<AppState>) {}
+  constructor(
+    private globalStore: Store<AppState>,
+    private itenaryService: ItenariesService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -68,6 +75,8 @@ export class HolidaysComponent implements OnInit {
       // waiting for the fade animation
       this.isAddingHoliday = false;
       this.fadeList = 'In'; // Initiate fade in animation
+      this.addingIntentions = 'ADDING'; // make sure the default intentions are to add a new one
+      this.selectedHoliday = null;
     }, 1000);
   }
 
@@ -77,5 +86,26 @@ export class HolidaysComponent implements OnInit {
       this.isAddingHoliday = true;
       this.fadeAdd = 'In';
     }, 1000);
+  }
+
+  handleHolidayClicked(holiday: Holiday) {
+    this.selectedHoliday = holiday;
+    this.isHolidayOptionsClicked = true;
+  }
+  handleUserHolidayOption(doing: string) {
+    if (doing === 'UPDATE') {
+      this.addingIntentions = 'UPDATING';
+      this.listToAdd();
+    } else {
+      if (this.selectedHoliday) {
+        this.processingDeleteOrUpdate = true;
+        this.itenaryService
+          .deleteHoliday(this.selectedHoliday?.holidayID)
+          .then(() => {
+            forceHolidaysRefetch(this.globalStore);
+          });
+      }
+    }
+    this.isHolidayOptionsClicked = false;
   }
 }

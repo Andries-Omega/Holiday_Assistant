@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { initUsers } from 'src/app/components/Algorithms/CommonFunctions';
+import { initUsers } from 'src/app/components/Algorithms/ModelInitialisers';
+
 import { Holiday } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
 import {

@@ -1,9 +1,13 @@
-<div class="w-full h-[700px] bg-slate-100 rounded-xl overflow-x-auto px-5">
+<div
+  class="w-full h-full md:h-[700px] shadow-2xl bg-slate-100 rounded-xl overflow-x-auto"
+>
+  <!-- Desktop-->
   <nz-calendar
     nzFullscreen="true"
     [(ngModel)]="selectedDate"
     *ngIf="!isAddingItenary"
-    (nzSelectChange)="handleDateSelected()"
+    (nzSelectChange)="handleDateSelectedDesktop()"
+    class="md:block hidden"
   >
     <ul *nzDateCell="let date">
       <!-- To Show Their Holiday Plans (hence the date they can add itenaries on)-->
@@ -36,6 +40,23 @@
             </div>
           </div>
         </div>
+      </ng-container>
+    </ul>
+  </nz-calendar>
+  <!-- Mobile -->
+  <nz-calendar
+    nzFullscreen="false"
+    [(ngModel)]="selectedDate"
+    *ngIf="!isAddingItenary"
+    (nzSelectChange)="handleDateSelectedMobile()"
+    class="md:hidden block w-full h-full"
+  >
+    <ul *nzDateCell="let date">
+      <ng-container
+        *ngIf="date >= startDate && date <= endDate"
+        class="bg-blue-400"
+      >
+        <div class="bg-dark-blue bg-opacity-80 w-full h-2"></div>
       </ng-container>
     </ul>
   </nz-calendar>

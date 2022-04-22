@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PhaseOneIComponent } from './phase-one-i.component';
+import { DesktopOptionsComponent } from './desktop-options.component';
 
-describe('PhaseOneIComponent', () => {
-  let component: PhaseOneIComponent;
-  let fixture: ComponentFixture<PhaseOneIComponent>;
+describe('DesktopOptionsComponent', () => {
+  let component: DesktopOptionsComponent;
+  let fixture: ComponentFixture<DesktopOptionsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PhaseOneIComponent ]
+      declarations: [ DesktopOptionsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PhaseOneIComponent);
+    fixture = TestBed.createComponent(DesktopOptionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Holiday, Itenaries } from 'src/app/models/Itenaries';
+import { Holiday, Itenary } from 'src/app/models/Itenaries';
 import { ItenariesService } from 'src/app/services/itenaries.service';
 import { saveUserHolidays } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
@@ -9,6 +9,7 @@ import { setIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.ac
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
 import { selectIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.selectors';
 import {
+  forceHolidaysRefetch,
   getArrayWithout,
   getIndexOfItenary,
   getUserHolidaysFromSelect,
@@ -29,8 +30,9 @@ export class ItenariesComponent implements OnInit {
 
   askToAddItenary: boolean = false;
   itenaryClicked: boolean = false;
-  itenary!: Itenaries;
+  itenary!: Itenary;
   addIntention: string = 'ADDING';
+  isMobileShowingItinararies: boolean = false;
   constructor(
     private globalStore: Store<AppState>,
     private dashStore: Store<DashState>,
@@ -49,10 +51,20 @@ export class ItenariesComponent implements OnInit {
       })
     );
   }
-
+  handleAddItenaryMobile(selectedDate: Date) {
+    this.isMobileShowingItinararies = false;
+    setTimeout(() => {
+      this.updateIsAdding(true, selectedDate);
+    }, 700);
+  }
   handleDateSelected(selectedDate: Date) {
     this.updateIsAdding(false, selectedDate);
     this.askToAddItenary = true;
+  }
+
+  handleDateSelectedMobile(selectedDate: Date) {
+    this.updateIsAdding(false, selectedDate);
+    this.isMobileShowingItinararies = true;
   }
 
   handleAddItenaryFromPopup(addItenary: boolean, selectedDate: Date | null) {
@@ -66,7 +78,7 @@ export class ItenariesComponent implements OnInit {
     this.askToAddItenary = false;
   }
 
-  handleAddItenaryDetails(itenaryDetails: Itenaries) {
+  handleAddItenaryDetails(itenaryDetails: Itenary) {
     if (this.focusedHoliday) {
       if (this.addIntention === 'ADDING') {
         const newHoliday = {
@@ -96,7 +108,7 @@ export class ItenariesComponent implements OnInit {
     }
   }
 
-  handleItenaryClicked(itenary: Itenaries) {
+  handleItenaryClicked(itenary: Itenary) {
     this.itenary = itenary;
     this.itenaryClicked = true;
   }
@@ -104,7 +116,14 @@ export class ItenariesComponent implements OnInit {
   handleUserUpdating(doing: string) {
     if (doing === 'UPDATE') {
       this.addIntention = doing;
-      this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
+      if (this.isMobileShowingItinararies) {
+        this.isMobileShowingItinararies = false;
+        setTimeout(() => {
+          this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
+        }, 700);
+      } else {
+        this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
+      }
     } else {
       const newHoliday = {
         ...this.focusedHoliday,
@@ -126,9 +145,7 @@ export class ItenariesComponent implements OnInit {
 
   updateHoliday(newHoliday: Holiday) {
     this.itenaryService.updateHoliday(newHoliday).then(() => {
-      //this will for phase three (fetching list of holidays) from dashboard to run
-      this.globalStore.dispatch(saveUserHolidays({ userHolidays: null }));
-      location.reload();
+      forceHolidaysRefetch(this.globalStore);
     });
   }
 }

@@ -7,7 +7,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class PhaseThreeComponent {
   date!: Date[];
-
+  @Input() mobileStartDate!: Date | null;
+  @Input() mobileEndDate!: Date | null;
   @Input() errorMessage!: string;
 
   @Output() selectedDate = new EventEmitter<Date[]>();
@@ -15,6 +16,13 @@ export class PhaseThreeComponent {
   onChange() {
     if (this.date[0] && this.date[1]) {
       this.selectedDate.emit(this.date);
+    }
+  }
+
+  onChangeMobile() {
+    if (this.mobileStartDate && this.mobileEndDate) {
+      this.date = [this.mobileStartDate, this.mobileEndDate];
+      this.onChange();
     }
   }
 }

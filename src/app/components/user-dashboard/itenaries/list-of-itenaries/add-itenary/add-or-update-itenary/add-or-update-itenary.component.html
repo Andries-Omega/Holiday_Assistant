@@ -1,21 +1,23 @@
-<div class="grid py-4 overflow-auto">
+<div class="grid md:py-4 py-4">
   <!--Date-->
-
   <div class="w-full justify-center flex">
-    <p *ngIf="this.selectedDate && this.itenaryDate" class="text-base">
+    <p
+      *ngIf="this.selectedDate && this.itenaryDate"
+      class="md:text-base text-[10px]"
+    >
       Please {{ addIntention === "ADDING" ? "Add" : "Update" }} An Itenary For
-      <span class="text-dark-blue font-mono">
+      <span class="text-dark-blue font-mono text-center">
         {{ selectedDate | date: "fullDate" }}
       </span>
       <button
         (click)="editDate()"
-        class="ml-2 text-dark-blue h-10 w-10 border-[1px] hover:border-dark-blue hover:bg-white hover:scale-105 hover:shadow-2xl duration-500 rounded-full"
+        class="md:ml-2 text-dark-blue md:h-10 md:w-10 w-5 h-5 border-[1px] hover:border-dark-blue hover:bg-white hover:scale-105 hover:shadow-2xl duration-500 rounded-full"
       >
         <i class="fa-solid fa-pencil"></i>
       </button>
     </p>
     <nz-input-group
-      class="w-full mx-80"
+      class="w-full md:mx-80 mx-4"
       *ngIf="!(this.selectedDate && this.itenaryDate)"
     >
       <p class="mb-1 text-center">Please Select Date For This Itenary:</p>
@@ -35,8 +37,8 @@
     </nz-input-group>
   </div>
   <!--Name And Tag-->
-  <div class="flex w-full justify-around px-10 mt-5">
-    <nz-input-group class="w-full mx-8">
+  <div class="flex flex-wrap w-full justify-around px-5 md:px-10 mt-5">
+    <nz-input-group class="w-full">
       <label class="mb-1">Name Of Itenarary:</label>
       <input
         nz-input
@@ -45,7 +47,7 @@
         placeholder="Name Of Itenary"
       />
     </nz-input-group>
-    <nz-input-group class="w-full mx-8">
+    <nz-input-group class="w-full">
       <label class="mb-1">Itenarary Tag</label>
       <nz-select
         [(ngModel)]="itenaryDetails.itenaryTag"
@@ -59,8 +61,8 @@
     </nz-input-group>
   </div>
   <!--Start Time And End Time-->
-  <div class="flex w-full justify-around px-10 mt-5">
-    <div class="w-full mx-8">
+  <div class="flex flex-wrap w-full justify-around md:px-10 px-5 mt-5">
+    <div class="w-full">
       <label class="mb-1">Start Time</label>
       <nz-time-picker
         [(ngModel)]="startTime"
@@ -70,7 +72,7 @@
         nzFormat="h:mm a"
       ></nz-time-picker>
     </div>
-    <nz-input-group class="w-full mx-8">
+    <nz-input-group class="w-full">
       <label class="mb-1">End Time</label>
       <nz-time-picker
         [(ngModel)]="endTime"
@@ -95,8 +97,8 @@
     (toDropChange)="handleToDropChange($event)"
     (selectedCurrency)="handleCurrencySelect($event)"
   ></app-currency-converter>
-  <!--Submit-->
-  <div class="w-full justify-center flex">
+
+  <div class="w-full justify-center flex px-5 mt-3">
     <button
       *ngIf="!(toDropOpen || fromDropOpen)"
       [disabled]="!readyToAddItenary()"
@@ -105,7 +107,7 @@
         readyToAddItenary()
           ? 'hover:scale-105 hover:bg-white hover:text-dark-blue hover:shadow-2xl'
           : 'opacity-50'
-      }} w-full mx-80 bg-dark-blue border-[1px] border-dark-blue h-10 text-white rounded-md  duration-500"
+      }} w-full md:mx-80 bg-dark-blue border-[1px] border-dark-blue h-10 text-white rounded-md  duration-500"
     >
       {{ addIntention === "ADDING" ? "Add " : "Update " }}Itenary
     </button>
