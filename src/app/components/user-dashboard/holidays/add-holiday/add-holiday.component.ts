@@ -155,9 +155,12 @@ export class AddHolidayComponent implements OnInit {
       this.tip = 'Updating Holiday...';
       const updatedHoliday = this.createUpdatedObject();
       if (updatedHoliday) {
-        this.itenaryService.updateHoliday(updatedHoliday).then(() => {
-          forceHolidaysRefetch(this.globalStore);
-        });
+        this.itenaryService
+          .updateHoliday(updatedHoliday)
+          .then(() => {
+            forceHolidaysRefetch(this.globalStore);
+          })
+          .catch(() => (this.isAddingHoliday = false));
       } else {
         this.errorMessage = 'Failed To Update Holiday';
         this.isAddingHoliday = false;

@@ -30,7 +30,7 @@
               ? 'bg-dark-blue text-white py-1'
               : 'bg-white text-dark-blue'
           }}"
-          (click)="handleChangeIsAdding(true, holiday.holidayID)"
+          (click)="handleChangeIsAdding(true, holiday)"
         >
           <i class="fa-solid fa-plus"></i>
         </button>
@@ -40,7 +40,7 @@
               ? 'bg-white text-dark-blue'
               : 'bg-dark-blue text-white py-1 '
           }}"
-          (click)="handleChangeIsAdding(false, holiday.holidayID)"
+          (click)="handleChangeIsAdding(false, holiday)"
         >
           <i class="fa-solid fa-calendar-days"></i>
         </button>
@@ -49,12 +49,14 @@
     <div>
       <button
         class="border-[1px] border-dark-blue bg-white shadow-2xl md:bg-dark-blue text-dark-blue md:text-white w-fit h-fit md:py-3 md:px-8 px-3 py-3 flex justify-center items-center md:rounded-md rounded-full mb-3 hover:bg-white hover:text-dark-blue hover:shadow-2xl hover:scale-105 duration-500"
+        (click)="handleUpdateHoliday(holiday)"
       >
         <i class="fa-solid fa-pencil md:mr-2"></i>
         <span class="md:block hidden">Edit Holiday</span>
       </button>
       <button
         class="border-[1px] border-red-500 bg-white shadow-2xl md:bg-white text-red-500 w-fit h-fit md:py-3 md:px-6 px-3 py-3 flex justify-center items-center md:rounded-md rounded-full mb-2 hover:bg-red-500 hover:text-white hover:shadow-2xl hover:scale-105 duration-500"
+        (click)="handleDeleteHoliday(holiday)"
       >
         <i class="fa-solid fa-trash md:mr-2"></i>
         <span class="md:block hidden">Delete Holiday</span>
@@ -69,7 +71,7 @@
     [selectedDate]="selectedDate"
     [addIntention]="addIntention"
     [itenary]="itenary"
-    (addItenaryDetails)="handleAddItenaryDetails($event, holiday.holidayID)"
+    (addItenaryDetails)="handleAddItenaryDetails($event, holiday)"
     class="{{
       isAddingItenary
         ? 'md:w-[90%] shadow-2xl scale-105 duration-1000'
@@ -88,9 +90,9 @@
     [holidayStartDate]="holiday.holidayStartDate | date"
     [holidayEndDate]="holiday.holidayEndDate | date"
     [isAddingItenary]="isAddingItenary"
-    (dateSelected)="handleDateSelected($event, holiday.holidayID)"
-    (dateSelectedMobile)="handleDateSelectedMobile($event, holiday.holidayID)"
-    (itenaryClicked)="handleItenaryClicked($event, holiday.holidayID)"
+    (dateSelected)="handleDateSelected($event, holiday)"
+    (dateSelectedMobile)="handleDateSelectedMobile($event, holiday)"
+    (itenaryClicked)="handleItenaryClicked($event, holiday)"
     class="{{
       isAddingItenary
         ? 'md:w-[10%]'
@@ -115,7 +117,7 @@
     [itenaries]="holiday.holidayItenaries"
     [selectedDate]="selectedDate"
     (closeViewOfItenararies)="handleCloseItinarariesMobile($event)"
-    (itenaryClicked)="handleItenaryClicked($event, holiday.holidayID)"
+    (itenaryClicked)="handleItenaryClicked($event, holiday)"
     (addNewItenary)="handleAddNewItenaryMobile($event)"
     class="w-full"
     [@slide]="

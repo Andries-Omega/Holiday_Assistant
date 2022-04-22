@@ -10,8 +10,11 @@ import {
   selectLoggedInUser,
   selectUserHolidays,
 } from 'src/app/store/global/global.selectors';
+import { setHolidayFromItenary } from 'src/app/store/userdashboard/userdashboard.actions';
+import { selectIsUpdatingHolidayFromI } from 'src/app/store/userdashboard/userdashboard.selectors';
 import {
   forceHolidaysRefetch,
+  getIsUpdatingHolidayFromItenaryFromSelect,
   getUserFromSelect,
   getUserHolidaysFromSelect,
 } from '../../Algorithms/CommonFunctions';
@@ -37,13 +40,26 @@ export class HolidaysComponent implements OnInit {
     this.globalStore.select(selectUserHolidays)
   );
   user = getUserFromSelect(this.globalStore.select(selectLoggedInUser));
-
+  isUpdatingHolidayFromI: Holiday | null = null;
   constructor(
     private globalStore: Store<AppState>,
     private itenaryService: ItenariesService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isUpdatingHolidayFromI = getIsUpdatingHolidayFromItenaryFromSelect(
+      this.globalStore.select(selectIsUpdatingHolidayFromI)
+    );
+    if (this.isUpdatingHolidayFromI) {
+      //then initiate update
+      this.selectedHoliday = this.isUpdatingHolidayFromI;
+      this.initiateUpdate();
+      //and reset to avoid always being send to adding
+      this.globalStore.dispatch(
+        setHolidayFromItenary({ isUpdatingFromItenaryRoute: null })
+      );
+    }
+  }
 
   /**
    * Doing this so i can have smooth transition between showing list of holidays and adding new holiday
@@ -94,17 +110,26 @@ export class HolidaysComponent implements OnInit {
   }
   handleUserHolidayOption(doing: string) {
     if (doing === 'UPDATE') {
-      this.addingIntentions = 'UPDATING';
-      this.listToAdd();
+      this.initiateUpdate();
     } else {
-      if (this.selectedHoliday) {
-        this.processingDeleteOrUpdate = true;
-        this.itenaryService
-          .deleteHoliday(this.selectedHoliday?.holidayID)
-          .then(() => {
-            forceHolidaysRefetch(this.globalStore);
-          });
-      }
+      this.deleteHoliday();
+    }
+  }
+
+  initiateUpdate() {
+    this.addingIntentions = 'UPDATING';
+    this.listToAdd();
+  }
+
+  deleteHoliday() {
+    if (this.selectedHoliday) {
+      this.processingDeleteOrUpdate = true;
+      this.itenaryService
+        .deleteHoliday(this.selectedHoliday?.holidayID)
+        .then(() => {
+          forceHolidaysRefetch(this.globalStore);
+        })
+        .catch(() => (this.processingDeleteOrUpdate = false));
     }
     this.isHolidayOptionsClicked = false;
   }

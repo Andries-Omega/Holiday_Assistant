@@ -25,3 +25,8 @@ export const selectCurrenciesAPIStatus = createSelector(
   selectUserdashboardState,
   (state: fromUserdashboard.DashState) => state.currencyAPIRateExceeded
 );
+
+export const selectIsUpdatingHolidayFromI = createSelector(
+  selectUserdashboardState,
+  (state: fromUserdashboard.DashState) => state.isUpdatingFromItenaryRoute
+);

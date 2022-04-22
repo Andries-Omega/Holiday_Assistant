@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Holiday, Itenary } from 'src/app/models/Itenaries';
 import { ItenariesService } from 'src/app/services/itenaries.service';
 import { saveUserHolidays } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectUserHolidays } from 'src/app/store/global/global.selectors';
-import { setIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.actions';
+import {
+  setHolidayFromItenary,
+  setIsAddingItenary,
+} from 'src/app/store/userdashboard/userdashboard.actions';
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
 import { selectIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.selectors';
 import {
@@ -33,10 +38,15 @@ export class ItenariesComponent implements OnInit {
   itenary!: Itenary;
   addIntention: string = 'ADDING';
   isMobileShowingItinararies: boolean = false;
+
+  isProcessing: boolean = false;
+
   constructor(
     private globalStore: Store<AppState>,
     private dashStore: Store<DashState>,
-    private itenaryService: ItenariesService
+    private itenaryService: ItenariesService,
+    private confirmDelete: NzModalService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -125,27 +135,88 @@ export class ItenariesComponent implements OnInit {
         this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
       }
     } else {
-      const newHoliday = {
-        ...this.focusedHoliday,
-        holidayItenaries: [
-          ...getArrayWithout(
-            getIndexOfItenary(
-              this.itenary,
-              this.focusedHoliday.holidayItenaries
-            ),
-            this.itenary,
-            this.focusedHoliday
-          ),
-        ],
-      };
-      this.updateHoliday(newHoliday);
+      this.showItinararyDeleteConfirm();
     }
     this.itenaryClicked = false;
   }
 
   updateHoliday(newHoliday: Holiday) {
-    this.itenaryService.updateHoliday(newHoliday).then(() => {
-      forceHolidaysRefetch(this.globalStore);
+    this.isProcessing = true;
+    this.itenaryService
+      .updateHoliday(newHoliday)
+      .then(() => {
+        this.isProcessing = false;
+        forceHolidaysRefetch(this.globalStore);
+      })
+      .catch(() => (this.isProcessing = false));
+  }
+
+  handleUpdateHoliday(holiday: Holiday) {
+    this.globalStore.dispatch(
+      setHolidayFromItenary({ isUpdatingFromItenaryRoute: holiday })
+    );
+    // We don't do full holiday update in here
+    this.router.navigateByUrl('/dashboard/holidays');
+  }
+
+  handleDeleteHoliday(holiday: Holiday) {
+    this.focusedHoliday = holiday;
+    this.showHolidayDeleteConfirm(holiday);
+  }
+
+  showHolidayDeleteConfirm(holiday: Holiday) {
+    this.confirmDelete.confirm({
+      nzTitle: 'Are you sure delete the holiday => ' + holiday.holidayName,
+      nzContent: '<b style="color: red;">You will not get it back</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteHoliday(holiday),
+      nzCancelText: 'No',
+      nzOnCancel: () => this.confirmDelete.closeAll(),
     });
+  }
+
+  showItinararyDeleteConfirm() {
+    this.confirmDelete.confirm({
+      nzTitle:
+        'Are you sure delete the itinarary => ' + this.itenary.itenaryName,
+      nzContent: '<b style="color: red;">You will not get it back</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteItenarary(),
+      nzCancelText: 'No',
+      nzOnCancel: () => this.confirmDelete.closeAll(),
+    });
+  }
+  deleteHoliday(holiday: Holiday) {
+    this.isProcessing = true;
+    this.itenaryService
+      .deleteHoliday(holiday.holidayID)
+      .then(() => {
+        this.isProcessing = false;
+        forceHolidaysRefetch(this.globalStore);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(holiday.holidayID);
+        this.isProcessing = false;
+      });
+  }
+
+  deleteItenarary() {
+    this.isProcessing = true;
+    const newHoliday = {
+      ...this.focusedHoliday,
+      holidayItenaries: [
+        ...getArrayWithout(
+          getIndexOfItenary(this.itenary, this.focusedHoliday.holidayItenaries),
+          this.itenary,
+          this.focusedHoliday
+        ),
+      ],
+    };
+    this.updateHoliday(newHoliday);
   }
 }

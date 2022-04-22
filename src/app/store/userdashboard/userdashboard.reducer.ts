@@ -4,6 +4,7 @@ import { Holiday, AddItenarary } from 'src/app/models/Itenaries';
 import {
   setCurrencies,
   setCurrencyAPIStatus,
+  setHolidayFromItenary,
   setHolidayOfItenary,
   setIsAddingItenary,
 } from './userdashboard.actions';
@@ -15,12 +16,14 @@ export interface DashState {
   holidayOfCurrentItenary: Holiday | null;
   currencies: ListOfCurrencies;
   currencyAPIRateExceeded: boolean;
+  isUpdatingFromItenaryRoute: Holiday | null;
 }
 
 export const initialState: DashState = {
   isAddingItenary: { isAddingItenary: false, selectedDate: null },
   holidayOfCurrentItenary: null,
   currencies: {} as ListOfCurrencies,
+  isUpdatingFromItenaryRoute: null,
   currencyAPIRateExceeded: false,
 };
 
@@ -42,5 +45,9 @@ export const reducer = createReducer(
   on(setCurrencyAPIStatus, (state, { currencyAPIRateExceeded }) => ({
     ...state,
     currencyAPIRateExceeded,
+  })),
+  on(setHolidayFromItenary, (state, { isUpdatingFromItenaryRoute }) => ({
+    ...state,
+    isUpdatingFromItenaryRoute,
   }))
 );

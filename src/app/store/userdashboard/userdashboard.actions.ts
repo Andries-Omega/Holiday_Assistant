@@ -21,3 +21,9 @@ export const setHolidayOfItenary = createAction(
   '[Userdashboard] setting holiday of the current itenary being added',
   props<{ holidayOfCurrentItenary: Holiday | null }>()
 );
+
+// incase they click update holiday from itinaries (when i designed it on figma, i thought functionally it will be easy 😢)
+export const setHolidayFromItenary = createAction(
+  '[Userdashboard] set Holiday from itinarary',
+  props<{ isUpdatingFromItenaryRoute: Holiday | null }>()
+);

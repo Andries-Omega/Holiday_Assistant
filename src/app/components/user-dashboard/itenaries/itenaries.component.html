@@ -1,44 +1,48 @@
-<div class="md:px-10">
-  <!-- If -->
-  <div *ngIf="holidays && holidays?.length">
-    <app-list-of-itenaries
-      *ngIf="isAddingItenary | async as isAddingI"
-      [holidays]="holidays"
-      [isAddingItenary]="isAddingI.isAddingItenary"
-      [selectedDate]="isAddingI.selectedDate"
-      [addIntention]="addIntention"
-      [itenary]="itenary"
-      [isMobileShowingItinararies]="isMobileShowingItinararies"
-      (addItenaryDetails)="handleAddItenaryDetails($event)"
-      (holidayUpdating)="focusedHoliday = $event"
-      (changeIsAdding)="updateIsAdding($event, null)"
-      (dateSelected)="handleDateSelected($event)"
-      (dateSelectedMobile)="handleDateSelectedMobile($event)"
-      (itenaryClicked)="handleItenaryClicked($event)"
-      (closeViewOfItenararies)="isMobileShowingItinararies = $event"
-      (addNewItenary)="handleAddItenaryMobile($event)"
-    ></app-list-of-itenaries>
-  </div>
-  <!-- else -->
-  <div *ngIf="!(holidays && holidays?.length)">
-    <h1 class="text-2xl text-center text-dark-blue mb-3">
-      You Have 0 Holidays, Please Add Holiday(Or Trip)
-    </h1>
-    <div class="h-[550px] flex justify-center w-full">
-      <img src="../../../../assets/images/empty.svg" />
+<nz-spin nzSize="large" nzTip="Processing..." [nzSpinning]="isProcessing">
+  <div class="md:px-10">
+    <!-- If -->
+    <div *ngIf="holidays && holidays?.length">
+      <app-list-of-itenaries
+        *ngIf="isAddingItenary | async as isAddingI"
+        [holidays]="holidays"
+        [isAddingItenary]="isAddingI.isAddingItenary"
+        [selectedDate]="isAddingI.selectedDate"
+        [addIntention]="addIntention"
+        [itenary]="itenary"
+        [isMobileShowingItinararies]="isMobileShowingItinararies"
+        (deleteHoliday)="handleDeleteHoliday($event)"
+        (updateHoliday)="handleUpdateHoliday($event)"
+        (addItenaryDetails)="handleAddItenaryDetails($event)"
+        (holidayUpdating)="focusedHoliday = $event"
+        (changeIsAdding)="updateIsAdding($event, null)"
+        (dateSelected)="handleDateSelected($event)"
+        (dateSelectedMobile)="handleDateSelectedMobile($event)"
+        (itenaryClicked)="handleItenaryClicked($event)"
+        (closeViewOfItenararies)="isMobileShowingItinararies = $event"
+        (addNewItenary)="handleAddItenaryMobile($event)"
+      ></app-list-of-itenaries>
     </div>
-  </div>
+    <!-- else -->
+    <div *ngIf="!(holidays && holidays?.length)">
+      <h1 class="text-2xl text-center text-dark-blue mb-3">
+        You Have 0 Holidays, Please Add Holiday(Or Trip)
+      </h1>
+      <div class="h-[550px] flex justify-center w-full">
+        <img src="../../../../assets/images/empty.svg" />
+      </div>
+    </div>
 
-  <app-add-itenary-popup
-    *ngIf="isAddingItenary | async as isAddingI"
-    [askToAddItenary]="askToAddItenary"
-    [selectedDate]="isAddingI?.selectedDate!"
-    (addItenary)="handleAddItenaryFromPopup($event, isAddingI.selectedDate)"
-  ></app-add-itenary-popup>
-  <app-options-for-itenary-pop-up
-    (userUpdating)="handleUserUpdating($event)"
-    [itenaryClicked]="itenaryClicked"
-    [theItenary]="itenary"
-  >
-  </app-options-for-itenary-pop-up>
-</div>
+    <app-add-itenary-popup
+      *ngIf="isAddingItenary | async as isAddingI"
+      [askToAddItenary]="askToAddItenary"
+      [selectedDate]="isAddingI?.selectedDate!"
+      (addItenary)="handleAddItenaryFromPopup($event, isAddingI.selectedDate)"
+    ></app-add-itenary-popup>
+    <app-options-for-itenary-pop-up
+      (userUpdating)="handleUserUpdating($event)"
+      [itenaryClicked]="itenaryClicked"
+      [theItenary]="itenary"
+    >
+    </app-options-for-itenary-pop-up>
+  </div>
+</nz-spin>

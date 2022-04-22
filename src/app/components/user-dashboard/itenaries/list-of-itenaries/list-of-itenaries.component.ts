@@ -22,44 +22,53 @@ export class ListOfItenariesComponent {
   @Output() dateSelectedMobile = new EventEmitter<Date>();
   @Output() addItenaryDetails = new EventEmitter<Itenary>();
   @Output() holidayUpdating = new EventEmitter<Holiday>();
+  @Output() updateHoliday = new EventEmitter<Holiday>();
+  @Output() deleteHoliday = new EventEmitter<Holiday>();
   @Output() itenaryClicked = new EventEmitter<Itenary>();
   @Output() closeViewOfItenararies = new EventEmitter<boolean>();
   @Output() addNewItenary = new EventEmitter<Date>();
 
-  handleChangeIsAdding(isAdding: boolean, holidayID: string) {
+  handleChangeIsAdding(isAdding: boolean, holiday: Holiday) {
     this.changeIsAdding.emit(isAdding);
     if (this.holidays) {
-      this.holidayUpdating.emit(getHolidayById(holidayID, this.holidays));
+      this.holidayUpdating.emit(holiday);
     }
   }
 
-  handleDateSelected(selectedDate: Date, holidayID: string) {
+  handleDateSelected(selectedDate: Date, holiday: Holiday) {
     this.dateSelected.emit(selectedDate);
     if (this.holidays) {
-      this.holidayUpdating.emit(getHolidayById(holidayID, this.holidays));
+      this.holidayUpdating.emit(holiday);
     }
   }
 
-  handleDateSelectedMobile(selectedDate: Date, holidayID: string) {
+  handleDateSelectedMobile(selectedDate: Date, holiday: Holiday) {
     this.dateSelectedMobile.emit(selectedDate);
     if (this.holidays) {
-      this.holidayUpdating.emit(getHolidayById(holidayID, this.holidays));
+      this.holidayUpdating.emit(holiday);
     }
   }
-  handleAddItenaryDetails(itenaryDetails: Itenary, holidayID: string) {
+  handleAddItenaryDetails(itenaryDetails: Itenary, holiday: Holiday) {
     this.addItenaryDetails.emit(itenaryDetails);
     if (this.holidays) {
-      this.holidayUpdating.emit(getHolidayById(holidayID, this.holidays));
+      this.holidayUpdating.emit(holiday);
     }
   }
 
-  handleItenaryClicked(itenary: Itenary, holidayID: string) {
+  handleItenaryClicked(itenary: Itenary, holiday: Holiday) {
     this.itenaryClicked.emit(itenary);
     if (this.holidays) {
-      this.holidayUpdating.emit(getHolidayById(holidayID, this.holidays));
+      this.holidayUpdating.emit(holiday);
     }
   }
 
+  handleUpdateHoliday(holiday: Holiday) {
+    this.updateHoliday.emit(holiday);
+  }
+
+  handleDeleteHoliday(holiday: Holiday) {
+    this.deleteHoliday.emit(holiday);
+  }
   handleCloseItinarariesMobile(open: boolean) {
     this.closeViewOfItenararies.emit(open);
   }

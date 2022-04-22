@@ -58,9 +58,26 @@ export const getIsAddingItenaryFromSelect = (
       })
     )
     .subscribe();
-  //and unsubacribe
+  //and unsubscribe
   unSubscribe(theIsAddingSubscription);
   return isAdding;
+};
+
+export const getIsUpdatingHolidayFromItenaryFromSelect = (
+  isUpdatingHolidayFromSelect$: Observable<Holiday | null>
+): Holiday | null => {
+  let isUpdatingHolidayFromSelect: Holiday | null = null;
+  const theUpdateHolidaySub = isUpdatingHolidayFromSelect$
+    .pipe(
+      map((updateHoliday) => {
+        isUpdatingHolidayFromSelect = updateHoliday;
+      })
+    )
+    .subscribe();
+  //unsubscribe
+  unSubscribe(theUpdateHolidaySub);
+
+  return isUpdatingHolidayFromSelect;
 };
 export const unSubscribe = (subscription: Subscription) => {
   subscription.unsubscribe();

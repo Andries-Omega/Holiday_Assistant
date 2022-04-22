@@ -54,8 +54,8 @@ export class ItenariesService {
     let holidays: Holiday[] = [];
 
     qSnapShot.forEach((doc) => {
-      console.log(doc.id);
-      holidays.push(doc.data() as Holiday);
+      let holiday: Holiday = { ...(doc.data() as Holiday), holidayID: doc.id };
+      holidays.push(holiday);
     });
 
     return holidays;
