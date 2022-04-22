@@ -5,7 +5,7 @@ import { Currency, ListOfCurrencies } from '../models/Currencies';
   name: 'listOfCurrenciesToArr',
 })
 export class ListOfCurrenciesToArrPipe implements PipeTransform {
-  transform(lOfCurrencies: ListOfCurrencies): Currency[] {
+  transform(lOfCurrencies: ListOfCurrencies | null): Currency[] {
     return lOfCurrencies?.data ? Object?.values(lOfCurrencies?.data) : [];
   }
 }

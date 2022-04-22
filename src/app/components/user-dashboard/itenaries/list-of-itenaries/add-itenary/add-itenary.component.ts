@@ -1,16 +1,20 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { slide } from 'src/app/Animations/dashboard-animations';
 import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
 import { Holiday, Itenary } from 'src/app/models/Itenaries';
 import { CurrencyConvertService } from 'src/app/services/currency-convert.service';
+import { getCurrencies } from 'src/app/store/userdashboard/userdashboard.actions';
+import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
+import { selectCurrencies } from 'src/app/store/userdashboard/userdashboard.selectors';
 
 @Component({
   selector: 'app-add-itenary',
   templateUrl: './add-itenary.component.html',
   styleUrls: ['./add-itenary.component.scss'],
 })
-export class AddItenaryComponent {
+export class AddItenaryComponent implements OnInit {
   @Input() isAddingItenary!: boolean | null;
   @Input() selectedDate!: Date | null;
   @Input() holiday!: Holiday;
@@ -24,9 +28,20 @@ export class AddItenaryComponent {
   fromCurrency: Currency = { code: 'USD', value: 1 };
   toCurrency: Currency = { code: 'ZAR', value: 14 };
 
+  listOfCurrencies$!: Observable<ListOfCurrencies>;
   converstionCurrency$!: Observable<ListOfCurrencies>;
 
-  constructor(private currencyService: CurrencyConvertService) {}
+  constructor(
+    private currencyService: CurrencyConvertService,
+    private dashStore: Store<DashState>
+  ) {}
+  ngOnInit(): void {
+    // fetch list of currencies
+    this.dashStore.dispatch(getCurrencies());
+    if (!this.listOfCurrencies$) {
+      this.listOfCurrencies$ = this.dashStore.pipe(select(selectCurrencies));
+    }
+  }
 
   currentPhase: number = 0;
 

@@ -12,6 +12,7 @@ export const updateThemeAfterReload = createAction(
   props<{ darkMode: boolean }>()
 );
 
+export const signupUser = createAction('[Global] Sign up user to firebase');
 export const saveSignUpInfo = createAction(
   '[Global] save sign up information',
   props<{ hasEditedSignUp: boolean }>()

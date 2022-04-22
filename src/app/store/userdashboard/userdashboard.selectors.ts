@@ -15,3 +15,8 @@ export const selectHolidayOfCurrentItenary = createSelector(
   selectUserdashboardState,
   (state: fromUserdashboard.DashState) => state.isAddingItenary
 );
+
+export const selectCurrencies = createSelector(
+  selectUserdashboardState,
+  (state: fromUserdashboard.DashState) => state.currencies
+);

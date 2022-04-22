@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
-import {} from './global.actions';
+import { Actions } from '@ngrx/effects';
 
-import { updateTheme } from './global.actions';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ItenariesService } from 'src/app/services/itenaries.service';
 
 @Injectable()
 export class GlobalEffects {
   constructor(
     private actions$: Actions,
-    private itenaryService: ItenariesService
+    private itenaryService: ItenariesService,
+    private authService: AuthServiceService
   ) {}
 }
