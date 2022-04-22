@@ -20,3 +20,8 @@ export const selectCurrencies = createSelector(
   selectUserdashboardState,
   (state: fromUserdashboard.DashState) => state.currencies
 );
+
+export const selectCurrenciesAPIStatus = createSelector(
+  selectUserdashboardState,
+  (state: fromUserdashboard.DashState) => state.currencyAPIRateExceeded
+);

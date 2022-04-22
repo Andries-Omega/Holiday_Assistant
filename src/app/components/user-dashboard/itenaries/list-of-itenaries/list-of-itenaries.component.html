@@ -1,9 +1,9 @@
 <div
   *ngFor="let holiday of holidays; trackBy: identifyHoliday"
-  class="flex flex-wrap mb-14 border-[1px] border-dark-blue p-5 md:p-10 rounded-xl"
+  class="flex flex-wrap mb-14 border-[1px] border-dark-blue p-5 md:p-10 md:h-[900px] overflow-auto rounded-xl items-center"
 >
   <!-- 1. Header -->
-  <div class="flex w-full justify-between pb-5 mb:pb-10">
+  <div class="flex w-full justify-between pb-5 md:pb-10">
     <div>
       <!-- Having it in div so i can have details listed vertically -->
       <h1 class="text-xl text-dark-blue mb-1">
@@ -63,7 +63,7 @@
   </div>
 
   <app-add-itenary
-    *ngIf="!isMobileShowingItinararies"
+    *ngIf="!isMobileShowingItinararies || !isMobile()"
     [isAddingItenary]="isAddingItenary"
     [holiday]="holiday"
     [selectedDate]="selectedDate"
@@ -76,9 +76,10 @@
         : 'md:w-[10%]'
     }} w-full"
     [@slide]="
-      isAddingItenary
+      isMobile() &&
+      (isAddingItenary
         ? { value: 'bottom', params: { height: 400 } }
-        : { value: 'bottom', params: { height: 50 } }
+        : { value: 'bottom', params: { height: 50 } })
     "
   >
   </app-add-itenary>
@@ -96,19 +97,21 @@
         : 'md:w-[90%] shadow-2xl scale-105 duration-1000'
     }} w-full"
     [@slide]="
-      isMobileShowingItinararies
+      isMobile() &&
+      (isMobileShowingItinararies
         ? { value: 'top', params: { topby: -218, height: 270 } }
-        : { value: 'top', params: { topby: 0, height: 400 } }
+        : { value: 'top', params: { topby: 0, height: 400 } })
     "
     [@slide]="
-      isAddingItenary
+      isMobile() &&
+      (isAddingItenary
         ? { value: 'bottom', params: { height: 50 } }
-        : { value: 'bottom', params: { height: 400 } }
+        : { value: 'bottom', params: { height: 400 } })
     "
   >
   </app-calendar>
   <app-list-of-itenary-items
-    *ngIf="isMobileShowingItinararies"
+    *ngIf="isMobile() && isMobileShowingItinararies"
     [itenaries]="holiday.holidayItenaries"
     [selectedDate]="selectedDate"
     (closeViewOfItenararies)="handleCloseItinarariesMobile($event)"
@@ -116,9 +119,10 @@
     (addNewItenary)="handleAddNewItenaryMobile($event)"
     class="w-full"
     [@slide]="
-      isMobileShowingItinararies
+      isMobile() &&
+      (isMobileShowingItinararies
         ? { value: 'bottom', params: { height: 390 } }
-        : { value: 'bottom', params: { height: 0 } }
+        : { value: 'bottom', params: { height: 0 } })
     "
   ></app-list-of-itenary-items>
 </div>

@@ -15,6 +15,7 @@ export class AddOrUpdateItenaryComponent implements OnInit {
   @Input() startDate!: string | null;
   @Input() addIntention!: string;
   @Input() listOfCurrencies!: ListOfCurrencies | null;
+  @Input() gotCurrencies!: boolean | null;
   //For Currency
   @Input() fromDropOpen!: boolean;
   @Input() toDropOpen!: boolean;

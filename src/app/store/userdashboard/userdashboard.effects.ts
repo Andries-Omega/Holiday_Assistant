@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, concatMap, map } from 'rxjs';
+import { catchError, concatMap, map, of } from 'rxjs';
 import { CurrencyConvertService } from 'src/app/services/currency-convert.service';
 import { LocationService } from 'src/app/services/location.service';
-import { getCurrencies, setCurrencies } from './userdashboard.actions';
+import {
+  getCurrencies,
+  setCurrencies,
+  setCurrencyAPIStatus,
+} from './userdashboard.actions';
 
 @Injectable()
 export class UserdashboardEffects {
@@ -13,9 +17,9 @@ export class UserdashboardEffects {
       concatMap(() =>
         this.currencyService.getCurrencies().pipe(
           map((currencies) => setCurrencies({ currencies })),
-          catchError((err) => {
-            throw new Error(err);
-          })
+          catchError(() =>
+            of(setCurrencyAPIStatus({ currencyAPIRateExceeded: true }))
+          )
         )
       )
     )

@@ -22,6 +22,9 @@
         }}
       </p>
     </div>
+    <p *ngIf="gotCurrencies" class="text-red-500 text-base my-3 text-center">
+      NB: Currency conversion is currently offline
+    </p>
     <button
       class="{{
         fromDropOpen || toDropOpen

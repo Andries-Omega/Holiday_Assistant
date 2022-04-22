@@ -7,7 +7,10 @@ import { Holiday, Itenary } from 'src/app/models/Itenaries';
 import { CurrencyConvertService } from 'src/app/services/currency-convert.service';
 import { getCurrencies } from 'src/app/store/userdashboard/userdashboard.actions';
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
-import { selectCurrencies } from 'src/app/store/userdashboard/userdashboard.selectors';
+import {
+  selectCurrencies,
+  selectCurrenciesAPIStatus,
+} from 'src/app/store/userdashboard/userdashboard.selectors';
 
 @Component({
   selector: 'app-add-itenary',
@@ -29,6 +32,7 @@ export class AddItenaryComponent implements OnInit {
   toCurrency: Currency = { code: 'ZAR', value: 14 };
 
   listOfCurrencies$!: Observable<ListOfCurrencies>;
+  gotCurrencies$!: Observable<boolean>;
   converstionCurrency$!: Observable<ListOfCurrencies>;
 
   constructor(
@@ -37,9 +41,12 @@ export class AddItenaryComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     // fetch list of currencies
-    this.dashStore.dispatch(getCurrencies());
     if (!this.listOfCurrencies$) {
+      this.dashStore.dispatch(getCurrencies());
       this.listOfCurrencies$ = this.dashStore.pipe(select(selectCurrencies));
+      this.gotCurrencies$ = this.dashStore.pipe(
+        select(selectCurrenciesAPIStatus)
+      );
     }
   }
 

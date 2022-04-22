@@ -1,5 +1,7 @@
 <button
-  class="text-white bg-dark-blue mr-10 mb-5 h-10 w-10 rounded-md font-mono hover:scale-110 duration-300"
+  class="text-white bg-dark-blue opacity-80 md:opacity-100 mr-1 md:mr-10 mb-20 h-10 w-10 rounded-md font-mono hover:scale-110 duration-300"
+  (click)="scrollUp()"
+  *ngIf="showScrollUp"
 >
   <i class="fa-solid fa-up-long"></i>
 </button>

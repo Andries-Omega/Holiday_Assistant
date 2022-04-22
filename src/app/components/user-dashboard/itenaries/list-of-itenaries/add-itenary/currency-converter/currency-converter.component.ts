@@ -15,6 +15,7 @@ export class CurrencyConverterComponent {
   @Input() toCurrency!: Currency;
   @Input() converstionCurrency!: number;
   @Input() listOfCurrencies!: ListOfCurrencies | null;
+  @Input() gotCurrencies!: boolean | null;
 
   @Output() fromDropChange = new EventEmitter<boolean>();
   @Output() toDropChange = new EventEmitter<boolean>();

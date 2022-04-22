@@ -1,5 +1,5 @@
 <div
-  class="w-full h-full md:h-[700px] shadow-2xl bg-slate-100 rounded-xl overflow-x-auto"
+  class="w-full h-full md:h-[700px] shadow-2xl bg-slate-100 rounded-xl overflow-auto"
 >
   <!-- Desktop-->
   <nz-calendar
@@ -7,7 +7,7 @@
     [(ngModel)]="selectedDate"
     *ngIf="!isAddingItenary"
     (nzSelectChange)="handleDateSelectedDesktop()"
-    class="md:block hidden"
+    class="md:block hidden w-full h-full rounded-xl"
   >
     <ul *nzDateCell="let date">
       <!-- To Show Their Holiday Plans (hence the date they can add itenaries on)-->

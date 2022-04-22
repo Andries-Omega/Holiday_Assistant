@@ -15,6 +15,7 @@
       [itenary]="itenary"
       [addIntention]="addIntention"
       [listOfCurrencies]="listOfCurrencies$ | async"
+      [gotCurrencies]="gotCurrencies$ | async"
       [converstionCurrency]="
         (converstionCurrency$ | async)!
           | convertConvertedCurrency: toCurrency.code

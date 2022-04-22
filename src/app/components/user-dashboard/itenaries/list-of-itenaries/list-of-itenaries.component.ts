@@ -69,4 +69,8 @@ export class ListOfItenariesComponent {
   identifyHoliday(index: number, holiday: Holiday) {
     return holiday.holidayID;
   }
+
+  isMobile(): boolean {
+    return innerWidth < 670;
+  }
 }

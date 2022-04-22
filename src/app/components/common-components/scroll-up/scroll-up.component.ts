@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-scroll-up',
   templateUrl: './scroll-up.component.html',
-  styleUrls: ['./scroll-up.component.scss']
+  styleUrls: ['./scroll-up.component.scss'],
 })
-export class ScrollUpComponent implements OnInit {
+export class ScrollUpComponent {
+  showScrollUp: boolean = false;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  @HostListener('document:scroll', ['$event'])
+  onWindowScroll() {
+    scrollY > 500 ? (this.showScrollUp = true) : (this.showScrollUp = false);
   }
 
+  scrollUp() {
+    scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
