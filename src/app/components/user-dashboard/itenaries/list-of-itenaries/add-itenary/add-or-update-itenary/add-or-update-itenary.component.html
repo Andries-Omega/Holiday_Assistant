@@ -1,4 +1,4 @@
-<div class="grid md:py-4 py-4">
+<div class="grid md:py-4 py-4 h-fit">
   <!--Date-->
   <div class="w-full justify-center flex">
     <p
@@ -99,8 +99,7 @@
     (toDropChange)="handleToDropChange($event)"
     (selectedCurrency)="handleCurrencySelect($event)"
   ></app-currency-converter>
-
-  <div class="w-full justify-center flex px-5 mt-3">
+  <div class="w-full justify-center flex px-5">
     <button
       *ngIf="!(toDropOpen || fromDropOpen)"
       [disabled]="!readyToAddItenary()"
@@ -111,7 +110,7 @@
           : 'opacity-50'
       }} w-full md:mx-80 bg-dark-blue border-[1px] border-dark-blue h-10 text-white rounded-md  duration-500"
     >
-      {{ addIntention === "ADDING" ? "Add " : "Update " }}Itenary
+      {{ addIntention === "ADDING" ? "Add " : "Update " }} Itenary
     </button>
   </div>
 </div>
