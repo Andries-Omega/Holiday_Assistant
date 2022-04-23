@@ -1,13 +1,13 @@
 <div
-  class="px-14"
+  class="md:px-14 px-5"
   [@sizeAnime]="
     isUpdatingLoginDetails
-      ? { value: 'heightOpen', params: { height: 475 } }
+      ? { value: 'heightOpen', params: { height: isMobile ? 240 : 475 } }
       : { value: 'heightClose', params: { height: 0 } }
   "
 >
   <div
-    class="h-fit my-4 rounded-md hover:border-[1px] hover:border-dark-blue duration-500 px-10 py-5"
+    class="h-fit my-4 rounded-md hover:border-[1px] hover:border-dark-blue duration-500 md:px-10 px-5 py-5"
     *ngIf="isUpdatingLoginDetails"
   >
     <h1

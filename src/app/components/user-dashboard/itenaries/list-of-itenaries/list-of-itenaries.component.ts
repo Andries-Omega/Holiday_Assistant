@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { slide } from 'src/app/Animations/dashboard-animations';
+import { isMobile } from 'src/app/components/Algorithms/CommonFunctions';
 import { Trip, Itenary } from 'src/app/models/Itenaries';
 
 @Component({
@@ -78,7 +79,7 @@ export class ListOfItenariesComponent {
     return trip.tripID;
   }
 
-  isMobile(): boolean {
-    return innerWidth < 670;
+  checkMobile(): boolean {
+    return isMobile();
   }
 }

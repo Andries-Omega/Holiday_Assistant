@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { sizeAnime } from 'src/app/Animations/dashboard-animations';
+import { isMobile } from '../../Algorithms/CommonFunctions';
 
 @Component({
   selector: 'app-update-profile',
@@ -12,4 +13,8 @@ export class UpdateProfileComponent implements OnInit {
 
   constructor() {}
   ngOnInit(): void {}
+
+  checkMobile(): boolean {
+    return isMobile();
+  }
 }

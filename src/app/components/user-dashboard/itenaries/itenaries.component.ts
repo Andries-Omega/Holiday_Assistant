@@ -60,6 +60,7 @@ export class ItenariesComponent implements OnInit {
       })
     );
   }
+
   handleAddItenaryMobile(selectedDate: Date) {
     this.isMobileShowingItinararies = false;
     setTimeout(() => {
@@ -186,6 +187,7 @@ export class ItenariesComponent implements OnInit {
       nzOnCancel: () => this.confirmDelete.closeAll(),
     });
   }
+
   deleteTrip(trip: Trip) {
     this.isProcessing = true;
     this.itenaryService

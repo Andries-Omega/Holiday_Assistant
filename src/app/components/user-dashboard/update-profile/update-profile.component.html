@@ -1,10 +1,10 @@
 <div
-  class="border-[1px] border-dark-blue rounded-md md:h-[780px] w-full mx-4 hover:shadow-2xl py-3 duration-500"
+  class="border-[1px] border-dark-blue rounded-md md:h-[780px] md:mx-4 hover:shadow-2xl py-3 duration-500 overflow-x-hidden"
 >
   <h1 class="text-dark-blue text-center text-2xl">Update Profile</h1>
   <hr class="border-dark-blue my-2" />
   <app-update-names></app-update-names>
-  <div class="px-14">
+  <div class="md:px-14 px-5">
     <button
       class="{{
         isUpdatingLoginDetails
@@ -23,6 +23,7 @@
   </div>
   <app-update-login-details
     [isUpdatingLoginDetails]="isUpdatingLoginDetails"
+    [isMobile]="checkMobile()"
   ></app-update-login-details>
   <div class="px-14 mt-2">
     <button
@@ -33,7 +34,7 @@
   </div>
 </div>
 <button
-  class="w-full mx-4 border-[1px] border-red-500 rounded-md h-fit py-3 mt-9 bg-red-500 hover:bg-white text-white hover:text-red-500 hover:shadow-2xl duration-500"
+  class="w-full border-[1px] border-red-500 rounded-md h-fit py-3 mt-5 bg-red-500 hover:bg-white text-white hover:text-red-500 hover:shadow-2xl duration-500"
 >
   Delete Account
 </button>

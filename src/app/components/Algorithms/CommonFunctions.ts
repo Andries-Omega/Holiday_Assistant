@@ -123,3 +123,7 @@ export const forceTripsRefetch = (globalStore: Store<AppState>) => {
   globalStore.dispatch(saveUserTrips({ userTrips: null }));
   location.reload();
 };
+
+export const isMobile = (): boolean => {
+  return innerWidth < 480;
+};
