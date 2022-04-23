@@ -1,5 +1,5 @@
 <div class="flex w-screen h-full justify-center md:py-20 px-7">
-  <app-signup-desktop
+  <app-signup-form
     [signUpUserForm]="signUpUserForm"
     [formValuesToState]="signUpUserForm.valueChanges | async"
     [errorMessage]="errorMessage"
@@ -7,5 +7,5 @@
     [signingUp]="signingUp"
     [passwordValid]="passwordValid"
     (signUpUserData)="signUpUser($event)"
-  ></app-signup-desktop>
+  ></app-signup-form>
 </div>

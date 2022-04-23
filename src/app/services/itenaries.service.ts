@@ -8,8 +8,6 @@ import {
   getDocs,
 } from '@angular/fire/firestore';
 import { deleteDoc, query, updateDoc, where } from '@firebase/firestore';
-import { Observable } from 'rxjs';
-
 import { Trip } from '../models/Itenaries';
 
 @Injectable({
@@ -19,7 +17,7 @@ export class ItenariesService {
   constructor(private http: HttpClient, private fireStore: Firestore) {}
 
   async addNewTrip(holidayDetails: Trip) {
-    const docRef = collection(this.fireStore, 'Holidays');
+    const docRef = collection(this.fireStore, 'Trips');
     const doc = await addDoc(docRef, holidayDetails);
 
     return this.updateTrip({ ...holidayDetails, tripID: doc.id });

@@ -10,10 +10,6 @@ import { DashboardGuard } from './guards/dashboard.guard';
 
 const routes: Routes = [
   {
-    path: 'home',
-    component: HomeComponent,
-  },
-  {
     path: 'signin',
     component: SigninComponent,
     canActivate: [CanAccessSignInOrUpGuard],
@@ -26,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/signin',
     pathMatch: 'full',
   },
   {

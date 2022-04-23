@@ -10,11 +10,11 @@ import {
 } from '../../Algorithms/Authentication/signupvalidation';
 
 @Component({
-  selector: 'app-signup-desktop',
-  templateUrl: './signup-desktop.component.html',
-  styleUrls: ['./signup-desktop.component.scss'],
+  selector: 'app-signup-form',
+  templateUrl: './signup-form.component.html',
+  styleUrls: ['./signup-form.component.scss'],
 })
-export class SignupDesktopComponent {
+export class SignupFormComponent {
   // state form data
   stateFormData$ = this.globalStore.select(
     (selectSignUpInfo) => selectSignUpInfo

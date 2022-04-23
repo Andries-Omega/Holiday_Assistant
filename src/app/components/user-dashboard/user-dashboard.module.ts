@@ -32,6 +32,8 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
 import { UserDashboardRoutingModule } from './user-dashboard-routing.module';
 import { UserDashboardComponent } from './user-dashboard.component';
 import { WelcomeDashComponent } from './welcome-dash/welcome-dash.component';
+import { UpdateLoginDetailsComponent } from './update-profile/update-login-details/update-login-details.component';
+import { UpdateNamesComponent } from './update-profile/update-names/update-names.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { WelcomeDashComponent } from './welcome-dash/welcome-dash.component';
     AddOrUpdateItenaryComponent,
     GetDateFromStringPipe,
     TripPopUpComponent,
+    UpdateLoginDetailsComponent,
+    UpdateNamesComponent,
   ],
   imports: [
     CommonModule,

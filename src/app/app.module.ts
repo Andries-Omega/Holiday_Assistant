@@ -25,7 +25,7 @@ import { ScrollUpComponent } from './components/common-components/scroll-up/scro
 import { HomeComponent } from './components/home/home.component';
 import { NoPageComponent } from './components/no-page/no-page.component';
 import { SigninComponent } from './components/signin/signin.component';
-import { SignupDesktopComponent } from './components/signup/signup-desktop/signup-desktop.component';
+import { SignupFormComponent } from './components/signup/signup-form/signup-form.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { NgZorroModule } from './modules/ng-zorro/ng-zorro.module';
 import { globalFeatureKey, reducer } from './store/global/global.reducer';
@@ -45,7 +45,7 @@ registerLocaleData(en);
     NoPageComponent,
     SigninComponent,
     SignupComponent,
-    SignupDesktopComponent,
+    SignupFormComponent,
     LightSwitchComponent,
     SwitchStateComponent,
     ConfirmModalComponent,
