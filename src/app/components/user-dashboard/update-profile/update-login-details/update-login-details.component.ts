@@ -10,6 +10,8 @@ import { sizeAnime } from 'src/app/Animations/dashboard-animations';
 export class UpdateLoginDetailsComponent implements OnInit {
   @Input() isUpdatingLoginDetails!: boolean;
   @Input() isMobile!: boolean;
+  passwordVisible: boolean = false;
+  passwordFocus: boolean = false;
   constructor() {}
 
   ngOnInit(): void {}

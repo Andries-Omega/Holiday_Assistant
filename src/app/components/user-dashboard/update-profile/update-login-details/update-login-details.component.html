@@ -26,11 +26,23 @@
     </div>
     <div class="w-[100%] mt-6">
       <p class="text-base text-dark-blue">Your Password</p>
-      <input
-        type="password"
-        placeholder="Password"
-        class="w-full h-10 focus:outline-none border-[1px] focus:border-dark-blue px-5 mt-1 rounded-md focus:shadow-2xl duration-500"
-      />
+      <div class="flex items-center">
+        <input
+          [type]="passwordVisible ? 'text' : 'password'"
+          placeholder="Password"
+          class="w-full h-10 focus:outline-none border-[1px] border-r-0 rounded-r-none focus:border-dark-blue px-5 mt-1 rounded-md focus:shadow-2xl duration-500"
+          (focus)="passwordFocus = true"
+          (blur)="passwordFocus = false"
+        />
+        <button
+          class="px-2 border-[1px] {{
+            passwordFocus ? 'border-dark-blue' : ''
+          }} text-dark-blue h-10 rounded-md border-l-0 mt-1 rounded-l-none hover:bg-dark-blue hover:text-white duration-300"
+          (click)="passwordVisible = !passwordVisible"
+        >
+          <i class="fa-solid fa-eye{{ passwordVisible ? '-slash' : '' }}"></i>
+        </button>
+      </div>
     </div>
   </div>
 </div>
