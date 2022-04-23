@@ -3,12 +3,37 @@
 >
   <h1 class="text-dark-blue text-center text-2xl">Update Profile</h1>
   <hr class="border-dark-blue my-2" />
+  <app-update-names></app-update-names>
+  <div class="px-14">
+    <button
+      class="{{
+        isUpdatingLoginDetails
+          ? 'hover:shadow-2xl bg-white text-dark-blue'
+          : 'bg-dark-blue border-[1px] border-dark-blue text-white hover:bg-white hover:text-dark-blue '
+      }} w-full h-fit py-3 border-[1px] border-dark-blue rounded-md mt-2 hover:shadow-2xl duration-500"
+      (click)="isUpdatingLoginDetails = !isUpdatingLoginDetails"
+    >
+      {{ isUpdatingLoginDetails ? "Close" : "Update" }} Login Details
+      <i
+        class="fa-solid fa-lock{{
+          isUpdatingLoginDetails ? '-open' : ''
+        }} float-right text-sm mr-3"
+      ></i>
+    </button>
+  </div>
+  <app-update-login-details
+    [isUpdatingLoginDetails]="isUpdatingLoginDetails"
+  ></app-update-login-details>
+  <div class="px-14 mt-2">
+    <button
+      class="w-full h-fit py-3 bg-white border-[1px] border-dark-blue text-dark-blue rounded-md mt-2 hover:bg-dark-blue hover:text-white hover:shadow-2xl duration-500"
+    >
+      Update
+    </button>
+  </div>
 </div>
-<app-update-names></app-update-names>
-<button>Update Login Details</button>
-<app-update-login-details></app-update-login-details>
 <button
-  class="w-full mx-4 border-[1px] border-red-500 rounded-md h-fit py-3 mt-5 bg-red-500 hover:bg-white text-white hover:text-red-500 hover:shadow-2xl duration-500"
+  class="w-full mx-4 border-[1px] border-red-500 rounded-md h-fit py-3 mt-9 bg-red-500 hover:bg-white text-white hover:text-red-500 hover:shadow-2xl duration-500"
 >
   Delete Account
 </button>

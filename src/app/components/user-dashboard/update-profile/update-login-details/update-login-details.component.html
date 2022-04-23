@@ -1,1 +1,36 @@
-<p>update-login-details works!</p>
+<div
+  class="px-14"
+  [@sizeAnime]="
+    isUpdatingLoginDetails
+      ? { value: 'heightOpen', params: { height: 475 } }
+      : { value: 'heightClose', params: { height: 0 } }
+  "
+>
+  <div
+    class="h-fit my-4 rounded-md hover:border-[1px] hover:border-dark-blue duration-500 px-10 py-5"
+    *ngIf="isUpdatingLoginDetails"
+  >
+    <h1
+      class="text-lg text-center text-dark-blue mb-5 border-b-[1px] border-opacity-0 border-b-dark-blue hover:border-opacity-80 duration-700"
+    >
+      Your Login Details
+    </h1>
+
+    <div class="w-[100%]">
+      <p class="text-base text-dark-blue">Your Email</p>
+      <input
+        type="email"
+        placeholder="Email"
+        class="w-full h-10 focus:outline-none border-[1px] focus:border-dark-blue px-5 mt-1 rounded-md focus:shadow-2xl duration-500"
+      />
+    </div>
+    <div class="w-[100%] mt-6">
+      <p class="text-base text-dark-blue">Your Password</p>
+      <input
+        type="password"
+        placeholder="Password"
+        class="w-full h-10 focus:outline-none border-[1px] focus:border-dark-blue px-5 mt-1 rounded-md focus:shadow-2xl duration-500"
+      />
+    </div>
+  </div>
+</div>
