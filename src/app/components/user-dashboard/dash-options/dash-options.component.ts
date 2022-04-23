@@ -18,9 +18,11 @@ export class DashOptionsComponent implements OnInit {
     private globalStore: Store<AppState>
   ) {}
 
-  currentURL: string = this.router.url;
+  currentURL: string = '/dashboard';
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.currentURL = this.router.url;
+  }
 
   logOut() {
     signOut(this.auth);

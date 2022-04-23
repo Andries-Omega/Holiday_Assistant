@@ -1,0 +1,34 @@
+<div class="grid w-full md:px-10 px-6">
+  <h1 class="text-xl text-dark-blue text-center">Finally...😊</h1>
+  <nz-range-picker
+    [(ngModel)]="date"
+    nzSize="large"
+    (ngModelChange)="onChange()"
+    class="h-10 w-96 mt-4 px-10 hidden md:flex"
+  >
+  </nz-range-picker>
+  <div class="block md:hidden w-72">
+    <nz-input-group class="">
+      <p>Start Date</p>
+      <nz-date-picker
+        [(ngModel)]="mobileStartDate"
+        (ngModelChange)="onChangeMobile()"
+        nzPlaceHolder="Start Date"
+        class="h-10 w-full rounded-md"
+      ></nz-date-picker>
+    </nz-input-group>
+    <nz-input-group class="mt-5">
+      <p>End Date</p>
+      <nz-date-picker
+        [(ngModel)]="mobileEndDate"
+        (ngModelChange)="onChangeMobile()"
+        nzPlaceHolder="Start Date"
+        class="h-10 w-full rounded-md"
+      ></nz-date-picker>
+    </nz-input-group>
+  </div>
+
+  <p *ngIf="errorMessage" class="text-sm text-red-500 text-center mt-5">
+    {{ errorMessage }}
+  </p>
+</div>

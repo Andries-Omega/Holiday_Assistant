@@ -1,21 +1,14 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
-import { CurrencyConvertService } from 'src/app/services/currency-convert.service';
 
 @Component({
   selector: 'app-list-of-currencies',
   templateUrl: './list-of-currencies.component.html',
   styleUrls: ['./list-of-currencies.component.scss'],
 })
-export class ListOfCurrenciesComponent implements OnInit {
-  listOfServices$!: Observable<ListOfCurrencies>;
+export class ListOfCurrenciesComponent {
+  @Input() listOfCurrencies!: ListOfCurrencies | null;
   @Output() selectedCurrency = new EventEmitter<Currency>();
-  constructor(private currencyService: CurrencyConvertService) {}
-
-  ngOnInit(): void {
-    this.listOfServices$ = this.currencyService.getCurrencies();
-  }
 
   selectCurrency(currency: Currency) {
     this.selectedCurrency.emit(currency);

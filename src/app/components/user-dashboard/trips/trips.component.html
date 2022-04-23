@@ -1,0 +1,41 @@
+<nz-spin
+  [nzSpinning]="processingDeleteOrUpdate"
+  nzSize="large"
+  nzTip="Deleting..."
+>
+  <div class="px-2 md:px-10 w-full">
+    <button
+      (click)="handleSwitchComponents()"
+      class=" {{
+        isAddingTrip
+          ? 'text-dark-blue bg-white hover:shadow-2xl '
+          : 'bg-dark-blue text-white hover:text-dark-blue hover:bg-white '
+      }} h-fit w-full px-5 py-3 border-[1px] border-dark-blue rounded-md mb-5 duration-500"
+    >
+      <i class="fa-solid fa-{{ isAddingTrip ? 'x' : 'plus' }} mr-4"></i>
+      {{ isAddingTrip ? "Cancel" : "Add Trip" }}
+    </button>
+    <!-- List Holidays -->
+    <div [@fade]="fadeList">
+      <app-list-of-trips
+        *ngIf="!isAddingTrip"
+        [trips]="trips"
+        (tripClick)="handleTripClicked($event)"
+      ></app-list-of-trips>
+    </div>
+    <!-- Add Holiday -->
+    <div [@fade]="fadeAdd">
+      <app-add-trip
+        *ngIf="isAddingTrip"
+        [addingIntentions]="addingIntentions"
+        [theTrip]="selectedTrip"
+        (newTrip)="updateListOfUserTrips($event)"
+      ></app-add-trip>
+    </div>
+    <trip-pop-up
+      [isTripsOptionsClicked]="isTripOptionsClicked"
+      [theTrip]="selectedTrip"
+      (userOption)="handleUserTripOption($event)"
+    ></trip-pop-up>
+  </div>
+</nz-spin>

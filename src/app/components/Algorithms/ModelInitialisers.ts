@@ -1,4 +1,4 @@
-import { Holiday } from 'src/app/models/Itenaries';
+import { Trip } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
 
 export const initUsers = (): Users => {

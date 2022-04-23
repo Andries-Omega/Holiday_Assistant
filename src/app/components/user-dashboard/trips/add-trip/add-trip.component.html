@@ -1,0 +1,79 @@
+<nz-spin [nzSpinning]="isAddingTrip" nzSize="large" [nzTip]="tip">
+  <div
+    class="bg-slate-100 rounded-md w-full shadow-2xl h-fit py-14 grid place-items-center md:px-10"
+  >
+    <app-phase-one
+      *ngIf="phase === 0"
+      [addingIntentions]="addingIntentions"
+      [tripName]="theTrip?.tripName || tripDetails.tripName"
+      (newTripName)="tripDetails.tripName = $event"
+    ></app-phase-one>
+
+    <app-phase-two
+      *ngIf="phase === 1"
+      [locationDetails]="theTrip?.tripLocation || (locationDetails$ | async)"
+      [isSearching]="isSearchingLocation"
+      [errorMessage]="errorMessage"
+      [addingIntentions]="addingIntentions"
+      (searchPlace)="searchForLocation($event)"
+      (locationConfirmed)="setTripLocation($event)"
+    ></app-phase-two>
+
+    <app-phase-three
+      *ngIf="phase === 2"
+      [errorMessage]="errorMessage"
+      [mobileStartDate]="theTrip?.tripStartDate | getDateFromString"
+      [mobileEndDate]="theTrip?.tripEndDate | getDateFromString"
+      (selectedDate)="setSelectedDates($event)"
+    ></app-phase-three>
+    <div class="flex justify-between w-full mt-10">
+      <button
+        [disabled]="phase === 0"
+        [@fade]="phase === 0 ? 'Out' : 'In'"
+        (click)="previous()"
+        class="bg-white text-dark-blue border-[1px] border-dark-blue rounded-md w-fit h-fit px-2 md:px-5 py-2 ml-7 float-right hover:shadow-2xl duration-150"
+      >
+        Previous
+      </button>
+      <button
+        [disabled]="!isNextDisabled()"
+        (click)="next()"
+        class="{{
+          isNextDisabled() ? ' hover:shadow-2xl ' : ' opacity-50'
+        }} text-white rounded-md w-fit px-6 mr-7 md:px-10 h-fit py-2 float-right bg-dark-blue  duration-150"
+      >
+        {{
+          phase === 2
+            ? addingIntentions === "ADDING"
+              ? "Add"
+              : "Update"
+            : "Next"
+        }}
+
+        <i
+          class="fa-solid {{
+            addingIntentions === 'ADDING' ? 'fa-plus' : 'fa-arrows-rotate'
+          }} ml-3"
+          *ngIf="phase === 2"
+        ></i>
+      </button>
+    </div>
+    <div class="flex px-5 mt-7">
+      <div
+        class="w-3 h-3 mr-5 rounded-full {{
+          phase === 0 ? 'bg-dark-blue' : 'bg-white'
+        }} border-[1px] border-dark-blue duration-1000"
+      ></div>
+      <div
+        class="w-3 h-3 mr-5 rounded-full {{
+          phase === 1 ? 'bg-dark-blue' : 'bg-white'
+        }} border-[1px] border-dark-blue duration-1000"
+      ></div>
+      <div
+        class="w-3 h-3 mr-5 rounded-full {{
+          phase === 2 ? 'bg-dark-blue' : 'bg-white'
+        }} border-[1px] border-dark-blue duration-1000"
+      ></div>
+    </div>
+  </div>
+</nz-spin>

@@ -1,7 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { Holiday, AddItenarary } from 'src/app/models/Itenaries';
+import { ListOfCurrencies } from 'src/app/models/Currencies';
+import { Trip, AddItenarary } from 'src/app/models/Itenaries';
 import {
-  setHolidayOfItenary,
+  setCurrencies,
+  setCurrencyAPIStatus,
+  setTripFromItenary,
+  setTripOfItenary,
   setIsAddingItenary,
 } from './userdashboard.actions';
 
@@ -9,12 +13,18 @@ export const userdashboardFeatureKey = 'userdashboard';
 
 export interface DashState {
   isAddingItenary: AddItenarary;
-  holidayOfCurrentItenary: Holiday | null;
+  tripOfCurrentItenary: Trip | null;
+  currencies: ListOfCurrencies;
+  currencyAPIRateExceeded: boolean;
+  isUpdatingFromItenaryRoute: Trip | null;
 }
 
 export const initialState: DashState = {
   isAddingItenary: { isAddingItenary: false, selectedDate: null },
-  holidayOfCurrentItenary: null,
+  tripOfCurrentItenary: null,
+  currencies: {} as ListOfCurrencies,
+  isUpdatingFromItenaryRoute: null,
+  currencyAPIRateExceeded: false,
 };
 
 export const reducer = createReducer(
@@ -23,8 +33,24 @@ export const reducer = createReducer(
     ...state,
     isAddingItenary,
   })),
-  on(setHolidayOfItenary, (state, { holidayOfCurrentItenary }) => ({
+  on(
+    setTripOfItenary,
+    (state, { tripOfCurrentItenary: tripOfCurrentItenary }) => ({
+      ...state,
+      tripOfCurrentItenary: tripOfCurrentItenary,
+    })
+  ),
+  on(setCurrencies, (state, { currencies }) => ({
     ...state,
-    holidayOfCurrentItenary,
+    currencies,
+    currencyRateExceeded: false,
+  })),
+  on(setCurrencyAPIStatus, (state, { currencyAPIRateExceeded }) => ({
+    ...state,
+    currencyAPIRateExceeded,
+  })),
+  on(setTripFromItenary, (state, { isUpdatingFromItenaryRoute }) => ({
+    ...state,
+    isUpdatingFromItenaryRoute,
   }))
 );

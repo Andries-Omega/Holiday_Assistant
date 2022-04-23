@@ -22,17 +22,17 @@
       Dashboard
     </button>
     <button
-      (click)="handleRouteTo('/dashboard/holidays')"
+      (click)="handleRouteTo('/dashboard/trips')"
       class="border-[1px] border-dark-blue h-fit py-3 rounded-md duration-500 
         {{
-        routerURL === '/dashboard/holidays'
+        routerURL === '/dashboard/trips'
           ? 'shadow-2xl text-dark-blue scale-105 bg-white duration-500 cursor-default'
           : 'hover:shadow-2xl bg-dark-blue text-white hover:bg-white hover:text-dark-blue hover:scale-105'
       }}
       "
     >
       <i class="fa-solid fa-champagne-glasses mr-5"></i>
-      Holidays
+      Trips
     </button>
     <button
       (click)="handleRouteTo('/dashboard/itenaries')"

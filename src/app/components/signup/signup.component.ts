@@ -1,21 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
 import { PasswordRequirements, Users } from 'src/app/models/Users';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
-
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectSignUpInfo } from 'src/app/store/global/global.selectors';
 import { signIn } from '../Algorithms/Authentication/authetication';
-
-import {
-  validateEmail,
-  validatePassword,
-} from '../Algorithms/Authentication/signupvalidation';
 
 @Component({
   selector: 'app-signup',

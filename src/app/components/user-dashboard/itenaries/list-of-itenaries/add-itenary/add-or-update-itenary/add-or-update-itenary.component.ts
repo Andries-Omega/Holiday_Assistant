@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Currency } from 'src/app/models/Currencies';
+import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
 import { Itenary } from 'src/app/models/Itenaries';
 
 @Component({
@@ -14,6 +14,8 @@ export class AddOrUpdateItenaryComponent implements OnInit {
   @Input() listOfAvailableDates!: Date[];
   @Input() startDate!: string | null;
   @Input() addIntention!: string;
+  @Input() listOfCurrencies!: ListOfCurrencies | null;
+  @Input() gotCurrencies!: boolean | null;
   //For Currency
   @Input() fromDropOpen!: boolean;
   @Input() toDropOpen!: boolean;

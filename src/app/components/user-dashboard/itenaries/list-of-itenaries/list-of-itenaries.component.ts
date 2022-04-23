@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { slide } from 'src/app/Animations/dashboard-animations';
-import { getHolidayById } from 'src/app/components/Algorithms/CommonFunctions';
-import { Holiday, Itenary } from 'src/app/models/Itenaries';
+import { Trip, Itenary } from 'src/app/models/Itenaries';
 
 @Component({
   selector: 'app-list-of-itenaries',
@@ -10,7 +9,7 @@ import { Holiday, Itenary } from 'src/app/models/Itenaries';
   animations: [slide],
 })
 export class ListOfItenariesComponent {
-  @Input() holidays!: Holiday[] | null;
+  @Input() trips!: Trip[] | null;
   @Input() isAddingItenary!: boolean;
   @Input() selectedDate!: Date | null;
   @Input() addIntention!: string;
@@ -21,52 +20,65 @@ export class ListOfItenariesComponent {
   @Output() dateSelected = new EventEmitter<Date>();
   @Output() dateSelectedMobile = new EventEmitter<Date>();
   @Output() addItenaryDetails = new EventEmitter<Itenary>();
-  @Output() holidayUpdating = new EventEmitter<Holiday>();
+  @Output() tripUpdating = new EventEmitter<Trip>();
+  @Output() updateTrip = new EventEmitter<Trip>();
+  @Output() deleteTrip = new EventEmitter<Trip>();
   @Output() itenaryClicked = new EventEmitter<Itenary>();
   @Output() closeViewOfItenararies = new EventEmitter<boolean>();
   @Output() addNewItenary = new EventEmitter<Date>();
 
-  handleChangeIsAdding(isAdding: boolean, holidayID: string) {
+  handleChangeIsAdding(isAdding: boolean, trip: Trip) {
     this.changeIsAdding.emit(isAdding);
-    if (this.holidays) {
-      this.holidayUpdating.emit(getHolidayById(holidayID, this.holidays));
+    if (this.trips) {
+      this.tripUpdating.emit(trip);
     }
   }
 
-  handleDateSelected(selectedDate: Date, holidayID: string) {
+  handleDateSelected(selectedDate: Date, trip: Trip) {
     this.dateSelected.emit(selectedDate);
-    if (this.holidays) {
-      this.holidayUpdating.emit(getHolidayById(holidayID, this.holidays));
+    if (this.trips) {
+      this.tripUpdating.emit(trip);
     }
   }
 
-  handleDateSelectedMobile(selectedDate: Date, holidayID: string) {
+  handleDateSelectedMobile(selectedDate: Date, trip: Trip) {
     this.dateSelectedMobile.emit(selectedDate);
-    if (this.holidays) {
-      this.holidayUpdating.emit(getHolidayById(holidayID, this.holidays));
+    if (this.trips) {
+      this.tripUpdating.emit(trip);
     }
   }
-  handleAddItenaryDetails(itenaryDetails: Itenary, holidayID: string) {
+  handleAddItenaryDetails(itenaryDetails: Itenary, trip: Trip) {
     this.addItenaryDetails.emit(itenaryDetails);
-    if (this.holidays) {
-      this.holidayUpdating.emit(getHolidayById(holidayID, this.holidays));
+    if (this.trips) {
+      this.tripUpdating.emit(trip);
     }
   }
 
-  handleItenaryClicked(itenary: Itenary, holidayID: string) {
+  handleItenaryClicked(itenary: Itenary, trip: Trip) {
     this.itenaryClicked.emit(itenary);
-    if (this.holidays) {
-      this.holidayUpdating.emit(getHolidayById(holidayID, this.holidays));
+    if (this.trips) {
+      this.tripUpdating.emit(trip);
     }
   }
 
+  handleUpdateTrip(trip: Trip) {
+    this.updateTrip.emit(trip);
+  }
+
+  handleDeleteTrip(trip: Trip) {
+    this.deleteTrip.emit(trip);
+  }
   handleCloseItinarariesMobile(open: boolean) {
     this.closeViewOfItenararies.emit(open);
   }
   handleAddNewItenaryMobile(selectedDate: Date) {
     this.addNewItenary.emit(selectedDate);
   }
-  identifyHoliday(index: number, holiday: Holiday) {
-    return holiday.holidayID;
+  identifyTrip(index: number, trip: Trip) {
+    return trip.tripID;
+  }
+
+  isMobile(): boolean {
+    return innerWidth < 670;
   }
 }

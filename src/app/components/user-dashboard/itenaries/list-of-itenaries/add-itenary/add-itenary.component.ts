@@ -1,19 +1,26 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { slide } from 'src/app/Animations/dashboard-animations';
 import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
-import { Holiday, Itenary } from 'src/app/models/Itenaries';
+import { Trip, Itenary } from 'src/app/models/Itenaries';
 import { CurrencyConvertService } from 'src/app/services/currency-convert.service';
+import { getCurrencies } from 'src/app/store/userdashboard/userdashboard.actions';
+import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
+import {
+  selectCurrencies,
+  selectCurrenciesAPIStatus,
+} from 'src/app/store/userdashboard/userdashboard.selectors';
 
 @Component({
   selector: 'app-add-itenary',
   templateUrl: './add-itenary.component.html',
   styleUrls: ['./add-itenary.component.scss'],
 })
-export class AddItenaryComponent {
+export class AddItenaryComponent implements OnInit {
   @Input() isAddingItenary!: boolean | null;
   @Input() selectedDate!: Date | null;
-  @Input() holiday!: Holiday;
+  @Input() trip!: Trip;
   @Input() itenary!: Itenary;
   @Input() addIntention!: string;
   @Output() addItenaryDetails = new EventEmitter<Itenary>();
@@ -24,9 +31,24 @@ export class AddItenaryComponent {
   fromCurrency: Currency = { code: 'USD', value: 1 };
   toCurrency: Currency = { code: 'ZAR', value: 14 };
 
+  listOfCurrencies$!: Observable<ListOfCurrencies>;
+  gotCurrencies$!: Observable<boolean>;
   converstionCurrency$!: Observable<ListOfCurrencies>;
 
-  constructor(private currencyService: CurrencyConvertService) {}
+  constructor(
+    private currencyService: CurrencyConvertService,
+    private dashStore: Store<DashState>
+  ) {}
+  ngOnInit(): void {
+    // fetch list of currencies
+    if (!this.listOfCurrencies$) {
+      this.dashStore.dispatch(getCurrencies());
+      this.listOfCurrencies$ = this.dashStore.pipe(select(selectCurrencies));
+      this.gotCurrencies$ = this.dashStore.pipe(
+        select(selectCurrenciesAPIStatus)
+      );
+    }
+  }
 
   currentPhase: number = 0;
 

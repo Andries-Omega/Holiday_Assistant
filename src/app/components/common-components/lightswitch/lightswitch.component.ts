@@ -1,9 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  updateTheme,
-  updateThemeAfterReload,
-} from 'src/app/store/global/global.actions';
+import { updateTheme } from 'src/app/store/global/global.actions';
 import { selectGlobalTheme } from 'src/app/store/global/global.selectors';
 
 @Component({

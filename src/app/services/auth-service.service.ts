@@ -3,7 +3,6 @@ import {
   Auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  updateProfile,
   UserCredential,
 } from '@angular/fire/auth';
 import {
@@ -24,6 +23,7 @@ export class AuthServiceService {
 
   async signUpUser(userData: Users): Promise<boolean | string> {
     let signedUp: boolean | string = false;
+
     await createUserWithEmailAndPassword(
       this.auth,
       userData.email,
