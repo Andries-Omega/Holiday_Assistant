@@ -2,22 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Holiday, Itenary } from 'src/app/models/Itenaries';
+import { Trip, Itenary } from 'src/app/models/Itenaries';
 import { ItenariesService } from 'src/app/services/itenaries.service';
-import { saveUserHolidays } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
-import { selectUserHolidays } from 'src/app/store/global/global.selectors';
+import { selectUserTrips } from 'src/app/store/global/global.selectors';
 import {
-  setHolidayFromItenary,
+  setTripFromItenary,
   setIsAddingItenary,
 } from 'src/app/store/userdashboard/userdashboard.actions';
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
 import { selectIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.selectors';
 import {
-  forceHolidaysRefetch,
+  forceTripsRefetch,
   getArrayWithout,
   getIndexOfItenary,
-  getUserHolidaysFromSelect,
+  getUserTripsFromSelect,
 } from '../../Algorithms/CommonFunctions';
 
 @Component({
@@ -26,11 +25,11 @@ import {
   styleUrls: ['./itenaries.component.scss'],
 })
 export class ItenariesComponent implements OnInit {
-  holidays: Holiday[] | null = getUserHolidaysFromSelect(
-    this.globalStore.select(selectUserHolidays)
+  trips: Trip[] | null = getUserTripsFromSelect(
+    this.globalStore.select(selectUserTrips)
   );
 
-  focusedHoliday!: Holiday;
+  focusedTrip!: Trip;
   isAddingItenary = this.dashStore.select(selectIsAddingItenary);
 
   askToAddItenary: boolean = false;
@@ -89,31 +88,28 @@ export class ItenariesComponent implements OnInit {
   }
 
   handleAddItenaryDetails(itenaryDetails: Itenary) {
-    if (this.focusedHoliday) {
+    if (this.focusedTrip) {
       if (this.addIntention === 'ADDING') {
-        const newHoliday = {
-          ...this.focusedHoliday,
-          holidayItenaries: [
-            ...this.focusedHoliday.holidayItenaries,
-            itenaryDetails,
-          ],
+        const newTrip = {
+          ...this.focusedTrip,
+          TripItenaries: [...this.focusedTrip.tripItenaries, itenaryDetails],
         };
 
-        this.updateHoliday(newHoliday);
+        this.updateTrip(newTrip);
       } else {
         let index = getIndexOfItenary(
           this.itenary,
-          this.focusedHoliday.holidayItenaries
+          this.focusedTrip.tripItenaries
         );
 
-        const newHoliday = {
-          ...this.focusedHoliday,
-          holidayItenaries: [
-            ...getArrayWithout(index, this.itenary, this.focusedHoliday),
+        const newTrip = {
+          ...this.focusedTrip,
+          TripItenaries: [
+            ...getArrayWithout(index, this.itenary, this.focusedTrip),
             itenaryDetails,
           ],
         };
-        this.updateHoliday(newHoliday);
+        this.updateTrip(newTrip);
       }
     }
   }
@@ -140,38 +136,38 @@ export class ItenariesComponent implements OnInit {
     this.itenaryClicked = false;
   }
 
-  updateHoliday(newHoliday: Holiday) {
+  updateTrip(newTrip: Trip) {
     this.isProcessing = true;
     this.itenaryService
-      .updateHoliday(newHoliday)
+      .updateTrip(newTrip)
       .then(() => {
         this.isProcessing = false;
-        forceHolidaysRefetch(this.globalStore);
+        forceTripsRefetch(this.globalStore);
       })
       .catch(() => (this.isProcessing = false));
   }
 
-  handleUpdateHoliday(holiday: Holiday) {
+  handleUpdateTrip(trip: Trip) {
     this.globalStore.dispatch(
-      setHolidayFromItenary({ isUpdatingFromItenaryRoute: holiday })
+      setTripFromItenary({ isUpdatingFromItenaryRoute: trip })
     );
-    // We don't do full holiday update in here
-    this.router.navigateByUrl('/dashboard/holidays');
+    // We don't do full Trip update in here
+    this.router.navigateByUrl('/dashboard/trips');
   }
 
-  handleDeleteHoliday(holiday: Holiday) {
-    this.focusedHoliday = holiday;
-    this.showHolidayDeleteConfirm(holiday);
+  handleDeleteTrip(trip: Trip) {
+    this.focusedTrip = trip;
+    this.showTripDeleteConfirm(trip);
   }
 
-  showHolidayDeleteConfirm(holiday: Holiday) {
+  showTripDeleteConfirm(trip: Trip) {
     this.confirmDelete.confirm({
-      nzTitle: 'Are you sure delete the holiday => ' + holiday.holidayName,
+      nzTitle: 'Are you sure delete the Trip => ' + trip.tripName,
       nzContent: '<b style="color: red;">You will not get it back</b>',
       nzOkText: 'Yes',
       nzOkType: 'primary',
       nzOkDanger: true,
-      nzOnOk: () => this.deleteHoliday(holiday),
+      nzOnOk: () => this.deleteTrip(trip),
       nzCancelText: 'No',
       nzOnCancel: () => this.confirmDelete.closeAll(),
     });
@@ -190,33 +186,33 @@ export class ItenariesComponent implements OnInit {
       nzOnCancel: () => this.confirmDelete.closeAll(),
     });
   }
-  deleteHoliday(holiday: Holiday) {
+  deleteTrip(trip: Trip) {
     this.isProcessing = true;
     this.itenaryService
-      .deleteHoliday(holiday.holidayID)
+      .deleteTrip(trip.tripID)
       .then(() => {
         this.isProcessing = false;
-        forceHolidaysRefetch(this.globalStore);
+        forceTripsRefetch(this.globalStore);
       })
       .catch((err) => {
         console.log(err);
-        console.log(holiday.holidayID);
+        console.log(trip.tripID);
         this.isProcessing = false;
       });
   }
 
   deleteItenarary() {
     this.isProcessing = true;
-    const newHoliday = {
-      ...this.focusedHoliday,
-      holidayItenaries: [
+    const newTrip = {
+      ...this.focusedTrip,
+      TripItenaries: [
         ...getArrayWithout(
-          getIndexOfItenary(this.itenary, this.focusedHoliday.holidayItenaries),
+          getIndexOfItenary(this.itenary, this.focusedTrip.tripItenaries),
           this.itenary,
-          this.focusedHoliday
+          this.focusedTrip
         ),
       ],
     };
-    this.updateHoliday(newHoliday);
+    this.updateTrip(newTrip);
   }
 }

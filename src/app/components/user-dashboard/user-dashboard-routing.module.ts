@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HolidaysComponent } from './holidays/holidays.component';
+import { TripsComponent } from './trips/trips.component';
 import { ItenariesComponent } from './itenaries/itenaries.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
 import { UserDashboardComponent } from './user-dashboard.component';
@@ -20,8 +20,8 @@ const routes: Routes = [
         component: ItenariesComponent,
       },
       {
-        path: 'holidays',
-        component: HolidaysComponent,
+        path: 'trips',
+        component: TripsComponent,
       },
       {
         path: 'update-profile',

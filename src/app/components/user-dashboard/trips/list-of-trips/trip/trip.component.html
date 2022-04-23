@@ -2,21 +2,22 @@
   class="w-fit h-52 bg-slate-100 rounded-md cursor-pointer p-5 hover:shadow-2xl hover:scale-105 duration-500 px-5"
 >
   <p class="text-base text-dark-blue">
-    {{ holiday.holidayName }}
+    {{ trip.tripName }}
   </p>
   <p class="text-base text-dark-blue mt-2">
-    {{ holiday.holidayLocation?.name }}
+    {{ trip.tripLocation?.name }}
   </p>
   <p class="text-base text-dark-blue mt-2">
-    {{ holiday.holidayItenaries.length }} Itenaries
+    {{ trip.tripItenaries.length }}
+    Itenariess
   </p>
   <div class="flex justify-around mt-5 items-center">
     <p class="font-mono">
-      {{ holiday?.holidayStartDate | date: "fullDate" }}
+      {{ trip?.tripStartDate | date: "fullDate" }}
     </p>
     <i class="fa-solid fa-right-long mx-10 text-dark-blue"></i>
     <p class="font-mono">
-      {{ holiday?.holidayEndDate | date: "fullDate" }}
+      {{ trip?.tripEndDate | date: "fullDate" }}
     </p>
   </div>
 </div>

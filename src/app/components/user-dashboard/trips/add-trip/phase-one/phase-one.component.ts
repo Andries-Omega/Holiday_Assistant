@@ -6,11 +6,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./phase-one.component.scss'],
 })
 export class PhaseOneComponent {
-  @Input() holidayName!: string;
+  @Input() tripName!: string;
   @Input() addingIntentions!: string;
-  @Output() newHolidayName = new EventEmitter<string>();
+  @Output() newTripName = new EventEmitter<string>();
 
-  updateParentOnHolidayName() {
-    this.newHolidayName.emit(this.holidayName);
+  updateParentOnTripName() {
+    this.newTripName.emit(this.tripName);
   }
 }

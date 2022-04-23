@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ListOfCurrencies } from 'src/app/models/Currencies';
-import { AddItenarary, Holiday } from 'src/app/models/Itenaries';
+import { AddItenarary, Trip } from 'src/app/models/Itenaries';
 
 export const getCurrencies = createAction('[Userdashboard] get currencies');
 
@@ -17,13 +17,13 @@ export const setIsAddingItenary = createAction(
   props<{ isAddingItenary: AddItenarary }>()
 );
 
-export const setHolidayOfItenary = createAction(
-  '[Userdashboard] setting holiday of the current itenary being added',
-  props<{ holidayOfCurrentItenary: Holiday | null }>()
+export const setTripOfItenary = createAction(
+  '[Userdashboard] setting trip of the current itenary being added',
+  props<{ tripOfCurrentItenary: Trip | null }>()
 );
 
 // incase they click update holiday from itinaries (when i designed it on figma, i thought functionally it will be easy 😢)
-export const setHolidayFromItenary = createAction(
+export const setTripFromItenary = createAction(
   '[Userdashboard] set Holiday from itinarary',
-  props<{ isUpdatingFromItenaryRoute: Holiday | null }>()
+  props<{ isUpdatingFromItenaryRoute: Trip | null }>()
 );

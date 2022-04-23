@@ -19,7 +19,7 @@ export const selectLoggedInUser = createSelector(
   (state: AppState) => state.loggedInUser
 );
 
-export const selectUserHolidays = createSelector(
+export const selectUserTrips = createSelector(
   selectGlobalState,
-  (state: AppState) => state.userHolidays
+  (state: AppState) => state.userTrips
 );

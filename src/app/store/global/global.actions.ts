@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Holiday } from 'src/app/models/Itenaries';
+import { Trip } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
 
 export const updateTheme = createAction(
@@ -18,9 +18,9 @@ export const saveSignUpInfo = createAction(
   props<{ hasEditedSignUp: boolean }>()
 );
 
-export const saveUserHolidays = createAction(
+export const saveUserTrips = createAction(
   '[Global] save users holidays',
-  props<{ userHolidays: Holiday[] | null }>()
+  props<{ userTrips: Trip[] | null }>()
 );
 
 export const setLoggedInUser = createAction(

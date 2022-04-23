@@ -1,5 +1,5 @@
 <div
-  *ngFor="let holiday of holidays; trackBy: identifyHoliday"
+  *ngFor="let trip of trips; trackBy: identifyTrip"
   class="flex flex-wrap mb-14 border-[1px] border-dark-blue p-5 md:p-10 md:h-[900px] overflow-auto rounded-xl items-center"
 >
   <!-- 1. Header -->
@@ -7,20 +7,20 @@
     <div>
       <!-- Having it in div so i can have details listed vertically -->
       <h1 class="text-xl text-dark-blue mb-1">
-        {{ holiday.holidayName }}
+        {{ trip.tripName }}
       </h1>
       <h3 class="text-sm text-dark-blue mb-1">
-        {{ holiday.holidayLocation?.name }},
-        {{ holiday.holidayLocation?.country }}
+        {{ trip.tripLocation?.name }},
+        {{ trip.tripLocation?.country }}
       </h3>
       <h3 class="text-sm text-dark-blue mb-3">
-        {{ holiday.holidayItenaries.length }} itenaries
+        {{ trip.tripItenaries.length }} itenaries
       </h3>
 
       <h3 class="text-sm mt-1">
-        {{ holiday.holidayStartDate | date: "fullDate" }}
+        {{ trip.tripStartDate | date: "fullDate" }}
         <span class="mx-5 opacity-0 md:opacity-100"> ~ </span>
-        {{ holiday.holidayEndDate | date: "fullDate" }}
+        {{ trip.tripEndDate | date: "fullDate" }}
       </h3>
       <!-- Putting in flex so i can have them side by side -->
       <div class="flex mt-5">
@@ -30,7 +30,7 @@
               ? 'bg-dark-blue text-white py-1'
               : 'bg-white text-dark-blue'
           }}"
-          (click)="handleChangeIsAdding(true, holiday)"
+          (click)="handleChangeIsAdding(true, trip)"
         >
           <i class="fa-solid fa-plus"></i>
         </button>
@@ -40,7 +40,7 @@
               ? 'bg-white text-dark-blue'
               : 'bg-dark-blue text-white py-1 '
           }}"
-          (click)="handleChangeIsAdding(false, holiday)"
+          (click)="handleChangeIsAdding(false, trip)"
         >
           <i class="fa-solid fa-calendar-days"></i>
         </button>
@@ -49,17 +49,17 @@
     <div>
       <button
         class="border-[1px] border-dark-blue bg-white shadow-2xl md:bg-dark-blue text-dark-blue md:text-white w-fit h-fit md:py-3 md:px-8 px-3 py-3 flex justify-center items-center md:rounded-md rounded-full mb-3 hover:bg-white hover:text-dark-blue hover:shadow-2xl hover:scale-105 duration-500"
-        (click)="handleUpdateHoliday(holiday)"
+        (click)="handleUpdateTrip(trip)"
       >
         <i class="fa-solid fa-pencil md:mr-2"></i>
-        <span class="md:block hidden">Edit Holiday</span>
+        <span class="md:block hidden">Edit Trip</span>
       </button>
       <button
         class="border-[1px] border-red-500 bg-white shadow-2xl md:bg-white text-red-500 w-fit h-fit md:py-3 md:px-6 px-3 py-3 flex justify-center items-center md:rounded-md rounded-full mb-2 hover:bg-red-500 hover:text-white hover:shadow-2xl hover:scale-105 duration-500"
-        (click)="handleDeleteHoliday(holiday)"
+        (click)="handleDeleteTrip(trip)"
       >
         <i class="fa-solid fa-trash md:mr-2"></i>
-        <span class="md:block hidden">Delete Holiday</span>
+        <span class="md:block hidden">Delete Trip</span>
       </button>
     </div>
   </div>
@@ -67,11 +67,11 @@
   <app-add-itenary
     *ngIf="!isMobileShowingItinararies || !isMobile()"
     [isAddingItenary]="isAddingItenary"
-    [holiday]="holiday"
+    [trip]="trip"
     [selectedDate]="selectedDate"
     [addIntention]="addIntention"
     [itenary]="itenary"
-    (addItenaryDetails)="handleAddItenaryDetails($event, holiday)"
+    (addItenaryDetails)="handleAddItenaryDetails($event, trip)"
     class="{{
       isAddingItenary
         ? 'md:w-[90%] shadow-2xl scale-105 duration-1000'
@@ -86,13 +86,13 @@
   >
   </app-add-itenary>
   <app-calendar
-    [itenaries]="holiday.holidayItenaries"
-    [holidayStartDate]="holiday.holidayStartDate | date"
-    [holidayEndDate]="holiday.holidayEndDate | date"
+    [itenaries]="trip.tripItenaries"
+    [tripStartDate]="trip.tripStartDate | date"
+    [tripEndDate]="trip.tripEndDate | date"
     [isAddingItenary]="isAddingItenary"
-    (dateSelected)="handleDateSelected($event, holiday)"
-    (dateSelectedMobile)="handleDateSelectedMobile($event, holiday)"
-    (itenaryClicked)="handleItenaryClicked($event, holiday)"
+    (dateSelected)="handleDateSelected($event, trip)"
+    (dateSelectedMobile)="handleDateSelectedMobile($event, trip)"
+    (itenaryClicked)="handleItenaryClicked($event, trip)"
     class="{{
       isAddingItenary
         ? 'md:w-[10%]'
@@ -114,10 +114,10 @@
   </app-calendar>
   <app-list-of-itenary-items
     *ngIf="isMobile() && isMobileShowingItinararies"
-    [itenaries]="holiday.holidayItenaries"
+    [itenaries]="trip.tripItenaries"
     [selectedDate]="selectedDate"
     (closeViewOfItenararies)="handleCloseItinarariesMobile($event)"
-    (itenaryClicked)="handleItenaryClicked($event, holiday)"
+    (itenaryClicked)="handleItenaryClicked($event, trip)"
     (addNewItenary)="handleAddNewItenaryMobile($event)"
     class="w-full"
     [@slide]="

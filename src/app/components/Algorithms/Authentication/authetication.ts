@@ -8,11 +8,11 @@ import {
 import { AppState } from 'src/app/store/global/global.reducer';
 import {
   selectLoggedInUser,
-  selectUserHolidays,
+  selectUserTrips,
 } from 'src/app/store/global/global.selectors';
 import {
   getUserFromSelect,
-  getUserHolidaysFromSelect,
+  getUserTripsFromSelect,
   isObjectEmpty,
 } from '../CommonFunctions';
 import { initUsers } from '../ModelInitialisers';
@@ -23,11 +23,9 @@ export const isSecondPhaseDone = (user: Users): boolean => {
 };
 
 export const isThirdPhaseDone = (globalStore: Store<AppState>): boolean => {
-  const holidays = getUserHolidaysFromSelect(
-    globalStore.select(selectUserHolidays)
-  );
+  const trips = getUserTripsFromSelect(globalStore.select(selectUserTrips));
 
-  return holidays ? true : false;
+  return trips ? true : false;
 };
 
 export const isUserSignedIn = (globalStore: Store<AppState>): boolean => {

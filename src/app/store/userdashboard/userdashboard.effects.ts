@@ -27,7 +27,6 @@ export class UserdashboardEffects {
 
   constructor(
     private actions$: Actions,
-    private currencyService: CurrencyConvertService,
-    private locationService: LocationService
+    private currencyService: CurrencyConvertService
   ) {}
 }

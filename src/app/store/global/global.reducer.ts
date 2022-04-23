@@ -1,10 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { initUsers } from 'src/app/components/Algorithms/ModelInitialisers';
-import { Holiday } from 'src/app/models/Itenaries';
+import { Trip } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
 import {
   saveSignUpInfo,
-  saveUserHolidays,
+  saveUserTrips,
   setLoggedInUser,
   updateTheme,
   updateThemeAfterReload,
@@ -16,14 +16,14 @@ export interface AppState {
   darkMode: boolean;
   hasEditedSignUp: boolean;
   loggedInUser: Users;
-  userHolidays: Holiday[] | null;
+  userTrips: Trip[] | null;
 }
 
 export const defaultState: AppState = {
   darkMode: matchMedia('(prefers-color-scheme: dark)').matches,
   hasEditedSignUp: false,
   loggedInUser: initUsers(),
-  userHolidays: null,
+  userTrips: null,
 };
 
 const sessionState = sessionStorage.getItem('SavedState');
@@ -55,10 +55,10 @@ export const reducer = createReducer(
     sessionStorage.setItem('SavedState', JSON.stringify(newState));
     return newState;
   }),
-  on(saveUserHolidays, (state, { userHolidays }) => {
+  on(saveUserTrips, (state, { userTrips }) => {
     const newState = {
       ...state,
-      userHolidays,
+      userTrips,
     };
     sessionStorage.setItem('SavedState', JSON.stringify(newState));
     return newState;

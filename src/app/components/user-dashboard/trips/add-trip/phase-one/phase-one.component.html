@@ -2,16 +2,16 @@
   <h1 class="text-lg md:text-2xl text-dark-blue text-center">
     {{
       addingIntentions === "ADDING"
-        ? " What is the holiday name?"
-        : "Your holiday:"
+        ? " What would you like to call this trip?"
+        : "Your trip:"
     }}
   </h1>
 
   <input
-    [(ngModel)]="holidayName"
+    [(ngModel)]="tripName"
     type="text"
     placeholder="e.g. Summer holiday"
     class="mt-5 h-10 w-[300px] md:w-[400px] focus:outline-none border-[1px] border-dark-blue rounded-md px-5 text-dark-blue shadow-2xl"
-    (keyup)="updateParentOnHolidayName()"
+    (keyup)="updateParentOnTripName()"
   />
 </div>

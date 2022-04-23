@@ -6,13 +6,13 @@ import { Users } from 'src/app/models/Users';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ItenariesService } from 'src/app/services/itenaries.service';
 import {
-  saveUserHolidays,
+  saveUserTrips,
   setLoggedInUser,
 } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
 import {
   selectLoggedInUser,
-  selectUserHolidays,
+  selectUserTrips,
 } from 'src/app/store/global/global.selectors';
 import {
   isSecondPhaseDone,
@@ -81,8 +81,8 @@ export class UserDashboardComponent implements OnInit {
   phaseThreeSignIn() {
     this.isLoading = true;
     this.tip = 'Adding User Holidays...';
-    this.itenaryService.getAllHolidays(this.user.userID).then((holidays) => {
-      this.globalStore.dispatch(saveUserHolidays({ userHolidays: holidays }));
+    this.itenaryService.getAllTrips(this.user.userID).then((holidays) => {
+      this.globalStore.dispatch(saveUserTrips({ userTrips: holidays }));
       //refresh ;
       location.reload();
     });

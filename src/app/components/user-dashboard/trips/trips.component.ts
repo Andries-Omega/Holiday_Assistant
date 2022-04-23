@@ -2,70 +2,68 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { fade } from 'src/app/Animations/dashboard-animations';
-import { Holiday } from 'src/app/models/Itenaries';
+import { Trip } from 'src/app/models/Itenaries';
 import { ItenariesService } from 'src/app/services/itenaries.service';
-import { saveUserHolidays } from 'src/app/store/global/global.actions';
+import { saveUserTrips } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
 import {
   selectLoggedInUser,
-  selectUserHolidays,
+  selectUserTrips,
 } from 'src/app/store/global/global.selectors';
-import { setHolidayFromItenary } from 'src/app/store/userdashboard/userdashboard.actions';
-import { selectIsUpdatingHolidayFromI } from 'src/app/store/userdashboard/userdashboard.selectors';
+import { setTripFromItenary } from 'src/app/store/userdashboard/userdashboard.actions';
+import { selectIsUpdatingTripFromI } from 'src/app/store/userdashboard/userdashboard.selectors';
 import {
-  forceHolidaysRefetch,
-  getIsUpdatingHolidayFromItenaryFromSelect,
+  forceTripsRefetch,
+  getIsUpdatingTripFromItenaryFromSelect,
   getUserFromSelect,
-  getUserHolidaysFromSelect,
+  getUserTripsFromSelect,
 } from '../../Algorithms/CommonFunctions';
 
 @Component({
-  selector: 'app-holidays',
-  templateUrl: './holidays.component.html',
-  styleUrls: ['./holidays.component.scss'],
+  selector: 'app-trips',
+  templateUrl: './trips.component.html',
+  styleUrls: ['./trips.component.scss'],
   animations: [fade],
 })
-export class HolidaysComponent implements OnInit {
+export class TripsComponent implements OnInit {
   fadeList: string = 'In';
   fadeAdd: string = 'Out';
 
-  isAddingHoliday: boolean = false;
-  addingHoliday: boolean = false;
+  isAddingTrip: boolean = false;
+  addingTrip: boolean = false;
   addingIntentions: string = 'ADDING';
-  selectedHoliday!: Holiday | null;
-  isHolidayOptionsClicked: boolean = false;
+  selectedTrip!: Trip | null;
+  isTripOptionsClicked: boolean = false;
   processingDeleteOrUpdate: boolean = false;
 
-  holidays = getUserHolidaysFromSelect(
-    this.globalStore.select(selectUserHolidays)
-  );
+  trips = getUserTripsFromSelect(this.globalStore.select(selectUserTrips));
   user = getUserFromSelect(this.globalStore.select(selectLoggedInUser));
-  isUpdatingHolidayFromI: Holiday | null = null;
+  isUpdatingTripFromI: Trip | null = null;
   constructor(
     private globalStore: Store<AppState>,
     private itenaryService: ItenariesService
   ) {}
 
   ngOnInit(): void {
-    this.isUpdatingHolidayFromI = getIsUpdatingHolidayFromItenaryFromSelect(
-      this.globalStore.select(selectIsUpdatingHolidayFromI)
+    this.isUpdatingTripFromI = getIsUpdatingTripFromItenaryFromSelect(
+      this.globalStore.select(selectIsUpdatingTripFromI)
     );
-    if (this.isUpdatingHolidayFromI) {
+    if (this.isUpdatingTripFromI) {
       //then initiate update
-      this.selectedHoliday = this.isUpdatingHolidayFromI;
+      this.selectedTrip = this.isUpdatingTripFromI;
       this.initiateUpdate();
       //and reset to avoid always being send to adding
       this.globalStore.dispatch(
-        setHolidayFromItenary({ isUpdatingFromItenaryRoute: null })
+        setTripFromItenary({ isUpdatingFromItenaryRoute: null })
       );
     }
   }
 
   /**
-   * Doing this so i can have smooth transition between showing list of holidays and adding new holiday
+   * Doing this so i can have smooth transition between showing list of TripsuserTrips and adding new trip
    */
   handleSwitchComponents() {
-    if (this.isAddingHoliday) {
+    if (this.isAddingTrip) {
       // then we entering lists
       this.addToList();
     } else {
@@ -74,11 +72,11 @@ export class HolidaysComponent implements OnInit {
     }
   }
 
-  updateListOfHolidays(holiday: Holiday) {
-    if (this.holidays) {
-      let newHolidays = [...this.holidays, holiday];
+  updateListOfUserTrips(trip: Trip) {
+    if (this.trips) {
+      let newTripsuserTrips = [...this.trips, trip];
       this.globalStore.dispatch(
-        saveUserHolidays({ userHolidays: newHolidays })
+        saveUserTrips({ userTrips: newTripsuserTrips })
       );
       location.reload();
     } else {
@@ -89,30 +87,30 @@ export class HolidaysComponent implements OnInit {
     this.fadeAdd = 'Out'; // Initiate fade out animation
     setTimeout(() => {
       // waiting for the fade animation
-      this.isAddingHoliday = false;
+      this.isAddingTrip = false;
       this.fadeList = 'In'; // Initiate fade in animation
       this.addingIntentions = 'ADDING'; // make sure the default intentions are to add a new one
-      this.selectedHoliday = null;
+      this.selectedTrip = null;
     }, 1000);
   }
 
   listToAdd() {
     this.fadeList = 'Out';
     setTimeout(() => {
-      this.isAddingHoliday = true;
+      this.isAddingTrip = true;
       this.fadeAdd = 'In';
     }, 1000);
   }
 
-  handleHolidayClicked(holiday: Holiday) {
-    this.selectedHoliday = holiday;
-    this.isHolidayOptionsClicked = true;
+  handleTripClicked(trip: Trip) {
+    this.selectedTrip = trip;
+    this.isTripOptionsClicked = true;
   }
-  handleUserHolidayOption(doing: string) {
+  handleUserTripOption(doing: string) {
     if (doing === 'UPDATE') {
       this.initiateUpdate();
     } else {
-      this.deleteHoliday();
+      this.deleteTrip();
     }
   }
 
@@ -121,16 +119,16 @@ export class HolidaysComponent implements OnInit {
     this.listToAdd();
   }
 
-  deleteHoliday() {
-    if (this.selectedHoliday) {
+  deleteTrip() {
+    if (this.selectedTrip) {
       this.processingDeleteOrUpdate = true;
       this.itenaryService
-        .deleteHoliday(this.selectedHoliday?.holidayID)
+        .deleteTrip(this.selectedTrip?.tripID)
         .then(() => {
-          forceHolidaysRefetch(this.globalStore);
+          forceTripsRefetch(this.globalStore);
         })
         .catch(() => (this.processingDeleteOrUpdate = false));
     }
-    this.isHolidayOptionsClicked = false;
+    this.isTripOptionsClicked = false;
   }
 }

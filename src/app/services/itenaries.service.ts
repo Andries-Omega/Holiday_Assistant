@@ -10,7 +10,7 @@ import {
 import { deleteDoc, query, updateDoc, where } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 
-import { Holiday } from '../models/Itenaries';
+import { Trip } from '../models/Itenaries';
 
 @Injectable({
   providedIn: 'root',
@@ -18,54 +18,48 @@ import { Holiday } from '../models/Itenaries';
 export class ItenariesService {
   constructor(private http: HttpClient, private fireStore: Firestore) {}
 
-  async addNewHoliday(holidayDetails: Holiday) {
+  async addNewTrip(holidayDetails: Trip) {
     const docRef = collection(this.fireStore, 'Holidays');
     const doc = await addDoc(docRef, holidayDetails);
 
-    return this.updateHoliday({ ...holidayDetails, holidayID: doc.id });
+    return this.updateTrip({ ...holidayDetails, tripID: doc.id });
   }
 
-  async updateHoliday(holidayDetails: Holiday) {
-    const holidayDoc = doc(
-      this.fireStore,
-      'Holidays',
-      holidayDetails.holidayID
-    );
-    const newHoliday = {
-      holidayID: holidayDetails.holidayID,
-      userID: holidayDetails.userID,
-      holidayName: holidayDetails.holidayName,
-      holidayLocation: holidayDetails.holidayLocation,
-      holidayStartDate: holidayDetails.holidayStartDate,
-      holidayEndDate: holidayDetails.holidayEndDate,
-      holidayItenaries: holidayDetails.holidayItenaries,
+  async updateTrip(tripDetails: Trip) {
+    const tripDoc = doc(this.fireStore, 'Trips', tripDetails.tripID);
+    const newTrip = {
+      tripID: tripDetails.tripID,
+      userID: tripDetails.userID,
+      tripName: tripDetails.tripName,
+      tripLocation: tripDetails.tripLocation,
+      tripStartDate: tripDetails.tripStartDate,
+      tripEndDate: tripDetails.tripEndDate,
+      tripItenaries: tripDetails.tripItenaries,
     };
-    return await updateDoc(holidayDoc, newHoliday).then(() => {
-      return newHoliday;
+    return await updateDoc(tripDoc, newTrip).then(() => {
+      return newTrip;
     });
   }
-  async getAllHolidays(userID: string) {
+  async getAllTrips(userID: string) {
     const q = query(
-      collection(this.fireStore, 'Holidays'),
+      collection(this.fireStore, 'Trips'),
       where('userID', '==', userID)
     );
 
     const qSnapShot = await getDocs(q);
-    let holidays: Holiday[] = [];
+    let trips: Trip[] = [];
 
     qSnapShot.forEach((doc) => {
-      let holiday: Holiday = { ...(doc.data() as Holiday), holidayID: doc.id };
-      holidays.push(holiday);
+      let trip: Trip = { ...(doc.data() as Trip), tripID: doc.id };
+      trips.push(trip);
     });
 
-    return holidays;
+    return trips;
   }
 
-  async deleteHoliday(holidayID: string) {
-    return await deleteDoc(doc(this.fireStore, 'Holidays', holidayID)).then(
-      (r) => {
-        return r;
-      }
-    );
+  async deleteTrip(tripID: string) {
+    return await deleteDoc(doc(this.fireStore, 'Trips', tripID)).then((r) => {
+      return r;
+    });
   }
 }

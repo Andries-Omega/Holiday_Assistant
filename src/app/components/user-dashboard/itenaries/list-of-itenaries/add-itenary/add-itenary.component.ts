@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { slide } from 'src/app/Animations/dashboard-animations';
 import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
-import { Holiday, Itenary } from 'src/app/models/Itenaries';
+import { Trip, Itenary } from 'src/app/models/Itenaries';
 import { CurrencyConvertService } from 'src/app/services/currency-convert.service';
 import { getCurrencies } from 'src/app/store/userdashboard/userdashboard.actions';
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
@@ -20,7 +20,7 @@ import {
 export class AddItenaryComponent implements OnInit {
   @Input() isAddingItenary!: boolean | null;
   @Input() selectedDate!: Date | null;
-  @Input() holiday!: Holiday;
+  @Input() trip!: Trip;
   @Input() itenary!: Itenary;
   @Input() addIntention!: string;
   @Output() addItenaryDetails = new EventEmitter<Itenary>();

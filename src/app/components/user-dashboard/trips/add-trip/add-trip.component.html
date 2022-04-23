@@ -1,31 +1,29 @@
-<nz-spin [nzSpinning]="isAddingHoliday" nzSize="large" [nzTip]="tip">
+<nz-spin [nzSpinning]="isAddingTrip" nzSize="large" [nzTip]="tip">
   <div
     class="bg-slate-100 rounded-md w-full shadow-2xl h-fit py-14 grid place-items-center md:px-10"
   >
     <app-phase-one
       *ngIf="phase === 0"
       [addingIntentions]="addingIntentions"
-      [holidayName]="theHoliday?.holidayName || holidayDetails.holidayName"
-      (newHolidayName)="holidayDetails.holidayName = $event"
+      [tripName]="theTrip?.tripName || tripDetails.tripName"
+      (newTripName)="tripDetails.tripName = $event"
     ></app-phase-one>
 
     <app-phase-two
       *ngIf="phase === 1"
-      [locationDetails]="
-        theHoliday?.holidayLocation || (locationDetails$ | async)
-      "
+      [locationDetails]="theTrip?.tripLocation || (locationDetails$ | async)"
       [isSearching]="isSearchingLocation"
       [errorMessage]="errorMessage"
       [addingIntentions]="addingIntentions"
       (searchPlace)="searchForLocation($event)"
-      (locationConfirmed)="setHolidayLocation($event)"
+      (locationConfirmed)="setTripLocation($event)"
     ></app-phase-two>
 
     <app-phase-three
       *ngIf="phase === 2"
       [errorMessage]="errorMessage"
-      [mobileStartDate]="theHoliday?.holidayStartDate | getDateFromString"
-      [mobileEndDate]="theHoliday?.holidayEndDate | getDateFromString"
+      [mobileStartDate]="theTrip?.tripStartDate | getDateFromString"
+      [mobileEndDate]="theTrip?.tripEndDate | getDateFromString"
       (selectedDate)="setSelectedDates($event)"
     ></app-phase-three>
     <div class="flex justify-between w-full mt-10">

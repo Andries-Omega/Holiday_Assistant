@@ -17,14 +17,14 @@ export interface Location {
   status: string;
 }
 
-export interface Holiday {
-  holidayID: string;
+export interface Trip {
+  tripID: string;
   userID: string;
-  holidayName: string;
-  holidayLocation: Location | null;
-  holidayStartDate: string;
-  holidayEndDate: string;
-  holidayItenaries: Itenary[];
+  tripName: string;
+  tripLocation: Location | null;
+  tripStartDate: string;
+  tripEndDate: string;
+  tripItenaries: Itenary[];
 }
 
 export interface AddItenarary {
