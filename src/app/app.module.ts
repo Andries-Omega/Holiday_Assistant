@@ -22,7 +22,6 @@ import { LightSwitchComponent } from './components/common-components/lightswitch
 import { SwitchStateComponent } from './components/common-components/lightswitch/switchstate/switchstate.component';
 import { ConfirmModalComponent } from './components/common-components/modals/confirm-modal/confirm-modal.component';
 import { ScrollUpComponent } from './components/common-components/scroll-up/scroll-up.component';
-import { HomeComponent } from './components/home/home.component';
 import { NoPageComponent } from './components/no-page/no-page.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupFormComponent } from './components/signup/signup-form/signup-form.component';
@@ -39,7 +38,6 @@ registerLocaleData(en);
     AppComponent,
     HeaderComponent,
     ScrollUpComponent,
-    HomeComponent,
     SigninComponent,
     SignupComponent,
     NoPageComponent,

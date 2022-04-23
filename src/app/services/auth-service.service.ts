@@ -23,7 +23,7 @@ export class AuthServiceService {
 
   async signUpUser(userData: Users): Promise<boolean | string> {
     let signedUp: boolean | string = false;
-
+    console.log(userData);
     await createUserWithEmailAndPassword(
       this.auth,
       userData.email,
@@ -56,7 +56,7 @@ export class AuthServiceService {
     await setDoc(doc(this.fireStore, 'Users', userID), {
       name: userData.name,
       email: userData.email,
-      preferred_name: userData.preferredName,
+      preferredName: userData.preferredName,
     });
   }
 }

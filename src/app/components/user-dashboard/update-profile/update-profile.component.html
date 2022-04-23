@@ -3,7 +3,12 @@
 >
   <h1 class="text-dark-blue text-center text-2xl">Update Profile</h1>
   <hr class="border-dark-blue my-2" />
-  <app-update-names></app-update-names>
+  <app-update-names
+    [name]="enteredName"
+    [preferredName]="enteredPreferredName"
+    (saveName)="enteredName = $event"
+    (savePreferredName)="enteredPreferredName = $event"
+  ></app-update-names>
   <div class="md:px-14 px-5">
     <button
       class="{{
@@ -24,17 +29,28 @@
   <app-update-login-details
     [isUpdatingLoginDetails]="isUpdatingLoginDetails"
     [isMobile]="checkMobile()"
+    [email]="enteredEmail"
+    (saveEmail)="enteredEmail = $event"
+    (savePassword)="enteredPassword = $event"
   ></app-update-login-details>
   <div class="px-14 mt-2">
     <button
-      class="w-full h-fit py-3 bg-white border-[1px] border-dark-blue text-dark-blue rounded-md mt-2 hover:bg-dark-blue hover:text-white hover:shadow-2xl duration-500"
+      class="w-full relative h-fit py-3 bg-white border-[1px] border-dark-blue text-dark-blue rounded-md mt-2 hover:bg-dark-blue hover:text-white hover:shadow-2xl duration-500"
+      (click)="promptUserForPassword = true"
     >
       Update
     </button>
   </div>
 </div>
 <button
-  class="w-full border-[1px] border-red-500 rounded-md h-fit py-3 mt-5 bg-red-500 hover:bg-white text-white hover:text-red-500 hover:shadow-2xl duration-500"
+  class="w-full border-[1px] mb-20 md:mx-4 border-red-500 rounded-md h-fit py-3 mt-5 bg-red-500 hover:bg-white text-white hover:text-red-500 hover:shadow-2xl duration-500"
 >
   Delete Account
 </button>
+
+<!--Pop ups always at the end-->
+<app-update-profile-password-popup
+  [enterPasswordVisible]="promptUserForPassword"
+  (userPassword)="updateProfile($event)"
+  (closePopup)="promptUserForPassword = false"
+></app-update-profile-password-popup>

@@ -74,6 +74,8 @@ export class SignupComponent implements OnInit {
         this.errorMessage = '';
         if (typeof r !== 'boolean') {
           signIn(r, this.globalStore, this.route);
+        } else {
+          this.signingUp = false;
         }
       })
       .catch((err: Error) => {
@@ -82,7 +84,7 @@ export class SignupComponent implements OnInit {
           err.message ===
           'FirebaseError: Firebase: Error (auth/email-already-in-use).'
             ? 'The email you have provided already exists'
-            : 'error occured while signing you, please try again';
+            : 'error occured while signing you up, please try again';
       });
   }
 }

@@ -2,7 +2,7 @@
   class="md:px-14 px-5"
   [@sizeAnime]="
     isUpdatingLoginDetails
-      ? { value: 'heightOpen', params: { height: isMobile ? 240 : 475 } }
+      ? { value: 'heightOpen', params: { height: isMobile ? 300 : 475 } }
       : { value: 'heightClose', params: { height: 0 } }
   "
 >
@@ -19,20 +19,27 @@
     <div class="w-[100%]">
       <p class="text-base text-dark-blue">Your Email</p>
       <input
+        [(ngModel)]="email"
         type="email"
         placeholder="Email"
         class="w-full h-10 focus:outline-none border-[1px] focus:border-dark-blue px-5 mt-1 rounded-md focus:shadow-2xl duration-500"
+        (keyup)="handleChange('Email')"
       />
+      <p class="text-red-500 text-sm mt-1">
+        {{ errorEmailMessage }}
+      </p>
     </div>
     <div class="w-[100%] mt-6">
       <p class="text-base text-dark-blue">Your Password</p>
-      <div class="flex items-center">
+      <div class="flex">
         <input
+          [(ngModel)]="password"
           [type]="passwordVisible ? 'text' : 'password'"
           placeholder="Password"
           class="w-full h-10 focus:outline-none border-[1px] border-r-0 rounded-r-none focus:border-dark-blue px-5 mt-1 rounded-md focus:shadow-2xl duration-500"
           (focus)="passwordFocus = true"
           (blur)="passwordFocus = false"
+          (keyup)="handleChange('PWord')"
         />
         <button
           class="px-2 border-[1px] {{
@@ -43,6 +50,9 @@
           <i class="fa-solid fa-eye{{ passwordVisible ? '-slash' : '' }}"></i>
         </button>
       </div>
+      <p class="text-red-500 text-sm mt-1">
+        {{ errorPassworMessage }}
+      </p>
     </div>
   </div>
 </div>

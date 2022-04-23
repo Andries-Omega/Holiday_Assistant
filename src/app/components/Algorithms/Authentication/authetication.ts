@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Users } from 'src/app/models/Users';
 import {
   saveSignUpInfo,
+  saveUserTrips,
   setLoggedInUser,
 } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
@@ -55,7 +56,8 @@ export const signIn = (
 export const signOutt = (route: Router, globalStore: Store<AppState>) => {
   // 1. Remove user from global state
   globalStore.dispatch(setLoggedInUser({ loggedInUser: initUsers() }));
-
+  // 2. Remove user trips
+  globalStore.dispatch(saveUserTrips({ userTrips: null }));
   // 3. Reload page
   location.reload();
 };

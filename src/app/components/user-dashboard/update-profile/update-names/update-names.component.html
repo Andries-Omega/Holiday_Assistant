@@ -2,17 +2,25 @@
   <div class="md:w-[47%] w-full">
     <p class="text-base text-dark-blue">Your Name</p>
     <input
+      [(ngModel)]="name"
       type="text"
       placeholder="Name"
       class="w-full h-10 focus:outline-none border-[1px] focus:border-dark-blue px-5 mt-1 rounded-md focus:shadow-2xl duration-500"
+      (keyup)="handleChange('Name')"
     />
+    <p class="text-red-500 text-sm mt-1">
+      {{ errorMessage }}
+    </p>
   </div>
+
   <div class="md:w-[47%] w-full mt-4 md:mt-0">
     <p class="text-base text-dark-blue">Your Preferred Name</p>
     <input
+      [(ngModel)]="preferredName"
       type="text"
       placeholder="Preferred Name"
       class="w-full h-10 focus:outline-none border-[1px] focus:border-dark-blue px-5 mt-1 rounded-md focus:shadow-2xl duration-500"
+      (keyup)="handleChange('PName')"
     />
   </div>
 </div>

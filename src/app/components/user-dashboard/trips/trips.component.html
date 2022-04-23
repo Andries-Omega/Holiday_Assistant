@@ -36,6 +36,7 @@
       [isTripsOptionsClicked]="isTripOptionsClicked"
       [theTrip]="selectedTrip"
       (userOption)="handleUserTripOption($event)"
+      (closePopUp)="isTripOptionsClicked = false"
     ></trip-pop-up>
   </div>
 </nz-spin>

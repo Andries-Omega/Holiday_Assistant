@@ -11,7 +11,11 @@ export class TripPopUpComponent {
   @Input() theTrip!: Trip | null;
 
   @Output() userOption = new EventEmitter<string>();
+  @Output() closePopUp = new EventEmitter<void>();
   handleClick(doing: string) {
     this.userOption.emit(doing);
+  }
+  closepop() {
+    this.closePopUp.emit();
   }
 }

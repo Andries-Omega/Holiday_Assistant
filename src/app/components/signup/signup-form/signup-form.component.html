@@ -114,11 +114,7 @@
                 "
               >
                 <i
-                  [class]="
-                    passwordVisible
-                      ? 'fa-solid fa-eye'
-                      : 'fa-solid fa-eye-slash'
-                  "
+                  class="fa-solid fa-eye{{ passwordVisible ? '' : '-slash' }}"
                 ></i>
               </div>
             </nz-input-group>
@@ -152,11 +148,9 @@
                 "
               >
                 <i
-                  [class]="
-                    confirmPasswordVisible
-                      ? 'fa-solid fa-eye'
-                      : 'fa-solid fa-eye-slash'
-                  "
+                  class="fa-solid fa-eye{{
+                    confirmPasswordVisible ? '' : '-slash'
+                  }}"
                 ></i>
               </div>
             </nz-input-group>
