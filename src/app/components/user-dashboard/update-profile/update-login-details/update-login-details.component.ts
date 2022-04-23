@@ -27,7 +27,6 @@ export class UpdateLoginDetailsComponent {
 
   handleChange(type: string) {
     //don't even bother saving what is not valid
-    console.log('saa');
     if (type === 'Email') {
       if (this.validEmail()) {
         this.errorEmailMessage = '';

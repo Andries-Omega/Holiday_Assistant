@@ -2,17 +2,20 @@ import { Injectable } from '@angular/core';
 import {
   Auth,
   createUserWithEmailAndPassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
   signInWithEmailAndPassword,
   UserCredential,
 } from '@angular/fire/auth';
 import {
   doc,
-  Firestore,
-  setDoc,
-  getDoc,
   DocumentData,
+  Firestore,
+  getDoc,
+  setDoc,
+  updateDoc,
 } from '@angular/fire/firestore';
-
+import { updateEmail, updatePassword } from '@firebase/auth';
 import { Users } from '../models/Users';
 
 @Injectable({
@@ -48,6 +51,72 @@ export class AuthServiceService {
     }
   }
 
+  async reAuthenticate(oldPassword: string, email: string) {
+    const user = this.auth.currentUser;
+    if (user) {
+      const cred = EmailAuthProvider.credential(email, oldPassword);
+      return await reauthenticateWithCredential(user, cred)
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+    } else {
+      return false;
+    }
+  }
+
+  async updateEmail(newEmail: string) {
+    const user = this.auth.currentUser;
+    if (user) {
+      return updateEmail(user, newEmail)
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+    } else {
+      return false;
+    }
+  }
+
+  async updatePassword(newPassword: string) {
+    const user = this.auth.currentUser;
+    if (user) {
+      return updatePassword(user, newPassword)
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+    } else {
+      return false;
+    }
+  }
+  async updateUserProfile(
+    newEmail: string,
+    newName: string,
+    newPreferredName: string,
+    userID: string
+  ) {
+    const userDoc = doc(this.fireStore, 'Users', userID);
+    const newUserDetails = {
+      email: newEmail,
+      name: newName,
+      preferredName: newPreferredName,
+    };
+
+    return await updateDoc(userDoc, newUserDetails)
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
   signInUser(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);
   }

@@ -1,3 +1,4 @@
+import { Auth, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Users } from 'src/app/models/Users';
@@ -53,11 +54,13 @@ export const signIn = (
   route.navigateByUrl('dashboard');
 };
 
-export const signOutt = (route: Router, globalStore: Store<AppState>) => {
-  // 1. Remove user from global state
+export const signOutt = (auth: Auth, globalStore: Store<AppState>) => {
+  // 1. sign out firebase
+  signOut(auth);
+  // 2. Remove user from global state
   globalStore.dispatch(setLoggedInUser({ loggedInUser: initUsers() }));
-  // 2. Remove user trips
+  // 3. Remove user trips
   globalStore.dispatch(saveUserTrips({ userTrips: null }));
-  // 3. Reload page
+  // 4. Reload page
   location.reload();
 };

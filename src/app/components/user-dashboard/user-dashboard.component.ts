@@ -69,8 +69,9 @@ export class UserDashboardComponent implements OnInit {
             })
           );
 
-          //refresh the component to go to phase three or complete sign in
-          this.ngOnInit();
+          // refresh (refreshing and not calling ngOnInit again because when user updates their sign in details, i want them to see those details)
+          // the page to go to phase three or complete sign in
+          location.reload();
         } else {
           location.reload();
         }

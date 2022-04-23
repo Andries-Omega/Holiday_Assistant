@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, signOut } from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-
 import { AppState } from 'src/app/store/global/global.reducer';
 import { signOutt } from '../../Algorithms/Authentication/authetication';
 
@@ -25,8 +24,7 @@ export class DashOptionsComponent implements OnInit {
   }
 
   logOut() {
-    signOut(this.auth);
-    signOutt(this.router, this.globalStore);
+    signOutt(this.auth, this.globalStore);
   }
 
   routeTo(url: string) {
