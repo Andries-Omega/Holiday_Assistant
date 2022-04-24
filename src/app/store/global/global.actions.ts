@@ -27,3 +27,8 @@ export const setLoggedInUser = createAction(
   '[Global] set logged in user',
   props<{ loggedInUser: Users }>()
 );
+
+export const getTrips = createAction(
+  '[Userdashboard] get trips',
+  props<{ userID: string }>()
+);

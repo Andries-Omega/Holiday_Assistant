@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { slide } from 'src/app/Animations/dashboard-animations';
 import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
-import { Trip, Itenary } from 'src/app/models/Itenaries';
+import { Trip, ItenaryItem } from 'src/app/models/Itenaries';
 import { CurrencyConvertService } from 'src/app/services/currency-convert.service';
 import { getCurrencies } from 'src/app/store/userdashboard/userdashboard.actions';
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
@@ -21,9 +21,9 @@ export class AddItenaryComponent implements OnInit {
   @Input() isAddingItenary!: boolean | null;
   @Input() selectedDate!: Date | null;
   @Input() trip!: Trip;
-  @Input() itenary!: Itenary;
+  @Input() itenary!: ItenaryItem;
   @Input() addIntention!: string;
-  @Output() addItenaryDetails = new EventEmitter<Itenary>();
+  @Output() addItenaryDetails = new EventEmitter<ItenaryItem>();
 
   dropDownOpen = false;
   fromDropOpen: boolean = false;
@@ -52,7 +52,7 @@ export class AddItenaryComponent implements OnInit {
 
   currentPhase: number = 0;
 
-  itenaryDetails: Itenary = {
+  itenaryDetails: ItenaryItem = {
     itenaryName: this.itenary?.itenaryName || '',
     itenaryTag: this.itenary?.itenaryTag || '',
     itenaryDate: this.itenary?.itenaryDate || '',
@@ -73,7 +73,7 @@ export class AddItenaryComponent implements OnInit {
     }
   }
 
-  handleAddItenaryDetails(itenaryDetails: Itenary) {
+  handleAddItenaryDetails(itenaryDetails: ItenaryItem) {
     this.addItenaryDetails.emit(itenaryDetails);
   }
 

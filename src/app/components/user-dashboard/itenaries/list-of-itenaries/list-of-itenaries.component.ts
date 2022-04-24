@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { slide } from 'src/app/Animations/dashboard-animations';
 import { isMobile } from 'src/app/components/Algorithms/CommonFunctions';
-import { Trip, Itenary } from 'src/app/models/Itenaries';
+import { Trip, ItenaryItem } from 'src/app/models/Itenaries';
 
 @Component({
   selector: 'app-list-of-itenaries',
@@ -14,17 +14,17 @@ export class ListOfItenariesComponent {
   @Input() isAddingItenary!: boolean;
   @Input() selectedDate!: Date | null;
   @Input() addIntention!: string;
-  @Input() itenary!: Itenary;
+  @Input() itenary!: ItenaryItem;
   @Input() isMobileShowingItinararies!: boolean;
 
   @Output() changeIsAdding = new EventEmitter<boolean>();
   @Output() dateSelected = new EventEmitter<Date>();
   @Output() dateSelectedMobile = new EventEmitter<Date>();
-  @Output() addItenaryDetails = new EventEmitter<Itenary>();
+  @Output() addItenaryDetails = new EventEmitter<ItenaryItem>();
   @Output() tripUpdating = new EventEmitter<Trip>();
   @Output() updateTrip = new EventEmitter<Trip>();
   @Output() deleteTrip = new EventEmitter<Trip>();
-  @Output() itenaryClicked = new EventEmitter<Itenary>();
+  @Output() itenaryClicked = new EventEmitter<ItenaryItem>();
   @Output() closeViewOfItenararies = new EventEmitter<boolean>();
   @Output() addNewItenary = new EventEmitter<Date>();
 
@@ -48,14 +48,14 @@ export class ListOfItenariesComponent {
       this.tripUpdating.emit(trip);
     }
   }
-  handleAddItenaryDetails(itenaryDetails: Itenary, trip: Trip) {
+  handleAddItenaryDetails(itenaryDetails: ItenaryItem, trip: Trip) {
     this.addItenaryDetails.emit(itenaryDetails);
     if (this.trips) {
       this.tripUpdating.emit(trip);
     }
   }
 
-  handleItenaryClicked(itenary: Itenary, trip: Trip) {
+  handleItenaryClicked(itenary: ItenaryItem, trip: Trip) {
     this.itenaryClicked.emit(itenary);
     if (this.trips) {
       this.tripUpdating.emit(trip);

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Trip, Itenary } from 'src/app/models/Itenaries';
+import { Trip, ItenaryItem } from 'src/app/models/Itenaries';
 import { ItenariesService } from 'src/app/services/itenaries.service';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectUserTrips } from 'src/app/store/global/global.selectors';
@@ -34,7 +34,7 @@ export class ItenariesComponent implements OnInit {
 
   askToAddItenary: boolean = false;
   itenaryClicked: boolean = false;
-  itenary!: Itenary;
+  itenary!: ItenaryItem;
   addIntention: string = 'ADDING';
   isMobileShowingItinararies: boolean = false;
 
@@ -88,12 +88,12 @@ export class ItenariesComponent implements OnInit {
     this.askToAddItenary = false;
   }
 
-  handleAddItenaryDetails(itenaryDetails: Itenary) {
+  handleAddItenaryDetails(itenaryDetails: ItenaryItem) {
     if (this.focusedTrip) {
       if (this.addIntention === 'ADDING') {
         const newTrip = {
           ...this.focusedTrip,
-          TripItenaries: [...this.focusedTrip.tripItenaries, itenaryDetails],
+          tripItenaries: [...this.focusedTrip.tripItenaries, itenaryDetails],
         };
 
         this.updateTrip(newTrip);
@@ -105,7 +105,7 @@ export class ItenariesComponent implements OnInit {
 
         const newTrip = {
           ...this.focusedTrip,
-          TripItenaries: [
+          tripItenaries: [
             ...getArrayWithout(index, this.itenary, this.focusedTrip),
             itenaryDetails,
           ],
@@ -115,7 +115,7 @@ export class ItenariesComponent implements OnInit {
     }
   }
 
-  handleItenaryClicked(itenary: Itenary) {
+  handleItenaryClicked(itenary: ItenaryItem) {
     this.itenary = itenary;
     this.itenaryClicked = true;
   }
@@ -143,6 +143,7 @@ export class ItenariesComponent implements OnInit {
       .updateTrip(newTrip)
       .then(() => {
         this.isProcessing = false;
+        console.log('here');
         forceTripsRefetch(this.globalStore);
       })
       .catch(() => (this.isProcessing = false));
@@ -207,7 +208,7 @@ export class ItenariesComponent implements OnInit {
     this.isProcessing = true;
     const newTrip = {
       ...this.focusedTrip,
-      TripItenaries: [
+      tripItenaries: [
         ...getArrayWithout(
           getIndexOfItenary(this.itenary, this.focusedTrip.tripItenaries),
           this.itenary,

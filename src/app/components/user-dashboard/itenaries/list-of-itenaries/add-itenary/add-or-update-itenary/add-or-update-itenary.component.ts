@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
-import { Itenary } from 'src/app/models/Itenaries';
+import { ItenaryItem } from 'src/app/models/Itenaries';
 
 @Component({
   selector: 'app-add-or-update-itenary',
@@ -10,7 +10,7 @@ import { Itenary } from 'src/app/models/Itenaries';
 export class AddOrUpdateItenaryComponent implements OnInit {
   // For entire Form
   @Input() selectedDate!: Date | null;
-  @Input() itenaryDetails!: Itenary;
+  @Input() itenaryDetails!: ItenaryItem;
   @Input() listOfAvailableDates!: Date[];
   @Input() startDate!: string | null;
   @Input() addIntention!: string;
@@ -22,13 +22,13 @@ export class AddOrUpdateItenaryComponent implements OnInit {
   @Input() fromCurrency!: Currency;
   @Input() toCurrency!: Currency;
   @Input() converstionCurrency!: number;
-  @Input() itenary!: Itenary;
+  @Input() itenary!: ItenaryItem;
 
   @Output() fromDropChange = new EventEmitter<boolean>();
   @Output() toDropChange = new EventEmitter<boolean>();
   @Output() converting = new EventEmitter<number>();
   @Output() selectedCurrency = new EventEmitter<Currency>();
-  @Output() addItenaryDetails = new EventEmitter<Itenary>();
+  @Output() addItenaryDetails = new EventEmitter<ItenaryItem>();
 
   itenaryDate: string = new Date().toDateString();
 

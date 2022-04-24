@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
-
 import { Store } from '@ngrx/store';
 import { Users } from 'src/app/models/Users';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
@@ -10,10 +9,8 @@ import {
   setLoggedInUser,
 } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
-import {
-  selectLoggedInUser,
-  selectUserTrips,
-} from 'src/app/store/global/global.selectors';
+import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
+import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
 import {
   isSecondPhaseDone,
   isThirdPhaseDone,
@@ -82,6 +79,7 @@ export class UserDashboardComponent implements OnInit {
   phaseThreeSignIn() {
     this.isLoading = true;
     this.tip = 'Adding User Holidays...';
+
     this.itenaryService.getAllTrips(this.user.userID).then((holidays) => {
       this.globalStore.dispatch(saveUserTrips({ userTrips: holidays }));
       //refresh ;

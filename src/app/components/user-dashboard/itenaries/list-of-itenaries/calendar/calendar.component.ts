@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { slide } from 'src/app/Animations/dashboard-animations';
-import { Itenary } from 'src/app/models/Itenaries';
+import { ItenaryItem } from 'src/app/models/Itenaries';
 
 @Component({
   selector: 'app-calendar',
@@ -9,14 +9,14 @@ import { Itenary } from 'src/app/models/Itenaries';
   animations: [slide],
 })
 export class CalendarComponent implements OnInit {
-  @Input() itenaries!: Itenary[];
+  @Input() itenaries!: ItenaryItem[];
   @Input() tripStartDate!: string | null;
   @Input() tripEndDate!: string | null;
   @Input() isAddingItenary!: boolean | null;
 
   @Output() dateSelected = new EventEmitter<Date>();
   @Output() dateSelectedMobile = new EventEmitter<Date>();
-  @Output() itenaryClicked = new EventEmitter<Itenary>();
+  @Output() itenaryClicked = new EventEmitter<ItenaryItem>();
 
   startDate: Date = new Date();
   endDate: Date = new Date();
@@ -53,10 +53,10 @@ export class CalendarComponent implements OnInit {
       this.dateSelectedMobile.emit(this.selectedDate);
     }
   }
-  identifyItenary(index: number, itenary: Itenary) {
+  identifyItenary(index: number, itenary: ItenaryItem) {
     return itenary;
   }
-  handleItenaryClicked(itenary: Itenary) {
+  handleItenaryClicked(itenary: ItenaryItem) {
     this.itenaryClicked.emit(itenary);
   }
 }

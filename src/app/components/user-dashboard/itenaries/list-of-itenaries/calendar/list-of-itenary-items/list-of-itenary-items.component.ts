@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Itenary } from 'src/app/models/Itenaries';
+import { ItenaryItem } from 'src/app/models/Itenaries';
 
 @Component({
   selector: 'app-list-of-itenary-items',
@@ -8,11 +8,11 @@ import { Itenary } from 'src/app/models/Itenaries';
 })
 export class ListOfItenaryItemsComponent {
   @Input() selectedDate!: Date | null;
-  @Input() itenaries!: Itenary[];
+  @Input() itenaries!: ItenaryItem[];
 
   @Output() addNewItenary = new EventEmitter<Date>();
   @Output() closeViewOfItenararies = new EventEmitter<boolean>();
-  @Output() itenaryClicked = new EventEmitter<Itenary>();
+  @Output() itenaryClicked = new EventEmitter<ItenaryItem>();
 
   handlecloseViewOfI() {
     this.closeViewOfItenararies.emit(false);
@@ -25,11 +25,11 @@ export class ListOfItenaryItemsComponent {
       location.reload();
     }
   }
-  handleItenaryClicked(itinarary: Itenary) {
+  handleItenaryClicked(itinarary: ItenaryItem) {
     this.itenaryClicked.emit(itinarary);
   }
 
-  identifyItenary(index: number, itenary: Itenary) {
+  identifyItenary(index: number, itenary: ItenaryItem) {
     return itenary;
   }
 
