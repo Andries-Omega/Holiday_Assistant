@@ -2,18 +2,24 @@ import { Injectable } from '@angular/core';
 import {
   Auth,
   createUserWithEmailAndPassword,
+  deleteUser,
   EmailAuthProvider,
   reauthenticateWithCredential,
   signInWithEmailAndPassword,
   UserCredential,
 } from '@angular/fire/auth';
 import {
+  collection,
+  deleteDoc,
   doc,
   DocumentData,
   Firestore,
   getDoc,
+  getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from '@angular/fire/firestore';
 import { updateEmail, updatePassword } from '@firebase/auth';
 import { Users } from '../models/Users';
@@ -121,11 +127,42 @@ export class AuthServiceService {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
 
+  async deleteUser(auth: Auth) {
+    if (auth.currentUser) {
+      return await deleteUser(auth.currentUser)
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+    } else {
+      return false;
+    }
+  }
+
   private async setUserInfo(userData: Users, userID: string) {
     await setDoc(doc(this.fireStore, 'Users', userID), {
       name: userData.name,
       email: userData.email,
       preferredName: userData.preferredName,
     });
+  }
+
+  async deleteUserTrips(userID: string) {
+    const q = query(
+      collection(this.fireStore, 'Trips'),
+      where('userID', '==', userID)
+    );
+
+    const docs = getDocs(q);
+
+    (await docs).forEach((trip) => {
+      deleteDoc(doc(this.fireStore, 'Trips', trip.id));
+    });
+  }
+
+  async deleteUserInfo(userID: string) {
+    return await deleteDoc(doc(this.fireStore, 'Users', userID));
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth, User } from '@angular/fire/auth';
 import { Store } from '@ngrx/store';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { sizeAnime } from 'src/app/Animations/dashboard-animations';
 import { Users } from 'src/app/models/Users';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
@@ -28,11 +29,13 @@ export class UpdateProfileComponent implements OnInit {
   errorMessage: string = '';
   isUpdating: boolean = false;
   updateTip: string = '';
+  reAuthIntention: string = 'Update';
 
   constructor(
     private globalStore: Store<AppState>,
     private authService: AuthServiceService,
-    private auth: Auth
+    private auth: Auth,
+    private confirmDelete: NzModalService
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +47,7 @@ export class UpdateProfileComponent implements OnInit {
   checkMobile(): boolean {
     return isMobile();
   }
+
   updateUser() {
     // if they are updating email or password, we reauthenticate
     if (this.somethingChanged()) {
@@ -74,7 +78,11 @@ export class UpdateProfileComponent implements OnInit {
       .reAuthenticate(oldPassword, this.user.email)
       .then((authenticated) => {
         if (authenticated) {
-          this.updateEmail();
+          if (this.reAuthIntention === 'Update') {
+            this.updateEmail();
+          } else {
+            this.deleteUserTrips();
+          }
         } else {
           this.isUpdating = false;
           this.errorMessage = 'Unable to verify password';
@@ -173,6 +181,48 @@ export class UpdateProfileComponent implements OnInit {
       });
   }
 
+  handleDeleteUser() {
+    this.reAuthIntention = 'Delete';
+    this.showUserDeleteConfirm();
+  }
+
+  deleteUserTrips() {
+    this.updateTip = 'Deleting trips';
+    this.authService
+      .deleteUserTrips(this.user.userID)
+      .then(() => {
+        this.deleteUserInformation();
+      })
+      .catch(() => {
+        this.isUpdating = false;
+        this.errorMessage = 'Something went wrong, please try again 😬';
+      });
+  }
+
+  deleteUserInformation() {
+    this.updateTip = 'Deleting Userinformation';
+    this.authService.deleteUserInfo(this.user.userID).then(() => {
+      this.deleteUser();
+    });
+  }
+  deleteUser() {
+    this.updateTip = 'Deleting User...';
+    this.authService
+      .deleteUser(this.auth)
+      .then((result) => {
+        if (result) {
+          signOutt(this.auth, this.globalStore);
+        } else {
+          this.isUpdating = false;
+          this.errorMessage =
+            'Failed to delete your account, please try again later.';
+        }
+      })
+      .catch(() => {
+        this.isUpdating = false;
+        this.errorMessage = 'Something went wrong, please try again 😬';
+      });
+  }
   somethingChanged() {
     return !(
       this.enteredName === this.user.name &&
@@ -184,5 +234,18 @@ export class UpdateProfileComponent implements OnInit {
 
   updatingLoginDetails(): boolean {
     return !!this.enteredPassword || this.enteredEmail !== this.user.email;
+  }
+
+  showUserDeleteConfirm() {
+    this.confirmDelete.confirm({
+      nzTitle: 'Are you sure delete the your account',
+      nzContent: '<b style="color: red;">You will not get it back</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => (this.promptUserForPassword = true),
+      nzCancelText: 'No',
+      nzOnCancel: () => this.confirmDelete.closeAll(),
+    });
   }
 }
