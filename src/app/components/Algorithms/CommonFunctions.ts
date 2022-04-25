@@ -77,6 +77,22 @@ export const getIsUpdatingTripFromItenaryFromSelect = (
 
   return isUpdatingTripFromSelect;
 };
+
+export const getToDoFromSelect = (toDo$: Observable<string>): string => {
+  let toDo: string = 'UPDATE';
+  const theUpdateTripsub = toDo$
+    .pipe(
+      map((tD) => {
+        toDo = tD;
+      })
+    )
+    .subscribe();
+  //unsubscribe
+  unSubscribe(theUpdateTripsub);
+
+  return toDo;
+};
+
 export const unSubscribe = (subscription: Subscription) => {
   subscription.unsubscribe();
 };
