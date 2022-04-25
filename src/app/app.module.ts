@@ -18,9 +18,6 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/common-components/header/header.component';
-import { LightSwitchComponent } from './components/common-components/lightswitch/lightswitch.component';
-import { SwitchStateComponent } from './components/common-components/lightswitch/switchstate/switchstate.component';
-import { ConfirmModalComponent } from './components/common-components/modals/confirm-modal/confirm-modal.component';
 import { ScrollUpComponent } from './components/common-components/scroll-up/scroll-up.component';
 import { NoPageComponent } from './components/no-page/no-page.component';
 import { SigninComponent } from './components/signin/signin.component';
@@ -45,9 +42,6 @@ registerLocaleData(en);
     SigninComponent,
     SignupComponent,
     SignupFormComponent,
-    LightSwitchComponent,
-    SwitchStateComponent,
-    ConfirmModalComponent,
   ],
   imports: [
     BrowserModule,

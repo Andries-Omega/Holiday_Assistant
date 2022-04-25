@@ -30,7 +30,6 @@ import {
 export const globalFeatureKey = 'global';
 
 export interface AppState {
-  darkMode: boolean;
   hasEditedSignUp: boolean;
   loggedInUser: Users;
   userTrips: Trip[] | null;
@@ -39,7 +38,6 @@ export interface AppState {
 }
 
 export const defaultState: AppState = {
-  darkMode: matchMedia('(prefers-color-scheme: dark)').matches,
   hasEditedSignUp: false,
   loggedInUser: initUsers(),
   userTrips: null,
