@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Trip, ItenaryItem } from 'src/app/models/Itenaries';
-import { ItenariesService } from 'src/app/services/itenaries.service';
+import { ItenaryItem, Trip } from 'src/app/models/Itenaries';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectUserTrips } from 'src/app/store/global/global.selectors';
 import {
-  setTripFromItenary,
+  deleteTrip,
   setIsAddingItenary,
+  setTripFromItenary,
+  updateTrips,
 } from 'src/app/store/userdashboard/userdashboard.actions';
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
 import { selectIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.selectors';
 import {
-  forceTripsRefetch,
   getArrayWithout,
   getIndexOfItenary,
   getUserTripsFromSelect,
@@ -38,12 +38,9 @@ export class ItenariesComponent implements OnInit {
   addIntention: string = 'ADDING';
   isMobileShowingItinararies: boolean = false;
 
-  isProcessing: boolean = false;
-
   constructor(
     private globalStore: Store<AppState>,
     private dashStore: Store<DashState>,
-    private itenaryService: ItenariesService,
     private confirmDelete: NzModalService,
     private router: Router
   ) {}
@@ -138,15 +135,7 @@ export class ItenariesComponent implements OnInit {
   }
 
   updateTrip(newTrip: Trip) {
-    this.isProcessing = true;
-    this.itenaryService
-      .updateTrip(newTrip)
-      .then(() => {
-        this.isProcessing = false;
-        console.log('here');
-        forceTripsRefetch(this.globalStore);
-      })
-      .catch(() => (this.isProcessing = false));
+    this.dashStore.dispatch(updateTrips({ trip: newTrip }));
   }
 
   handleUpdateTrip(trip: Trip) {
@@ -190,22 +179,10 @@ export class ItenariesComponent implements OnInit {
   }
 
   deleteTrip(trip: Trip) {
-    this.isProcessing = true;
-    this.itenaryService
-      .deleteTrip(trip.tripID)
-      .then(() => {
-        this.isProcessing = false;
-        forceTripsRefetch(this.globalStore);
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log(trip.tripID);
-        this.isProcessing = false;
-      });
+    this.dashStore.dispatch(deleteTrip({ tripID: trip.tripID }));
   }
 
   deleteItenarary() {
-    this.isProcessing = true;
     const newTrip = {
       ...this.focusedTrip,
       tripItenaries: [

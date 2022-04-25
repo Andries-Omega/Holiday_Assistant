@@ -12,7 +12,6 @@ import {
   collection,
   deleteDoc,
   doc,
-  DocumentData,
   Firestore,
   getDoc,
   getDocs,
@@ -32,7 +31,6 @@ export class AuthServiceService {
 
   async signUpUser(userData: Users): Promise<boolean | string> {
     let signedUp: boolean | string = false;
-    console.log(userData);
     await createUserWithEmailAndPassword(
       this.auth,
       userData.email,
@@ -48,7 +46,7 @@ export class AuthServiceService {
     return signedUp;
   }
 
-  async getUserInfo(userID: string): Promise<DocumentData | boolean> {
+  async getUserInfo(userID: string) {
     const docSnap = await getDoc(doc(this.fireStore, 'Users', userID));
     if (docSnap.exists()) {
       return docSnap.data();
@@ -59,6 +57,7 @@ export class AuthServiceService {
 
   async reAuthenticate(oldPassword: string, email: string) {
     const user = this.auth.currentUser;
+
     if (user) {
       const cred = EmailAuthProvider.credential(email, oldPassword);
       return await reauthenticateWithCredential(user, cred)
@@ -102,6 +101,7 @@ export class AuthServiceService {
       return false;
     }
   }
+
   async updateUserProfile(
     newEmail: string,
     newName: string,
@@ -109,6 +109,7 @@ export class AuthServiceService {
     userID: string
   ) {
     const userDoc = doc(this.fireStore, 'Users', userID);
+
     const newUserDetails = {
       email: newEmail,
       name: newName,
@@ -123,8 +124,13 @@ export class AuthServiceService {
         return false;
       });
   }
+
   signInUser(email: string, password: string): Promise<UserCredential> {
-    return signInWithEmailAndPassword(this.auth, email, password);
+    return signInWithEmailAndPassword(this.auth, email, password)
+      .then((results) => results)
+      .catch((error) => {
+        throw new Error(error);
+      });
   }
 
   async deleteUser(auth: Auth) {

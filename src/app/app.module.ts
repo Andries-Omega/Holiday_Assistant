@@ -27,6 +27,7 @@ import { SigninComponent } from './components/signin/signin.component';
 import { SignupFormComponent } from './components/signup/signup-form/signup-form.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { NgZorroModule } from './modules/ng-zorro/ng-zorro.module';
+import { GlobalEffects } from './store/global/global.effects';
 import { globalFeatureKey, reducer } from './store/global/global.reducer';
 import { UserdashboardEffects } from './store/userdashboard/userdashboard.effects';
 import * as fromUserdashboard from './store/userdashboard/userdashboard.reducer';
@@ -63,7 +64,7 @@ registerLocaleData(en);
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([GlobalEffects, UserdashboardEffects]),
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

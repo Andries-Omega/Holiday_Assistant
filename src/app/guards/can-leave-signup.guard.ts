@@ -2,18 +2,13 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanDeactivate,
-  CanLoad,
-  Route,
   RouterStateSnapshot,
-  UrlSegment,
   UrlTree,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { map, Observable } from 'rxjs';
 import { ConfirmModalComponent } from '../components/common-components/modals/confirm-modal/confirm-modal.component';
-import { SignupComponent } from '../components/signup/signup.component';
-import { saveSignUpInfo } from '../store/global/global.actions';
+import { saveSignUpState } from '../store/global/global.actions';
 import { AppState } from '../store/global/global.reducer';
 import { selectSignUpInfo } from '../store/global/global.selectors';
 
@@ -52,7 +47,7 @@ export class CanLeaveSignupGuard implements CanDeactivate<unknown> {
     );
 
     this.globalStore.dispatch(
-      saveSignUpInfo({ hasEditedSignUp: !userResponse })
+      saveSignUpState({ hasEditedSignUp: !userResponse })
     );
 
     return userResponse;

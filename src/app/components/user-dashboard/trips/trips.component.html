@@ -1,7 +1,7 @@
 <nz-spin
-  [nzSpinning]="processingDeleteOrUpdate"
+  [nzSpinning]="isLoading | async"
   nzSize="large"
-  nzTip="Deleting..."
+  [nzTip]="isLoadingMessage | async"
 >
   <div class="px-2 md:px-10 w-full">
     <button
@@ -15,22 +15,29 @@
       <i class="fa-solid fa-{{ isAddingTrip ? 'x' : 'plus' }} mr-4"></i>
       {{ isAddingTrip ? "Cancel" : "Add Trip" }}
     </button>
-    <!-- List Holidays -->
+    <!-- List Trip -->
     <div [@fade]="fadeList">
       <app-list-of-trips
-        *ngIf="!isAddingTrip"
-        [trips]="trips"
+        *ngIf="!isAddingTrip && !isViewingTrip"
+        [trips]="trips$ | async"
         (tripClick)="handleTripClicked($event)"
       ></app-list-of-trips>
     </div>
-    <!-- Add Holiday -->
+    <!-- Add Trip -->
     <div [@fade]="fadeAdd">
       <app-add-trip
-        *ngIf="isAddingTrip"
+        *ngIf="isAddingTrip && !isViewingTrip"
         [addingIntentions]="addingIntentions"
         [theTrip]="selectedTrip"
-        (newTrip)="updateListOfUserTrips($event)"
+        (closeAdding)="addToList()"
       ></app-add-trip>
+    </div>
+    <!-- View Trip -->
+    <div [@fade]="fadeView">
+      <app-trip-view
+        *ngIf="!isAddingTrip && isViewingTrip"
+        [trip]="selectedTrip!"
+      ></app-trip-view>
     </div>
     <trip-pop-up
       [isTripsOptionsClicked]="isTripOptionsClicked"

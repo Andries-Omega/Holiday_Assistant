@@ -1,16 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UserCredential } from '@firebase/auth';
 import { Store } from '@ngrx/store';
-import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { signIn } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
-import { signIn } from '../Algorithms/Authentication/authetication';
-
-enum FirebaseResponses {
-  InvalidPassword = 'Firebase: Error (auth/wrong-password).',
-  UserNotFound = 'Firebase: Error (auth/user-not-found).',
-}
 
 @Component({
   selector: 'app-signin',
@@ -20,14 +12,10 @@ enum FirebaseResponses {
 export class SigninComponent implements OnInit {
   signInForm!: FormGroup;
   passwordVisible: boolean = false;
-  errorMessage!: string;
-  signingIn: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthServiceService,
-    private globalState: Store<AppState>,
-    private route: Router
+    private globalStore: Store<AppState>
   ) {}
 
   ngOnInit(): void {
@@ -43,27 +31,17 @@ export class SigninComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(1)]],
     });
   }
+
   submitSignInReady(): boolean {
-    return (
-      this.signInForm.value.email &&
-      this.signInForm.value.password &&
-      !this.signingIn
-    );
+    return this.signInForm.value.email && this.signInForm.value.password;
   }
+
   signInUser() {
-    this.signingIn = true;
-    this.authService
-      .signInUser(this.signInForm.value.email, this.signInForm.value.password)
-      .then((result: UserCredential) => {
-        signIn(result.user.uid, this.globalState, this.route);
+    this.globalStore.dispatch(
+      signIn({
+        email: this.signInForm.value.email,
+        password: this.signInForm.value.password,
       })
-      .catch((err: Error) => {
-        this.signingIn = false;
-        this.errorMessage =
-          err.message === FirebaseResponses.InvalidPassword ||
-          FirebaseResponses.UserNotFound
-            ? 'Invalid email or (and) password'
-            : 'Unable to sign in';
-      });
+    );
   }
 }

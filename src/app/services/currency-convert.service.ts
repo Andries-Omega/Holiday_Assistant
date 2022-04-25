@@ -11,7 +11,7 @@ export class CurrencyConvertService {
 
   getCurrencies(): Observable<ListOfCurrencies> {
     return this.http.get<ListOfCurrencies>(
-      'https://api.currencyapi.com/v3/latest?apikey=rYxXPWJLUqb5f4KBe1Tvdwz8FG9RhTR8SRQlPMJV'
+      'https://api.currencyapi.com/v3/latest'
     );
   }
 

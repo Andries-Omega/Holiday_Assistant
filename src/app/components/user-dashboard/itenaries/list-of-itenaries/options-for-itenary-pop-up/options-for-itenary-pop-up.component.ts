@@ -11,7 +11,11 @@ export class OptionsForItenaryPopUpComponent {
   @Input() theItenary!: ItenaryItem;
 
   @Output() userUpdating = new EventEmitter<string>();
+  @Output() cancelPopUp = new EventEmitter<void>();
   handleClick(doing: string) {
     this.userUpdating.emit(doing);
+  }
+  cancelPopup() {
+    this.cancelPopUp.emit();
   }
 }

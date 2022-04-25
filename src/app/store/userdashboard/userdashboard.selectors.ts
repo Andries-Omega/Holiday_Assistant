@@ -30,3 +30,13 @@ export const selectIsUpdatingTripFromI = createSelector(
   selectUserdashboardState,
   (state: fromUserdashboard.DashState) => state.isUpdatingFromItenaryRoute
 );
+
+export const selectIsLoading = createSelector(
+  selectUserdashboardState,
+  (state: fromUserdashboard.DashState) => state.isLoading
+);
+
+export const selectLoadingMessage = createSelector(
+  selectUserdashboardState,
+  (state: fromUserdashboard.DashState) => state.loadingMessage
+);

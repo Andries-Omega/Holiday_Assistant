@@ -42,7 +42,7 @@ export class CalendarComponent implements OnInit {
     ) {
       this.timeOut = setTimeout(() => {
         this.dateSelected.emit(this.selectedDate);
-      }, 1500);
+      }, 1000);
     }
   }
   handleDateSelectedMobile() {

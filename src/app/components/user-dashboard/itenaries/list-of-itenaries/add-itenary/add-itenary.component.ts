@@ -1,16 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { slide } from 'src/app/Animations/dashboard-animations';
 import { Currency, ListOfCurrencies } from 'src/app/models/Currencies';
-import { Trip, ItenaryItem } from 'src/app/models/Itenaries';
+import { ItenaryItem, Trip } from 'src/app/models/Itenaries';
 import { CurrencyConvertService } from 'src/app/services/currency-convert.service';
-import { getCurrencies } from 'src/app/store/userdashboard/userdashboard.actions';
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
-import {
-  selectCurrencies,
-  selectCurrenciesAPIStatus,
-} from 'src/app/store/userdashboard/userdashboard.selectors';
+import { selectCurrencies } from 'src/app/store/userdashboard/userdashboard.selectors';
 
 @Component({
   selector: 'app-add-itenary',
@@ -31,24 +26,10 @@ export class AddItenaryComponent implements OnInit {
   fromCurrency: Currency = { code: 'USD', value: 1 };
   toCurrency: Currency = { code: 'ZAR', value: 14 };
 
-  listOfCurrencies$!: Observable<ListOfCurrencies>;
+  listOfCurrencies$ = this.dashStore.select(selectCurrencies);
+
   gotCurrencies$!: Observable<boolean>;
   converstionCurrency$!: Observable<ListOfCurrencies>;
-
-  constructor(
-    private currencyService: CurrencyConvertService,
-    private dashStore: Store<DashState>
-  ) {}
-  ngOnInit(): void {
-    // fetch list of currencies
-    if (!this.listOfCurrencies$) {
-      this.dashStore.dispatch(getCurrencies());
-      this.listOfCurrencies$ = this.dashStore.pipe(select(selectCurrencies));
-      this.gotCurrencies$ = this.dashStore.pipe(
-        select(selectCurrenciesAPIStatus)
-      );
-    }
-  }
 
   currentPhase: number = 0;
 
@@ -61,6 +42,12 @@ export class AddItenaryComponent implements OnInit {
     costEstimate: this.itenary?.costEstimate || 0,
     costEstimateCurrency: this.itenary?.costEstimateCurrency || '',
   };
+
+  constructor(
+    private currencyService: CurrencyConvertService,
+    private dashStore: Store<DashState>
+  ) {}
+  ngOnInit(): void {}
 
   handleCurrencySelect(currency: Currency) {
     if (this.fromDropOpen) {

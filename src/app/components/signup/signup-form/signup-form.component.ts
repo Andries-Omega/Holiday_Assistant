@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { PasswordRequirements, Users } from 'src/app/models/Users';
-import { saveSignUpInfo } from 'src/app/store/global/global.actions';
-
+import { saveSignUpState } from 'src/app/store/global/global.actions';
 import {
   validateEmail,
   validatePassword,
@@ -26,18 +25,16 @@ export class SignupFormComponent {
   set formStateValues(userInfo: Users) {
     if (userInfo) {
       this.globalStore.dispatch(
-        saveSignUpInfo({
+        saveSignUpState({
           hasEditedSignUp: Object.values(userInfo).some((info) => info),
         })
       );
     }
   }
   @Input() readyToSingUp!: boolean;
-  @Input() signingUp!: boolean;
-  @Input() errorMessage!: string;
+  @Input() passwordValid!: PasswordRequirements;
   @Output() signUpUserData = new EventEmitter<Users>();
 
-  @Input() passwordValid!: PasswordRequirements;
   passwordsConfirmed: boolean = false;
 
   // passwords visibility
@@ -60,8 +57,7 @@ export class SignupFormComponent {
       this.signUpUserForm.get('password')?.enabled &&
       this.signUpUserForm.get('confirmPassword')?.enabled &&
       this.signUpUserForm.value.confirmPassword &&
-      this.passwordsConfirmed &&
-      !this.signingUp
+      this.passwordsConfirmed
     );
   }
   signUpUser() {

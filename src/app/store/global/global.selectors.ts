@@ -23,3 +23,13 @@ export const selectUserTrips = createSelector(
   selectGlobalState,
   (state: AppState) => state.userTrips
 );
+
+export const selectIsLoading = createSelector(
+  selectGlobalState,
+  (state: AppState) => state.isLoading
+);
+
+export const selectLoadingMessage = createSelector(
+  selectGlobalState,
+  (state: AppState) => state.loadingMessage
+);

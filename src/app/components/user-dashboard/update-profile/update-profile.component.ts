@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, User } from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { sizeAnime } from 'src/app/Animations/dashboard-animations';
 import { Users } from 'src/app/models/Users';
-import { AuthServiceService } from 'src/app/services/auth-service.service';
-import { setLoggedInUser } from 'src/app/store/global/global.actions';
+import {
+  reAuthenticate,
+  updateProfile,
+} from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
-import { signOutt } from '../../Algorithms/Authentication/authetication';
 import { getUserFromSelect, isMobile } from '../../Algorithms/CommonFunctions';
+import { initUsers } from '../../Algorithms/ModelInitialisers';
 
 @Component({
   selector: 'app-update-profile',
@@ -25,20 +27,19 @@ export class UpdateProfileComponent implements OnInit {
   enteredEmail: string = '';
   enteredPassword: string = '';
   user$ = this.globalStore.select(selectLoggedInUser);
-  user: Users = getUserFromSelect(this.user$);
+  user: Users = initUsers();
+
   errorMessage: string = '';
-  isUpdating: boolean = false;
-  updateTip: string = '';
   reAuthIntention: string = 'Update';
 
   constructor(
     private globalStore: Store<AppState>,
-    private authService: AuthServiceService,
     private auth: Auth,
     private confirmDelete: NzModalService
   ) {}
 
   ngOnInit(): void {
+    this.user = getUserFromSelect(this.user$);
     this.enteredName = this.user.name;
     this.enteredPreferredName = this.user.preferredName;
     this.enteredEmail = this.user.email;
@@ -49,13 +50,13 @@ export class UpdateProfileComponent implements OnInit {
   }
 
   updateUser() {
+    this.reAuthIntention = 'Update';
     // if they are updating email or password, we reauthenticate
     if (this.somethingChanged()) {
       this.errorMessage = '';
       if (this.updatingLoginDetails()) {
         this.promptUserForPassword = true;
       } else {
-        this.isUpdating = true;
         this.updateProfile();
       }
     } else {
@@ -65,164 +66,47 @@ export class UpdateProfileComponent implements OnInit {
 
   fullUpdate(password: string) {
     this.promptUserForPassword = false;
-    this.isUpdating = true;
     this.reAuthenticate(password);
   }
 
   /**
-   * So the rule here is that if we are reauthenticating, then we are making a full update ('That's why profile runs last, because it does not start anything else').
+   * So the rule here is that if we are reauthenticating, then we are making a full update ().
    */
   reAuthenticate(oldPassword: string) {
-    this.updateTip = 'Re Authenticating...';
-    this.authService
-      .reAuthenticate(oldPassword, this.user.email)
-      .then((authenticated) => {
-        if (authenticated) {
-          if (this.reAuthIntention === 'Update') {
-            this.updateEmail();
-          } else {
-            this.deleteUserTrips();
-          }
-        } else {
-          this.isUpdating = false;
-          this.errorMessage = 'Unable to verify password';
-        }
-      })
-      .catch(() => {
-        this.isUpdating = false;
-        this.errorMessage = 'Something went wrong....';
-      });
-  }
+    let newUserInfo: Users = {
+      email: this.enteredEmail,
+      name: this.enteredName,
+      preferredName: this.enteredPreferredName,
+      userID: this.user.userID,
+    };
 
-  updateEmail() {
-    this.updateTip = 'Updating Email...';
-    this.authService
-      .updateEmail(this.enteredEmail)
-      .then((updatedemail) => {
-        if (updatedemail) {
-          // because it is possible that they are updating email but not password, so we don't want to send blank password to firebase
-          if (this.enteredPassword) {
-            this.updatePassword();
-          } else {
-            this.updateProfile();
-          }
-        } else {
-          this.isUpdating = false;
-          this.errorMessage = 'Failed To Update Email ';
-        }
-      })
-      .catch(() => {
-        this.isUpdating = false;
-        this.errorMessage = 'Something went wrong....';
-      });
-  }
-
-  updatePassword() {
-    this.updateTip = 'Updating Password...';
-    this.authService
-      .updatePassword(this.enteredPassword)
-      .then((updatedpassword) => {
-        if (updatedpassword) {
-          this.updateProfile();
-        } else {
-          this.isUpdating = false;
-          // because it is very passible you updated email, but then password update failed
-          this.errorMessage =
-            'Failed To Update Password, NB: Your New Email is ' +
-            this.enteredEmail;
-        }
-      })
-      .catch(() => {
-        this.isUpdating = false;
-        this.errorMessage = 'Something went wrong....';
-      });
+    let reAuthData = {
+      reAuthIntention: this.reAuthIntention,
+      userData: newUserInfo,
+      newPassword: this.enteredPassword,
+      oldPassword,
+      email: this.auth.currentUser?.email || this.user.email,
+    };
+    this.globalStore.dispatch(reAuthenticate(reAuthData));
   }
 
   updateProfile() {
-    this.updateTip = 'Updating Profile...';
-    this.authService
-      .updateUserProfile(
-        this.enteredEmail,
-        this.enteredName,
-        this.enteredPreferredName,
-        this.user.userID
-      )
-      .then((updatedProfile) => {
-        if (updatedProfile) {
-          // if they updated login details, they get to login again.
-          if (this.updatingLoginDetails()) {
-            //just so they can know their sign out is not a mistake
-            this.updateTip = 'Signing Out...';
-            setTimeout(() => {
-              signOutt(this.auth, this.globalStore);
-            }, 1000); // and also because the average human reading speed is 4.5 words per second ( so i am giving them a lil extra time)
-          } else {
-            //else, just reset their user details to force second phase of sign in and get new details from firebase
-            const newUserInfo: Users = {
-              userID: this.user.userID,
-              name: '',
-              email: '',
-              preferredName: '',
-            };
-            this.globalStore.dispatch(
-              setLoggedInUser({ loggedInUser: newUserInfo })
-            );
-            //reload to ensure ngOnInit of dashboard runs
-            location.reload();
-          }
-        } else {
-          this.isUpdating = false;
-          this.errorMessage = 'Failed To Update Profile';
-        }
-      })
-      .catch(() => {
-        this.isUpdating = false;
-        this.errorMessage = 'Something went wrong, please try again 😬';
-      });
-  }
+    let newUserInfo: Users = {
+      email: this.enteredEmail,
+      name: this.enteredName,
+      preferredName: this.enteredPreferredName,
+      userID: this.user.userID,
+    };
 
+    this.globalStore.dispatch(
+      updateProfile({ newUserInfo, updatedLogin: this.updatingLoginDetails() })
+    );
+  }
   handleDeleteUser() {
     this.reAuthIntention = 'Delete';
     this.showUserDeleteConfirm();
   }
 
-  deleteUserTrips() {
-    this.updateTip = 'Deleting trips';
-    this.authService
-      .deleteUserTrips(this.user.userID)
-      .then(() => {
-        this.deleteUserInformation();
-      })
-      .catch(() => {
-        this.isUpdating = false;
-        this.errorMessage = 'Something went wrong, please try again 😬';
-      });
-  }
-
-  deleteUserInformation() {
-    this.updateTip = 'Deleting Userinformation';
-    this.authService.deleteUserInfo(this.user.userID).then(() => {
-      this.deleteUser();
-    });
-  }
-  deleteUser() {
-    this.updateTip = 'Deleting User...';
-    this.authService
-      .deleteUser(this.auth)
-      .then((result) => {
-        if (result) {
-          signOutt(this.auth, this.globalStore);
-        } else {
-          this.isUpdating = false;
-          this.errorMessage =
-            'Failed to delete your account, please try again later.';
-        }
-      })
-      .catch(() => {
-        this.isUpdating = false;
-        this.errorMessage = 'Something went wrong, please try again 😬';
-      });
-  }
   somethingChanged() {
     return !(
       this.enteredName === this.user.name &&

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Users } from 'src/app/models/Users';
 import {
-  saveSignUpInfo,
+  saveSignUpState,
   saveUserTrips,
   setLoggedInUser,
 } from 'src/app/store/global/global.actions';
@@ -33,25 +33,6 @@ export const isThirdPhaseDone = (globalStore: Store<AppState>): boolean => {
 export const isUserSignedIn = (globalStore: Store<AppState>): boolean => {
   let user = getUserFromSelect(globalStore.select(selectLoggedInUser));
   return !isObjectEmpty(user);
-};
-
-export const signIn = (
-  userID: string,
-  globalStore: Store<AppState>,
-  route: Router
-) => {
-  //1. let the state know it is safe to leave sign up route (Incase they are signing in from registering)
-  globalStore.dispatch(
-    saveSignUpInfo({
-      hasEditedSignUp: false,
-    })
-  );
-  let user = firstSignIn(userID);
-
-  //2. set the user to state and localstorage (In case they refresh)
-  globalStore.dispatch(setLoggedInUser({ loggedInUser: user }));
-
-  route.navigateByUrl('dashboard');
 };
 
 export const signOutt = (auth: Auth, globalStore: Store<AppState>) => {

@@ -27,3 +27,24 @@ export const setTripFromItenary = createAction(
   '[Userdashboard] set Holiday from itinarary',
   props<{ isUpdatingFromItenaryRoute: Trip | null }>()
 );
+
+export const addTrip = createAction(
+  '[Userdashboard] add trip',
+  props<{ tripData: Trip }>()
+);
+
+export const deleteTrip = createAction(
+  '[Userdashboard] delete trip',
+  props<{ tripID: string }>()
+);
+export const procedureFailure = createAction(
+  '[Userdashboard] network call Failed'
+);
+export const procedureSuccess = createAction(
+  '[Userdashboard] network call success'
+);
+
+export const updateTrips = createAction(
+  '[Userdashboard] updating user trip',
+  props<{ trip: Trip }>()
+);

@@ -1,10 +1,5 @@
 <div class="flex w-screen h-screen justify-center items-center">
-  <nz-spin
-    [nzSpinning]="signingIn"
-    nzSize="large"
-    nzTip="Signing In..."
-    class="md:w-fit w-full px-6"
-  >
+  <div class="md:w-fit w-full px-6">
     <div
       class="grid md:grid-cols-2 md:w-[950px] w-full bg-slate-100 h-fit rounded-lg md:divide-x-[1px] divide-dark-blue hover:shadow-2xl duration-500"
     >
@@ -61,9 +56,6 @@
               >
                 Password Is Required
               </p>
-              <p *ngIf="errorMessage" class="text-red-500">
-                {{ errorMessage }}
-              </p>
             </nz-form-control>
           </nz-form-item>
           <button
@@ -88,5 +80,6 @@
         </form>
       </div>
     </div>
-  </nz-spin>
+    <div></div>
+  </div>
 </div>
