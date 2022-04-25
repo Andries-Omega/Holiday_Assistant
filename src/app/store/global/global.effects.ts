@@ -28,7 +28,6 @@ import {
   getUserInfo,
   procedureFailure,
   reAuthenticate,
-  reAuthenticateSuccess,
   saveUserTrips,
   setLoggedInUser,
   signIn,
