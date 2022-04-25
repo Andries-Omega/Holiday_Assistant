@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromUserdashboard from './userdashboard.reducer';
+import { DashState } from './userdashboard.reducer';
 
 export const selectUserdashboardState =
   createFeatureSelector<fromUserdashboard.DashState>(
@@ -8,35 +9,40 @@ export const selectUserdashboardState =
 
 export const selectIsAddingItenary = createSelector(
   selectUserdashboardState,
-  (state: fromUserdashboard.DashState) => state.isAddingItenary
+  (state: DashState) => state.isAddingItenary
 );
 
 export const selectTripOfCurrentItenary = createSelector(
   selectUserdashboardState,
-  (state: fromUserdashboard.DashState) => state.isAddingItenary
+  (state: DashState) => state.isAddingItenary
 );
 
 export const selectCurrencies = createSelector(
   selectUserdashboardState,
-  (state: fromUserdashboard.DashState) => state.currencies
+  (state: DashState) => state.currencies
 );
 
 export const selectCurrenciesAPIStatus = createSelector(
   selectUserdashboardState,
-  (state: fromUserdashboard.DashState) => state.currencyAPIRateExceeded
+  (state: DashState) => state.currencyAPIRateExceeded
 );
 
-export const selectIsUpdatingTripFromI = createSelector(
+export const selectTripFromI = createSelector(
   selectUserdashboardState,
-  (state: fromUserdashboard.DashState) => state.isUpdatingFromItenaryRoute
+  (state: DashState) => state.isFromItenaryRoute
 );
 
 export const selectIsLoading = createSelector(
   selectUserdashboardState,
-  (state: fromUserdashboard.DashState) => state.isLoading
+  (state: DashState) => state.isLoading
 );
 
 export const selectLoadingMessage = createSelector(
   selectUserdashboardState,
-  (state: fromUserdashboard.DashState) => state.loadingMessage
+  (state: DashState) => state.loadingMessage
+);
+
+export const selectToDO = createSelector(
+  selectUserdashboardState,
+  (state: DashState) => state.toDo
 );

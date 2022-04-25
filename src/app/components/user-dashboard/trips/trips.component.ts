@@ -16,11 +16,13 @@ import {
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
 import {
   selectIsLoading,
-  selectIsUpdatingTripFromI,
+  selectTripFromI,
   selectLoadingMessage,
+  selectToDO,
 } from 'src/app/store/userdashboard/userdashboard.selectors';
 import {
   getIsUpdatingTripFromItenaryFromSelect,
+  getToDoFromSelect,
   getUserFromSelect,
   getUserTripsFromSelect,
 } from '../../Algorithms/CommonFunctions';
@@ -62,15 +64,24 @@ export class TripsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isUpdatingTripFromI = getIsUpdatingTripFromItenaryFromSelect(
-      this.globalStore.select(selectIsUpdatingTripFromI)
+      this.dashStore.select(selectTripFromI)
     );
+    let toDo: string = getToDoFromSelect(this.dashStore.select(selectToDO));
+    console.log(this.isUpdatingTripFromI);
     if (this.isUpdatingTripFromI) {
-      //then initiate update
       this.selectedTrip = this.isUpdatingTripFromI;
-      this.initiateUpdate();
+
+      if (toDo === 'VIEW') {
+        this.listToView();
+      } else {
+        //they must want to update
+        //then initiate update
+        this.initiateUpdate();
+      }
+
       //and reset to avoid always being send to adding
       this.globalStore.dispatch(
-        setTripFromItenary({ isUpdatingFromItenaryRoute: null })
+        setTripFromItenary({ isFromItenaryRoute: null, toDo: 'UPDATE' })
       );
     }
   }
@@ -80,10 +91,10 @@ export class TripsComponent implements OnInit {
    */
   handleSwitchComponents() {
     if (this.isAddingTrip) {
-      // then we entering lists
       this.addToList();
+    } else if (this.isViewingTrip) {
+      this.viewToList();
     } else {
-      // then we entering add
       this.listToAdd();
     }
   }
@@ -123,6 +134,13 @@ export class TripsComponent implements OnInit {
     setTimeout(() => {
       this.isViewingTrip = true;
       this.fadeView = 'In';
+    }, 1000);
+  }
+  viewToList() {
+    this.fadeView = 'Out';
+    setTimeout(() => {
+      this.isViewingTrip = false;
+      this.fadeList = 'In';
     }, 1000);
   }
   handleTripClicked(trip: Trip) {

@@ -22,19 +22,21 @@ export interface DashState {
   tripOfCurrentItenary: Trip | null;
   currencies: ListOfCurrencies | null;
   currencyAPIRateExceeded: boolean;
-  isUpdatingFromItenaryRoute: Trip | null;
+  isFromItenaryRoute: Trip | null;
   isLoading: boolean;
   loadingMessage: string;
+  toDo: string;
 }
 
 export const initialState: DashState = {
   isAddingItenary: { isAddingItenary: false, selectedDate: null },
   tripOfCurrentItenary: null,
   currencies: null,
-  isUpdatingFromItenaryRoute: null,
+  isFromItenaryRoute: null,
   currencyAPIRateExceeded: false,
   isLoading: false,
   loadingMessage: '',
+  toDo: 'UPDATE',
 };
 
 export const reducer = createReducer(
@@ -76,14 +78,19 @@ export const reducer = createReducer(
     isLoading: true,
     loadingMessage: 'Updating trip...',
   })),
-  on(procedureSuccess, (state) => ({ ...state, isLoading: false })),
+  on(procedureSuccess, (state) => ({
+    ...state,
+    isLoading: false,
+    isAddingItenary: { isAddingItenary: false, selectedDate: null },
+  })),
   on(procedureFailure, (state) => ({ ...state, isLoading: false })),
   on(setCurrencyAPIStatus, (state, { currencyAPIRateExceeded }) => ({
     ...state,
     currencyAPIRateExceeded,
   })),
-  on(setTripFromItenary, (state, { isUpdatingFromItenaryRoute }) => ({
+  on(setTripFromItenary, (state, { isFromItenaryRoute, toDo }) => ({
     ...state,
-    isUpdatingFromItenaryRoute,
+    isFromItenaryRoute,
+    toDo,
   }))
 );

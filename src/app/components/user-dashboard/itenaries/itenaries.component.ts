@@ -128,6 +128,16 @@ export class ItenariesComponent implements OnInit {
       } else {
         this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
       }
+    } else if (doing === 'VIEW') {
+      console.log(this.focusedTrip);
+      this.dashStore.dispatch(
+        setTripFromItenary({
+          isFromItenaryRoute: this.focusedTrip,
+          toDo: 'VIEW',
+        })
+      );
+      // We don't do full Trip update in here
+      this.router.navigateByUrl('/dashboard/trips');
     } else {
       this.showItinararyDeleteConfirm();
     }
@@ -139,8 +149,8 @@ export class ItenariesComponent implements OnInit {
   }
 
   handleUpdateTrip(trip: Trip) {
-    this.globalStore.dispatch(
-      setTripFromItenary({ isUpdatingFromItenaryRoute: trip })
+    this.dashStore.dispatch(
+      setTripFromItenary({ isFromItenaryRoute: trip, toDo: 'UPDATE' })
     );
     // We don't do full Trip update in here
     this.router.navigateByUrl('/dashboard/trips');

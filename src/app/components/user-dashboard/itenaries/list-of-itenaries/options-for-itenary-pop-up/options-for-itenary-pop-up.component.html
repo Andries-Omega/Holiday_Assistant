@@ -8,16 +8,22 @@
   </div>
   <div *nzModalFooter>
     <button
-      class="bg-white border-[1px] border-red-500 rounded-sm h-7 w-fit px-2 mr-3 hover:bg-red-500 hover:text-white duration-500"
+      class="bg-red-500 text-white rounded-sm h-7 w-fit px-2 mr-3"
       (click)="handleClick('DELETE')"
     >
       Delete
     </button>
     <button
-      class="bg-dark-blue border-[1px] border-dark-blue rounded-sm h-7 w-fit px-2 text-white hover:bg-white hover:text-dark-blue hover:shadow-2xl hover:scale-125 duration-500"
+      class="bg-white border-[1px] border-dark-blue rounded-sm h-7 w-fit px-2 mr-3 text-dark-blue hover:bg-dark-blue hover:text-white duration-500"
       (click)="handleClick('UPDATE')"
     >
       Update
+    </button>
+    <button
+      class="bg-dark-blue border-[1px] border-dark-blue rounded-sm h-7 w-fit px-2 text-white hover:bg-white hover:text-dark-blue hover:shadow-2xl hover:scale-125 duration-500"
+      (click)="handleClick('VIEW')"
+    >
+      View
     </button>
   </div>
 </nz-modal>

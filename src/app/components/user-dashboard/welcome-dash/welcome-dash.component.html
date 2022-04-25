@@ -1,1 +1,18 @@
-<p>welcome-dash works!</p>
+<div class="w-full h-full px-10 py-7">
+  <h1 class="text-center text-2xl md:mb-52 mb-32">
+    Welcome
+    <span
+      routerLink="/dashboard/update-profile"
+      class="text-blue-600 hover:cursor-pointer hover:text-dark-blue hover:border-b-[1px] border-blue-600 duration-500"
+      >{{ (user$ | async)?.preferredName || (user$ | async)?.name }}</span
+    >
+  </h1>
+  <div
+    class="h-[900px] flex justify-center w-full items-center animate-bounce mt-5"
+  >
+    <img
+      src="../../../../assets/images/welcome.svg"
+      class="w-[500px] h-[500px]"
+    />
+  </div>
+</div>
