@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, signOut } from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-
 import { AppState } from 'src/app/store/global/global.reducer';
 import { signOutt } from '../../Algorithms/Authentication/authetication';
 
@@ -18,18 +17,18 @@ export class DashOptionsComponent implements OnInit {
     private globalStore: Store<AppState>
   ) {}
 
-  ngOnInit(): void {}
+  currentURL: string = '/dashboard';
 
-  logOut() {
-    signOut(this.auth);
-    signOutt(this.router, this.globalStore);
+  ngOnInit(): void {
+    this.currentURL = this.router.url;
   }
 
-  routeClicked(url: string) {
-    return this.router.url === url;
+  logOut() {
+    signOutt(this.auth, this.globalStore);
   }
 
   routeTo(url: string) {
+    this.currentURL = url;
     this.router.navigateByUrl(url);
   }
 }

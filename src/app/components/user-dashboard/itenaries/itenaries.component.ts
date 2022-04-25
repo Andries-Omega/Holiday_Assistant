@@ -1,17 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Holiday, Itenaries } from 'src/app/models/Itenaries';
-import { ItenariesService } from 'src/app/services/itenaries.service';
-import { saveUserHolidays } from 'src/app/store/global/global.actions';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ItenaryItem, Trip } from 'src/app/models/Itenaries';
 import { AppState } from 'src/app/store/global/global.reducer';
-import { selectUserHolidays } from 'src/app/store/global/global.selectors';
-import { setIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.actions';
+import { selectUserTrips } from 'src/app/store/global/global.selectors';
+import {
+  deleteTrip,
+  setIsAddingItenary,
+  setTripFromItenary,
+  updateTrips,
+} from 'src/app/store/userdashboard/userdashboard.actions';
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
 import { selectIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.selectors';
 import {
   getArrayWithout,
   getIndexOfItenary,
-  getUserHolidaysFromSelect,
+  getUserTripsFromSelect,
 } from '../../Algorithms/CommonFunctions';
 
 @Component({
@@ -20,21 +25,24 @@ import {
   styleUrls: ['./itenaries.component.scss'],
 })
 export class ItenariesComponent implements OnInit {
-  holidays: Holiday[] | null = getUserHolidaysFromSelect(
-    this.globalStore.select(selectUserHolidays)
+  trips: Trip[] | null = getUserTripsFromSelect(
+    this.globalStore.select(selectUserTrips)
   );
 
-  focusedHoliday!: Holiday;
+  focusedTrip!: Trip;
   isAddingItenary = this.dashStore.select(selectIsAddingItenary);
 
   askToAddItenary: boolean = false;
   itenaryClicked: boolean = false;
-  itenary!: Itenaries;
+  itenary!: ItenaryItem;
   addIntention: string = 'ADDING';
+  isMobileShowingItinararies: boolean = false;
+
   constructor(
     private globalStore: Store<AppState>,
     private dashStore: Store<DashState>,
-    private itenaryService: ItenariesService
+    private confirmDelete: NzModalService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -50,9 +58,20 @@ export class ItenariesComponent implements OnInit {
     );
   }
 
+  handleAddItenaryMobile(selectedDate: Date) {
+    this.isMobileShowingItinararies = false;
+    setTimeout(() => {
+      this.updateIsAdding(true, selectedDate);
+    }, 700);
+  }
   handleDateSelected(selectedDate: Date) {
     this.updateIsAdding(false, selectedDate);
     this.askToAddItenary = true;
+  }
+
+  handleDateSelectedMobile(selectedDate: Date) {
+    this.updateIsAdding(false, selectedDate);
+    this.isMobileShowingItinararies = true;
   }
 
   handleAddItenaryFromPopup(addItenary: boolean, selectedDate: Date | null) {
@@ -66,37 +85,34 @@ export class ItenariesComponent implements OnInit {
     this.askToAddItenary = false;
   }
 
-  handleAddItenaryDetails(itenaryDetails: Itenaries) {
-    if (this.focusedHoliday) {
+  handleAddItenaryDetails(itenaryDetails: ItenaryItem) {
+    if (this.focusedTrip) {
       if (this.addIntention === 'ADDING') {
-        const newHoliday = {
-          ...this.focusedHoliday,
-          holidayItenaries: [
-            ...this.focusedHoliday.holidayItenaries,
-            itenaryDetails,
-          ],
+        const newTrip = {
+          ...this.focusedTrip,
+          tripItenaries: [...this.focusedTrip.tripItenaries, itenaryDetails],
         };
 
-        this.updateHoliday(newHoliday);
+        this.updateTrip(newTrip);
       } else {
         let index = getIndexOfItenary(
           this.itenary,
-          this.focusedHoliday.holidayItenaries
+          this.focusedTrip.tripItenaries
         );
 
-        const newHoliday = {
-          ...this.focusedHoliday,
-          holidayItenaries: [
-            ...getArrayWithout(index, this.itenary, this.focusedHoliday),
+        const newTrip = {
+          ...this.focusedTrip,
+          tripItenaries: [
+            ...getArrayWithout(index, this.itenary, this.focusedTrip),
             itenaryDetails,
           ],
         };
-        this.updateHoliday(newHoliday);
+        this.updateTrip(newTrip);
       }
     }
   }
 
-  handleItenaryClicked(itenary: Itenaries) {
+  handleItenaryClicked(itenary: ItenaryItem) {
     this.itenary = itenary;
     this.itenaryClicked = true;
   }
@@ -104,31 +120,89 @@ export class ItenariesComponent implements OnInit {
   handleUserUpdating(doing: string) {
     if (doing === 'UPDATE') {
       this.addIntention = doing;
-      this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
+      if (this.isMobileShowingItinararies) {
+        this.isMobileShowingItinararies = false;
+        setTimeout(() => {
+          this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
+        }, 700);
+      } else {
+        this.updateIsAdding(true, new Date(this.itenary.itenaryDate));
+      }
+    } else if (doing === 'VIEW') {
+      console.log(this.focusedTrip);
+      this.dashStore.dispatch(
+        setTripFromItenary({
+          isFromItenaryRoute: this.focusedTrip,
+          toDo: 'VIEW',
+        })
+      );
+      // We don't do full Trip update in here
+      this.router.navigateByUrl('/dashboard/trips');
     } else {
-      const newHoliday = {
-        ...this.focusedHoliday,
-        holidayItenaries: [
-          ...getArrayWithout(
-            getIndexOfItenary(
-              this.itenary,
-              this.focusedHoliday.holidayItenaries
-            ),
-            this.itenary,
-            this.focusedHoliday
-          ),
-        ],
-      };
-      this.updateHoliday(newHoliday);
+      this.showItinararyDeleteConfirm();
     }
     this.itenaryClicked = false;
   }
 
-  updateHoliday(newHoliday: Holiday) {
-    this.itenaryService.updateHoliday(newHoliday).then(() => {
-      //this will for phase three (fetching list of holidays) from dashboard to run
-      this.globalStore.dispatch(saveUserHolidays({ userHolidays: null }));
-      location.reload();
+  updateTrip(newTrip: Trip) {
+    this.dashStore.dispatch(updateTrips({ trip: newTrip }));
+  }
+
+  handleUpdateTrip(trip: Trip) {
+    this.dashStore.dispatch(
+      setTripFromItenary({ isFromItenaryRoute: trip, toDo: 'UPDATE' })
+    );
+    // We don't do full Trip update in here
+    this.router.navigateByUrl('/dashboard/trips');
+  }
+
+  handleDeleteTrip(trip: Trip) {
+    this.focusedTrip = trip;
+    this.showTripDeleteConfirm(trip);
+  }
+
+  showTripDeleteConfirm(trip: Trip) {
+    this.confirmDelete.confirm({
+      nzTitle: 'Are you sure delete the Trip => ' + trip.tripName,
+      nzContent: '<b style="color: red;">You will not get it back</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteTrip(trip),
+      nzCancelText: 'No',
+      nzOnCancel: () => this.confirmDelete.closeAll(),
     });
+  }
+
+  showItinararyDeleteConfirm() {
+    this.confirmDelete.confirm({
+      nzTitle:
+        'Are you sure delete the itinarary => ' + this.itenary.itenaryName,
+      nzContent: '<b style="color: red;">You will not get it back</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteItenarary(),
+      nzCancelText: 'No',
+      nzOnCancel: () => this.confirmDelete.closeAll(),
+    });
+  }
+
+  deleteTrip(trip: Trip) {
+    this.dashStore.dispatch(deleteTrip({ tripID: trip.tripID }));
+  }
+
+  deleteItenarary() {
+    const newTrip = {
+      ...this.focusedTrip,
+      tripItenaries: [
+        ...getArrayWithout(
+          getIndexOfItenary(this.itenary, this.focusedTrip.tripItenaries),
+          this.itenary,
+          this.focusedTrip
+        ),
+      ],
+    };
+    this.updateTrip(newTrip);
   }
 }

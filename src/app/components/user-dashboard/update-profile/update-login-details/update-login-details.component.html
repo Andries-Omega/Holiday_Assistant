@@ -1,0 +1,58 @@
+<div
+  class="md:px-14 px-5"
+  [@sizeAnime]="
+    isUpdatingLoginDetails
+      ? { value: 'heightOpen', params: { height: isMobile ? 300 : 475 } }
+      : { value: 'heightClose', params: { height: 0 } }
+  "
+>
+  <div
+    class="h-fit my-4 rounded-md hover:border-[1px] hover:border-dark-blue duration-500 md:px-10 px-5 py-5"
+    *ngIf="isUpdatingLoginDetails"
+  >
+    <h1
+      class="text-lg text-center text-dark-blue mb-5 border-b-[1px] border-opacity-0 border-b-dark-blue hover:border-opacity-80 duration-700"
+    >
+      Your Login Details
+    </h1>
+
+    <div class="w-[100%]">
+      <p class="text-base text-dark-blue">Your Email</p>
+      <input
+        [(ngModel)]="email"
+        type="email"
+        placeholder="Email"
+        class="w-full h-10 focus:outline-none border-[1px] focus:border-dark-blue px-5 mt-1 rounded-md focus:shadow-2xl duration-500"
+        (keyup)="handleChange('Email')"
+      />
+      <p class="text-red-500 text-sm mt-1">
+        {{ errorEmailMessage }}
+      </p>
+    </div>
+    <div class="w-[100%] mt-6">
+      <p class="text-base text-dark-blue">Your Password</p>
+      <div class="flex">
+        <input
+          [(ngModel)]="password"
+          [type]="passwordVisible ? 'text' : 'password'"
+          placeholder="Password"
+          class="w-full h-10 focus:outline-none border-[1px] border-r-0 rounded-r-none focus:border-dark-blue px-5 mt-1 rounded-md focus:shadow-2xl duration-500"
+          (focus)="passwordFocus = true"
+          (blur)="passwordFocus = false"
+          (keyup)="handleChange('PWord')"
+        />
+        <button
+          class="px-2 border-[1px] {{
+            passwordFocus ? 'border-dark-blue' : ''
+          }} text-dark-blue h-10 rounded-md border-l-0 mt-1 rounded-l-none hover:bg-dark-blue hover:text-white duration-300"
+          (click)="passwordVisible = !passwordVisible"
+        >
+          <i class="fa-solid fa-eye{{ passwordVisible ? '-slash' : '' }}"></i>
+        </button>
+      </div>
+      <p class="text-red-500 text-sm mt-1">
+        {{ errorPassworMessage }}
+      </p>
+    </div>
+  </div>
+</div>

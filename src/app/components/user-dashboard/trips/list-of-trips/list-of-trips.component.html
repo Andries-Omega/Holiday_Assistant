@@ -1,0 +1,25 @@
+<div
+  *ngIf="trips?.length"
+  class="shadow-2xl rounded-md border-[1px] border-dark-blue"
+>
+  <h1 class="text-xl text-center text-dark-blue mt-2 mb-3">Your Trips</h1>
+  <hr class="border-dark-blue" />
+  <div
+    class="grid md:grid-cols-3 gap-4 h-[570px] md:h-[735px] overflow-y-auto md:p-5 p-3"
+  >
+    <app-trip
+      role="button"
+      *ngFor="let trip of trips; trackBy: identifyTrip"
+      [trip]="trip"
+      (click)="handleTripClicked(trip)"
+    ></app-trip>
+  </div>
+</div>
+<div *ngIf="!trips?.length">
+  <h1 class="text-2xl text-center text-dark-blue mt-2 mb-3">
+    You Have 0 Planned Trips 🤷
+  </h1>
+  <div class="h-[700px] flex justify-center w-full">
+    <img src="../../../../assets/images/empty.svg" />
+  </div>
+</div>

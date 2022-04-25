@@ -1,6 +1,10 @@
+import { Store } from '@ngrx/store';
 import { map, Observable, Subscription } from 'rxjs';
-import { Holiday, Itenaries } from 'src/app/models/Itenaries';
+import { Trip, ItenaryItem } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
+import { saveUserTrips } from 'src/app/store/global/global.actions';
+import { AppState } from 'src/app/store/global/global.reducer';
+import { initUsers } from './ModelInitialisers';
 
 /**
  *
@@ -8,16 +12,6 @@ import { Users } from 'src/app/models/Users';
  */
 export const isObjectEmpty = (obj: Object): boolean => {
   return !Object.values(obj).some((object) => object);
-};
-
-export const initUsers = (): Users => {
-  return {
-    userID: '',
-    name: '',
-    email: '',
-    password: '',
-    preferredName: '',
-  };
 };
 
 export const getUserFromSelect = (user$: Observable<Users>): Users => {
@@ -35,39 +29,70 @@ export const getUserFromSelect = (user$: Observable<Users>): Users => {
   return user;
 };
 
-export const getUserHolidaysFromSelect = (
-  holidays$: Observable<Holiday[] | null>
-): Holiday[] | null => {
-  let holidays = null;
-  if (holidays$) {
-    const theHolidaySubscription = holidays$
-      .pipe(
-        map((h) => {
-          holidays = h;
-        })
-      )
-      .subscribe();
+export const getUserTripsFromSelect = (
+  Trips$: Observable<Trip[] | null>
+): Trip[] | null => {
+  let Trips = null;
+  if (Trips$) {
+    const theTripsubscription = Trips$.pipe(
+      map((h) => {
+        Trips = h;
+      })
+    ).subscribe();
     //and unsubscribe
-    unSubscribe(theHolidaySubscription);
+    unSubscribe(theTripsubscription);
   }
-  return holidays;
+  return Trips;
 };
 
 export const getIsAddingItenaryFromSelect = (
-  isAddingHoliday$: Observable<boolean>
+  isAddingTrip$: Observable<boolean>
 ): boolean => {
   let isAdding = false;
-  const theIsAddingSubscription = isAddingHoliday$
+  const theIsAddingSubscription = isAddingTrip$
     .pipe(
       map((adding) => {
         isAdding = adding;
       })
     )
     .subscribe();
-  //and unsubacribe
+  //and unsubscribe
   unSubscribe(theIsAddingSubscription);
   return isAdding;
 };
+
+export const getIsUpdatingTripFromItenaryFromSelect = (
+  isUpdatingTripFromSelect$: Observable<Trip | null>
+): Trip | null => {
+  let isUpdatingTripFromSelect: Trip | null = null;
+  const theUpdateTripsub = isUpdatingTripFromSelect$
+    .pipe(
+      map((updateTrip) => {
+        isUpdatingTripFromSelect = updateTrip;
+      })
+    )
+    .subscribe();
+  //unsubscribe
+  unSubscribe(theUpdateTripsub);
+
+  return isUpdatingTripFromSelect;
+};
+
+export const getToDoFromSelect = (toDo$: Observable<string>): string => {
+  let toDo: string = 'UPDATE';
+  const theUpdateTripsub = toDo$
+    .pipe(
+      map((tD) => {
+        toDo = tD;
+      })
+    )
+    .subscribe();
+  //unsubscribe
+  unSubscribe(theUpdateTripsub);
+
+  return toDo;
+};
+
 export const unSubscribe = (subscription: Subscription) => {
   subscription.unsubscribe();
 };
@@ -88,23 +113,33 @@ export const createListOfAvailableDates = (
   return listOfAvailableDates;
 };
 
-export const getHolidayById = (id: string, holidays: Holiday[]): Holiday => {
-  return holidays.filter((holiday) => holiday.holidayID === id)[0];
+export const getTripById = (id: string, trips: Trip[]): Trip => {
+  return trips.filter((trip) => trip.tripID === id)[0];
 };
 
 export const getArrayWithout = (
   index: number,
-  itenaray: Itenaries,
-  focusedHoliday: Holiday
-): Itenaries[] => {
-  return focusedHoliday.holidayItenaries.filter(
-    (item) => item !== focusedHoliday.holidayItenaries[index]
+  itenaray: ItenaryItem,
+  focusedTrip: Trip
+): ItenaryItem[] => {
+  return focusedTrip.tripItenaries.filter(
+    (item) => item !== focusedTrip.tripItenaries[index]
   );
 };
 
 export const getIndexOfItenary = (
-  itenary: Itenaries,
-  itenaries: Itenaries[]
+  itenary: ItenaryItem,
+  itenaries: ItenaryItem[]
 ): number => {
   return itenaries.findIndex((itenar) => itenar == itenary);
+};
+
+export const forceTripsRefetch = (globalStore: Store<AppState>) => {
+  //this will for phase three (fetching list of Trips) from dashboard to run
+  globalStore.dispatch(saveUserTrips({ userTrips: null }));
+  location.reload();
+};
+
+export const isMobile = (): boolean => {
+  return innerWidth < 480;
 };

@@ -1,50 +1,52 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterStateSnapshot } from '@angular/router';
+import { Auth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { rotateAxis, slide } from 'src/app/Animations/dashboard-animations';
 import { Users } from 'src/app/models/Users';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
-import { isUserSignedIn } from '../../Algorithms/Authentication/authetication';
 import {
-  getUserFromSelect,
-  initUsers,
-  isObjectEmpty,
-} from '../../Algorithms/CommonFunctions';
+  isUserSignedIn,
+  signOutt,
+} from '../../Algorithms/Authentication/authetication';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  animations: [rotateAxis, slide],
 })
 export class HeaderComponent implements OnInit {
-  user: Users = initUsers();
+  user: Observable<Users> = this.globalStore.select(selectLoggedInUser);
+  rotateBurger: string = '';
+  burgerOpen: boolean = false;
+  currentURL: string = this.router.url;
 
-  constructor(private router: Router, private globalStore: Store<AppState>) {}
+  constructor(
+    private router: Router,
+    private globalStore: Store<AppState>,
+    private auth: Auth
+  ) {}
 
-  ngOnInit(): void {
-    if (this.isUserLoggedIn()) {
-      this.user = getUserFromSelect(
-        this.globalStore.select(selectLoggedInUser)
-      );
-    }
-  }
+  ngOnInit(): void {}
 
   navigateTo(url: string) {
+    this.currentURL = url;
     this.router.navigateByUrl(url);
   }
 
   isUserLoggedIn(): boolean {
-    const isSignedIn = isUserSignedIn(this.globalStore);
-    if (isObjectEmpty(this.user) && isSignedIn) {
-      this.user = getUserFromSelect(
-        this.globalStore.select(selectLoggedInUser)
-      );
-    }
-    return isSignedIn;
+    isUserSignedIn(this.globalStore);
+    return isUserSignedIn(this.globalStore);
   }
 
   isNotDashboard() {
     return !this.router.url.includes('/dashboard');
   }
-  setUserLoggedIn() {}
+
+  logOut() {
+    signOutt(this.auth, this.globalStore);
+  }
 }

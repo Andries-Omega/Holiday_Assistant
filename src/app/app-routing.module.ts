@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
 import { NoPageComponent } from './components/no-page/no-page.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -9,10 +8,6 @@ import { CanLeaveSignupGuard } from './guards/can-leave-signup.guard';
 import { DashboardGuard } from './guards/dashboard.guard';
 
 const routes: Routes = [
-  {
-    path: 'home',
-    component: HomeComponent,
-  },
   {
     path: 'signin',
     component: SigninComponent,
@@ -26,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/signin',
     pathMatch: 'full',
   },
   {

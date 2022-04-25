@@ -1,11 +1,11 @@
-<nz-spin [nzSpinning]="!listOfServices$">
+<nz-spin [nzSpinning]="!listOfCurrencies">
   <div
     class="w-full h-full overflow-y-auto grid grid-cols-2 md:grid-cols-5 gap-2 py-5 place-items-center bg-slate-100 shadow-2xl"
   >
     <button
       class="bg-dark-blue text-white w-24 h-10 px-4 rounded-md hover:scale-105 hover:shadow-2xl"
       *ngFor="
-        let currency of (listOfServices$ | async)! | listOfCurrenciesToArr;
+        let currency of listOfCurrencies | listOfCurrenciesToArr;
         trackBy: identifyCurrency
       "
       title="Value: {{ currency.value }}"

@@ -1,0 +1,53 @@
+<nz-spin
+  [nzSpinning]="isLoading | async"
+  nzSize="large"
+  [nzTip]="isLoadingMessage | async"
+>
+  <div class="px-2 md:px-10 w-full">
+    <button
+      (click)="handleSwitchComponents()"
+      class=" {{
+        isAddingTrip || isViewingTrip
+          ? 'text-dark-blue bg-white hover:shadow-2xl '
+          : 'bg-dark-blue text-white hover:text-dark-blue hover:bg-white '
+      }} h-fit w-full px-5 py-3 border-[1px] border-dark-blue rounded-md mb-5 duration-500"
+    >
+      <i
+        class="fa-solid fa-{{
+          isAddingTrip || isViewingTrip ? 'x' : 'plus'
+        }} mr-4"
+      ></i>
+      {{ isAddingTrip || isViewingTrip ? "Cancel" : "Add Trip" }}
+    </button>
+    <!-- List Trip -->
+    <div [@fade]="fadeList">
+      <app-list-of-trips
+        *ngIf="!isAddingTrip && !isViewingTrip"
+        [trips]="trips$ | async"
+        (tripClick)="handleTripClicked($event)"
+      ></app-list-of-trips>
+    </div>
+    <!-- Add Trip -->
+    <div [@fade]="fadeAdd">
+      <app-add-trip
+        *ngIf="isAddingTrip && !isViewingTrip"
+        [addingIntentions]="addingIntentions"
+        [theTrip]="selectedTrip"
+        (closeAdding)="addToList()"
+      ></app-add-trip>
+    </div>
+    <!-- View Trip -->
+    <div [@fade]="fadeView">
+      <app-trip-view
+        *ngIf="!isAddingTrip && isViewingTrip"
+        [trip]="selectedTrip!"
+      ></app-trip-view>
+    </div>
+    <trip-pop-up
+      [isTripsOptionsClicked]="isTripOptionsClicked"
+      [theTrip]="selectedTrip"
+      (userOption)="handleUserTripOption($event)"
+      (closePopUp)="isTripOptionsClicked = false"
+    ></trip-pop-up>
+  </div>
+</nz-spin>

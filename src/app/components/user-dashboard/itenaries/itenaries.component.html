@@ -1,25 +1,37 @@
-<div class="px-10">
+<div class="md:px-10">
   <!-- If -->
-  <div *ngIf="holidays && holidays?.length">
-    <!-- 1. Show List Of Holiday Calendars (sorry for naming component wrong, but list of itenaries will be displayed withing a day of a calendar) -->
+  <div *ngIf="trips && trips?.length">
     <app-list-of-itenaries
       *ngIf="isAddingItenary | async as isAddingI"
-      [holidays]="holidays"
+      [trips]="trips"
       [isAddingItenary]="isAddingI.isAddingItenary"
       [selectedDate]="isAddingI.selectedDate"
       [addIntention]="addIntention"
       [itenary]="itenary"
+      [isMobileShowingItinararies]="isMobileShowingItinararies"
+      (deleteTrip)="handleDeleteTrip($event)"
+      (updateTrip)="handleUpdateTrip($event)"
       (addItenaryDetails)="handleAddItenaryDetails($event)"
-      (holidayUpdating)="focusedHoliday = $event"
+      (tripUpdating)="focusedTrip = $event"
       (changeIsAdding)="updateIsAdding($event, null)"
       (dateSelected)="handleDateSelected($event)"
+      (dateSelectedMobile)="handleDateSelectedMobile($event)"
       (itenaryClicked)="handleItenaryClicked($event)"
+      (closeViewOfItenararies)="isMobileShowingItinararies = $event"
+      (addNewItenary)="handleAddItenaryMobile($event)"
     ></app-list-of-itenaries>
   </div>
   <!-- else -->
-  <div *ngIf="!(holidays && holidays?.length)">
+  <div *ngIf="!(trips && trips?.length)">
+    <button
+      routerLink="/dashboard/trips"
+      class="mt-5 bg-dark-blue text-white hover:text-dark-blue hover:bg-white h-fit w-full px-5 py-3 border-[1px] border-dark-blue rounded-md mb-5 duration-500"
+    >
+      <i class="fa-solid fa-plus mr-4"></i>
+      Add Trip
+    </button>
     <h1 class="text-2xl text-center text-dark-blue mb-3">
-      You Have 0 Holidays, Please Add Holiday(Or Trip)
+      You Have 0 itineraries, Please Add Trip
     </h1>
     <div class="h-[550px] flex justify-center w-full">
       <img src="../../../../assets/images/empty.svg" />
@@ -36,6 +48,7 @@
     (userUpdating)="handleUserUpdating($event)"
     [itenaryClicked]="itenaryClicked"
     [theItenary]="itenary"
+    (cancelPopUp)="itenaryClicked = false"
   >
   </app-options-for-itenary-pop-up>
 </div>

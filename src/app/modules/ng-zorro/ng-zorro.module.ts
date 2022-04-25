@@ -9,6 +9,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 @NgModule({
   declarations: [],
   imports: [
@@ -22,6 +23,7 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
     NzCalendarModule,
     NzSelectModule,
     NzTimePickerModule,
+    NzMessageModule,
   ],
   exports: [
     NzModalModule,
@@ -34,6 +36,7 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
     NzCalendarModule,
     NzSelectModule,
     NzTimePickerModule,
+    NzMessageModule,
   ],
 })
 export class NgZorroModule {}
