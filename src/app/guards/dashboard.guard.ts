@@ -8,9 +8,8 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { isUserSignedIn } from '../components/Algorithms/Authentication/authetication';
-import { isObjectEmpty } from '../components/Algorithms/CommonFunctions';
 import { Users } from '../models/Users';
 import { setLoggedInUser } from '../store/global/global.actions';
 import { AppState } from '../store/global/global.reducer';
@@ -44,7 +43,7 @@ export class DashboardGuard implements CanActivate, CanDeactivate<unknown> {
       if (isUserSignedIn(this.globalStore)) {
         return true;
       } else {
-        return this.routes.parseUrl('/home');
+        return this.routes.parseUrl('/');
       }
     }
   }

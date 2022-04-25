@@ -1,17 +1,18 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { iif, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { fade, slide } from 'src/app/Animations/dashboard-animations';
-import {
-  forceTripsRefetch,
-  getUserFromSelect,
-} from 'src/app/components/Algorithms/CommonFunctions';
-import { Trip, Location } from 'src/app/models/Itenaries';
+import { getUserFromSelect } from 'src/app/components/Algorithms/CommonFunctions';
+import { Location, Trip } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
-import { ItenariesService } from 'src/app/services/itenaries.service';
 import { LocationService } from 'src/app/services/location.service';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectLoggedInUser } from 'src/app/store/global/global.selectors';
+import {
+  addTrip,
+  updateTrips,
+} from 'src/app/store/userdashboard/userdashboard.actions';
+import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
 
 @Component({
   selector: 'app-add-trip',
@@ -43,12 +44,12 @@ export class AddTripComponent implements OnInit {
     tripItenaries: [],
   };
 
-  @Output() newTrip = new EventEmitter<Trip>();
+  @Output() closeAdding = new EventEmitter<void>();
 
   constructor(
     private locationService: LocationService,
-    private itenaryService: ItenariesService,
-    private globalStore: Store<AppState>
+    private globalStore: Store<AppState>,
+    private dashStore: Store<DashState>
   ) {}
 
   ngOnInit(): void {}
@@ -122,10 +123,8 @@ export class AddTripComponent implements OnInit {
       this.theTrip = { ...this.theTrip, tripLocation: location };
     }
   }
+
   validateDate(sDates: Date[]): boolean {
-    console.log(
-      new Date(sDates[0].toDateString()) >= new Date(new Date().toDateString())
-    );
     return (
       new Date(sDates[0].toDateString()) >=
         new Date(new Date().toDateString()) &&
@@ -138,28 +137,19 @@ export class AddTripComponent implements OnInit {
   addTrip() {
     this.phase = 2; // just ensure it doesn't exit 2.
     if (this.addingIntentions === 'ADDING') {
-      this.isAddingTrip = true;
-      // Add To Database
-      this.itenaryService.addNewTrip(this.tripDetails).then((details: Trip) => {
-        // send it to holidays so state can be updated with new holiday
-        this.newTrip.emit(details);
-      });
+      this.dashStore.dispatch(addTrip({ tripData: this.tripDetails }));
     } else {
       //then update
-      this.isAddingTrip = true;
-      this.tip = 'Updating Trip...';
+
       const updatedTrip = this.createUpdatedObject();
+
       if (updatedTrip) {
-        this.itenaryService
-          .updateTrip(updatedTrip)
-          .then(() => {
-            forceTripsRefetch(this.globalStore);
-          })
-          .catch(() => (this.isAddingTrip = false));
+        this.dashStore.dispatch(updateTrips({ trip: updatedTrip }));
       } else {
         this.errorMessage = 'Failed To Update Trip';
         this.isAddingTrip = false;
       }
+      this.closeAdding.emit(); // no need for adding, it get's re routed to itenaries after add
     }
   }
 

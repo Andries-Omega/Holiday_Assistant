@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Trip } from 'src/app/models/Itenaries';
 
 @Component({
@@ -6,13 +6,10 @@ import { Trip } from 'src/app/models/Itenaries';
   templateUrl: './list-of-trips.component.html',
   styleUrls: ['./list-of-trips.component.scss'],
 })
-export class ListOfTripsComponent implements OnInit {
+export class ListOfTripsComponent {
   @Input() trips!: Trip[] | null;
 
   @Output() tripClick = new EventEmitter<Trip>();
-  constructor() {}
-
-  ngOnInit(): void {}
 
   identifyTrip(index: number, trip: Trip): string {
     return trip.tripID;

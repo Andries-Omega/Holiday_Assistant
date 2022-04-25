@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Trip, Itenary } from 'src/app/models/Itenaries';
+import { Trip, ItenaryItem } from 'src/app/models/Itenaries';
 
 @Component({
   selector: 'trip-pop-up',
@@ -11,7 +11,11 @@ export class TripPopUpComponent {
   @Input() theTrip!: Trip | null;
 
   @Output() userOption = new EventEmitter<string>();
+  @Output() closePopUp = new EventEmitter<void>();
   handleClick(doing: string) {
     this.userOption.emit(doing);
+  }
+  closepop() {
+    this.closePopUp.emit();
   }
 }

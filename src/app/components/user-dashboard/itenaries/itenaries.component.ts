@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Trip, Itenary } from 'src/app/models/Itenaries';
-import { ItenariesService } from 'src/app/services/itenaries.service';
+import { ItenaryItem, Trip } from 'src/app/models/Itenaries';
 import { AppState } from 'src/app/store/global/global.reducer';
 import { selectUserTrips } from 'src/app/store/global/global.selectors';
 import {
-  setTripFromItenary,
+  deleteTrip,
   setIsAddingItenary,
+  setTripFromItenary,
+  updateTrips,
 } from 'src/app/store/userdashboard/userdashboard.actions';
 import { DashState } from 'src/app/store/userdashboard/userdashboard.reducer';
 import { selectIsAddingItenary } from 'src/app/store/userdashboard/userdashboard.selectors';
 import {
-  forceTripsRefetch,
   getArrayWithout,
   getIndexOfItenary,
   getUserTripsFromSelect,
@@ -34,16 +34,13 @@ export class ItenariesComponent implements OnInit {
 
   askToAddItenary: boolean = false;
   itenaryClicked: boolean = false;
-  itenary!: Itenary;
+  itenary!: ItenaryItem;
   addIntention: string = 'ADDING';
   isMobileShowingItinararies: boolean = false;
-
-  isProcessing: boolean = false;
 
   constructor(
     private globalStore: Store<AppState>,
     private dashStore: Store<DashState>,
-    private itenaryService: ItenariesService,
     private confirmDelete: NzModalService,
     private router: Router
   ) {}
@@ -60,6 +57,7 @@ export class ItenariesComponent implements OnInit {
       })
     );
   }
+
   handleAddItenaryMobile(selectedDate: Date) {
     this.isMobileShowingItinararies = false;
     setTimeout(() => {
@@ -87,12 +85,12 @@ export class ItenariesComponent implements OnInit {
     this.askToAddItenary = false;
   }
 
-  handleAddItenaryDetails(itenaryDetails: Itenary) {
+  handleAddItenaryDetails(itenaryDetails: ItenaryItem) {
     if (this.focusedTrip) {
       if (this.addIntention === 'ADDING') {
         const newTrip = {
           ...this.focusedTrip,
-          TripItenaries: [...this.focusedTrip.tripItenaries, itenaryDetails],
+          tripItenaries: [...this.focusedTrip.tripItenaries, itenaryDetails],
         };
 
         this.updateTrip(newTrip);
@@ -104,7 +102,7 @@ export class ItenariesComponent implements OnInit {
 
         const newTrip = {
           ...this.focusedTrip,
-          TripItenaries: [
+          tripItenaries: [
             ...getArrayWithout(index, this.itenary, this.focusedTrip),
             itenaryDetails,
           ],
@@ -114,7 +112,7 @@ export class ItenariesComponent implements OnInit {
     }
   }
 
-  handleItenaryClicked(itenary: Itenary) {
+  handleItenaryClicked(itenary: ItenaryItem) {
     this.itenary = itenary;
     this.itenaryClicked = true;
   }
@@ -137,14 +135,7 @@ export class ItenariesComponent implements OnInit {
   }
 
   updateTrip(newTrip: Trip) {
-    this.isProcessing = true;
-    this.itenaryService
-      .updateTrip(newTrip)
-      .then(() => {
-        this.isProcessing = false;
-        forceTripsRefetch(this.globalStore);
-      })
-      .catch(() => (this.isProcessing = false));
+    this.dashStore.dispatch(updateTrips({ trip: newTrip }));
   }
 
   handleUpdateTrip(trip: Trip) {
@@ -186,26 +177,15 @@ export class ItenariesComponent implements OnInit {
       nzOnCancel: () => this.confirmDelete.closeAll(),
     });
   }
+
   deleteTrip(trip: Trip) {
-    this.isProcessing = true;
-    this.itenaryService
-      .deleteTrip(trip.tripID)
-      .then(() => {
-        this.isProcessing = false;
-        forceTripsRefetch(this.globalStore);
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log(trip.tripID);
-        this.isProcessing = false;
-      });
+    this.dashStore.dispatch(deleteTrip({ tripID: trip.tripID }));
   }
 
   deleteItenarary() {
-    this.isProcessing = true;
     const newTrip = {
       ...this.focusedTrip,
-      TripItenaries: [
+      tripItenaries: [
         ...getArrayWithout(
           getIndexOfItenary(this.itenary, this.focusedTrip.tripItenaries),
           this.itenary,

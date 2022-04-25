@@ -1,7 +1,7 @@
 <nz-modal
   [(nzVisible)]="itenaryClicked"
   [nzTitle]="theItenary?.itenaryName"
-  (nzOnCancel)="itenaryClicked = false"
+  (nzOnCancel)="cancelPopup()"
 >
   <div *nzModalContent>
     <p>What would you like to do with this itenary?</p>

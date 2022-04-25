@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Router, RouterStateSnapshot } from '@angular/router';
-import { signOut } from '@firebase/auth';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { rotateAxis, slide } from 'src/app/Animations/dashboard-animations';
@@ -12,11 +11,6 @@ import {
   isUserSignedIn,
   signOutt,
 } from '../../Algorithms/Authentication/authetication';
-import {
-  getUserFromSelect,
-  isObjectEmpty,
-} from '../../Algorithms/CommonFunctions';
-import { initUsers } from '../../Algorithms/ModelInitialisers';
 
 @Component({
   selector: 'app-header',
@@ -53,7 +47,6 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut() {
-    signOut(this.auth);
-    signOutt(this.router, this.globalStore);
+    signOutt(this.auth, this.globalStore);
   }
 }

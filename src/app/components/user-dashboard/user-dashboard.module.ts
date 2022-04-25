@@ -34,6 +34,8 @@ import { UserDashboardComponent } from './user-dashboard.component';
 import { WelcomeDashComponent } from './welcome-dash/welcome-dash.component';
 import { UpdateLoginDetailsComponent } from './update-profile/update-login-details/update-login-details.component';
 import { UpdateNamesComponent } from './update-profile/update-names/update-names.component';
+import { UpdateProfilePasswordPopupComponent } from './update-profile/update-profile-password-popup/update-profile-password-popup.component';
+import { TripViewComponent } from './trips/trip-view/trip-view.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,8 @@ import { UpdateNamesComponent } from './update-profile/update-names/update-names
     TripPopUpComponent,
     UpdateLoginDetailsComponent,
     UpdateNamesComponent,
+    UpdateProfilePasswordPopupComponent,
+    TripViewComponent,
   ],
   imports: [
     CommonModule,

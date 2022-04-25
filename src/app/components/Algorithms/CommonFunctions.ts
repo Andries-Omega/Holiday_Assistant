@@ -1,6 +1,6 @@
 import { Store } from '@ngrx/store';
 import { map, Observable, Subscription } from 'rxjs';
-import { Trip, Itenary } from 'src/app/models/Itenaries';
+import { Trip, ItenaryItem } from 'src/app/models/Itenaries';
 import { Users } from 'src/app/models/Users';
 import { saveUserTrips } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
@@ -103,17 +103,17 @@ export const getTripById = (id: string, trips: Trip[]): Trip => {
 
 export const getArrayWithout = (
   index: number,
-  itenaray: Itenary,
+  itenaray: ItenaryItem,
   focusedTrip: Trip
-): Itenary[] => {
+): ItenaryItem[] => {
   return focusedTrip.tripItenaries.filter(
     (item) => item !== focusedTrip.tripItenaries[index]
   );
 };
 
 export const getIndexOfItenary = (
-  itenary: Itenary,
-  itenaries: Itenary[]
+  itenary: ItenaryItem,
+  itenaries: ItenaryItem[]
 ): number => {
   return itenaries.findIndex((itenar) => itenar == itenary);
 };
@@ -122,4 +122,8 @@ export const forceTripsRefetch = (globalStore: Store<AppState>) => {
   //this will for phase three (fetching list of Trips) from dashboard to run
   globalStore.dispatch(saveUserTrips({ userTrips: null }));
   location.reload();
+};
+
+export const isMobile = (): boolean => {
+  return innerWidth < 480;
 };

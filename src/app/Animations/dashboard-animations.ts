@@ -24,6 +24,19 @@ export let slide = trigger('slide', [
   transition('* <=> *', animate(350)),
 ]);
 
+export let sizeAnime = trigger('sizeAnime', [
+  state('heightOpen', style({ height: '{{height}}px' }), {
+    params: { height: 0 },
+  }),
+  state('heightClose', style({ height: '{{height}}px' }), {
+    params: { height: 0 },
+  }),
+  state('widthInfluence', style({ width: '{{width}}px' }), {
+    params: { width: 0 },
+  }),
+  transition('* <=> *', animate(500)),
+]);
+
 export let rotateAxis = trigger('rotateAxis', [
   state('anti_clockwise', style({ transform: 'rotateZ(-45deg)' })),
   state(

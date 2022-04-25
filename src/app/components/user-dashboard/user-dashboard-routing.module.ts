@@ -5,6 +5,7 @@ import { ItenariesComponent } from './itenaries/itenaries.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
 import { UserDashboardComponent } from './user-dashboard.component';
 import { WelcomeDashComponent } from './welcome-dash/welcome-dash.component';
+import { TripViewComponent } from './trips/trip-view/trip-view.component';
 
 const routes: Routes = [
   {

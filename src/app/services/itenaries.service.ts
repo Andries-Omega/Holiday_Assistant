@@ -34,6 +34,7 @@ export class ItenariesService {
       tripEndDate: tripDetails.tripEndDate,
       tripItenaries: tripDetails.tripItenaries,
     };
+
     return await updateDoc(tripDoc, newTrip).then(() => {
       return newTrip;
     });
@@ -56,8 +57,10 @@ export class ItenariesService {
   }
 
   async deleteTrip(tripID: string) {
-    return await deleteDoc(doc(this.fireStore, 'Trips', tripID)).then((r) => {
-      return r;
-    });
+    return await deleteDoc(doc(this.fireStore, 'Trips', tripID)).then(
+      (result) => {
+        return result;
+      }
+    );
   }
 }
