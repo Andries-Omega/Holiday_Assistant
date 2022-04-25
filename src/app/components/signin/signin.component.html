@@ -4,15 +4,15 @@
       class="grid md:grid-cols-2 md:w-[950px] w-full bg-slate-100 h-fit rounded-lg md:divide-x-[1px] divide-dark-blue hover:shadow-2xl duration-500"
     >
       <div class="md:flex items-center hidden">
-        <h1 class="text-3xl text-center animate-bounce">
-          Don't Forget To Do Cool Visual Illustrations Here
-        </h1>
+        <div class="h-full flex justify-center w-full">
+          <img src="../../../../assets/images/signin.svg" />
+        </div>
       </div>
       <div class="p-5 w-full">
         <h1 class="text-dark-blue text-center text-xl">Sign In</h1>
         <form
           nz-form
-          class="py-7 w-full"
+          class="py-12 w-full"
           [formGroup]="signInForm"
           (submit)="signInUser()"
         >

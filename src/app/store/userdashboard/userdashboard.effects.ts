@@ -49,7 +49,8 @@ export class UserdashboardEffects {
             if (result) {
               this.notfication.create('success', 'added trip successfully');
               this.router.navigateByUrl('dashboard/itenaries');
-              return appendUserTrips({ trip: result });
+              this.globalStore.dispatch(appendUserTrips({ trip: result }));
+              return procedureSuccess();
             } else {
               return procedureFailure();
             }
