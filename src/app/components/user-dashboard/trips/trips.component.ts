@@ -80,10 +80,10 @@ export class TripsComponent implements OnInit {
    */
   handleSwitchComponents() {
     if (this.isAddingTrip) {
-      // then we entering lists
       this.addToList();
+    } else if (this.isViewingTrip) {
+      this.viewToList();
     } else {
-      // then we entering add
       this.listToAdd();
     }
   }
@@ -123,6 +123,13 @@ export class TripsComponent implements OnInit {
     setTimeout(() => {
       this.isViewingTrip = true;
       this.fadeView = 'In';
+    }, 1000);
+  }
+  viewToList() {
+    this.fadeView = 'Out';
+    setTimeout(() => {
+      this.isViewingTrip = false;
+      this.fadeList = 'In';
     }, 1000);
   }
   handleTripClicked(trip: Trip) {

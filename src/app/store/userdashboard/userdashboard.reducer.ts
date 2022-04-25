@@ -76,7 +76,11 @@ export const reducer = createReducer(
     isLoading: true,
     loadingMessage: 'Updating trip...',
   })),
-  on(procedureSuccess, (state) => ({ ...state, isLoading: false })),
+  on(procedureSuccess, (state) => ({
+    ...state,
+    isLoading: false,
+    isAddingItenary: { isAddingItenary: false, selectedDate: null },
+  })),
   on(procedureFailure, (state) => ({ ...state, isLoading: false })),
   on(setCurrencyAPIStatus, (state, { currencyAPIRateExceeded }) => ({
     ...state,

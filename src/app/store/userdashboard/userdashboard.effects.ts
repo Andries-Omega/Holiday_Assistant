@@ -94,6 +94,7 @@ export class UserdashboardEffects {
             this.notfication.create('success', 'Updated trip');
             this.globalStore.dispatch(removeTrip({ tripID: trip.tripID }));
             this.globalStore.dispatch(appendUserTrips({ trip }));
+            this.router.navigateByUrl('dashboard/trips'); //for view it after update reasons
             return procedureSuccess();
           })
         )

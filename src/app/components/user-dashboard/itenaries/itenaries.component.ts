@@ -120,6 +120,7 @@ export class ItenariesComponent implements OnInit {
   handleUserUpdating(doing: string) {
     if (doing === 'UPDATE') {
       this.addIntention = doing;
+      console.log(this.itenary);
       if (this.isMobileShowingItinararies) {
         this.isMobileShowingItinararies = false;
         setTimeout(() => {

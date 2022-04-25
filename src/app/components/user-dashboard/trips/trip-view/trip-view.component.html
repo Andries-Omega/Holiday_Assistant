@@ -3,8 +3,65 @@
     {{ trip.tripName }}
   </h1>
   <hr class="border-dark-blue" />
-  <div class="flex flex-wrap h-[570px] md:h-[735px] w-full justify-around">
-    <div class="w-[70%] bg-slate-500">Map</div>
-    <div class="w-[20%] bg-gray-800">Details</div>
+  <div
+    class="flex flex-wrap h-[570px] md:h-[735px] w-full justify-between py-6 pl-5"
+  >
+    <div class="w-[73%] bg-dark-blue h-full rounded-lg" id="map"></div>
+    <div
+      class="w-[23%] bg-white border-[1px] border-dark-blue rounded-l-md border-r-0 py-5 h-full"
+    >
+      <h1 class="text-lg text-dark-blue text-center mb-3">
+        {{ trip.tripName }} Details
+      </h1>
+      <hr class="border-dark-blue border-dashed" />
+      <ul class="px-3 py-4 overflow-y-auto h-[95%]">
+        <li class="mb-1">Begins: {{ trip.tripStartDate }}</li>
+        <li class="mb-1">Ends: {{ trip.tripEndDate }}</li>
+        <li class="mb-1">Country: {{ trip.tripLocation?.country }}</li>
+        <li
+          role="button"
+          title="zoom to trip destination"
+          class="mb-5 cursor-pointer hover:text-blue-800 hover:text-base hover:font-mono duration-700"
+          (click)="zoomInToLocation()"
+        >
+          Place: {{ trip.tripLocation?.name }}
+          <i class="fa-solid fa-location-dot"></i>
+        </li>
+        <li class="mb-1">{{ trip.tripItenaries.length }} itenararies</li>
+        <ol class="px-10" *ngFor="let itenaryItem of trip.tripItenaries">
+          <li class="border-dark-blue border-b-[1px] mb-4 grid">
+            <span class="mb-1">- {{ itenaryItem.itenaryName }}</span>
+            <span class="mb-1"
+              >- Date: {{ itenaryItem.itenaryDate | date: "fullDate" }}</span
+            >
+            <span class="mb-1">
+              - StartTime: {{ getTime(itenaryItem.itenaryStartTime) }}
+            </span>
+
+            <span class="mb-1">
+              - End Time: {{ getTime(itenaryItem.itenaryEndTime) }}</span
+            >
+            <span class="mb-1">
+              -Cost:
+              {{
+                itenaryItem?.costEstimate
+                  | currency
+                    : (itenaryItem.costEstimateCurrency === "ZAR"
+                        ? "R "
+                        : itenaryItem.costEstimateCurrency)
+              }}
+            </span>
+            <span
+              class="{{
+                itenaryItem.itenaryTag === 'Destination Event'
+                  ? ' text-green-500'
+                  : 'text-yellow-500'
+              }}"
+              >{{ itenaryItem.itenaryTag }}</span
+            >
+          </li>
+        </ol>
+      </ul>
+    </div>
   </div>
 </div>
