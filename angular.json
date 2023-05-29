@@ -160,8 +160,9 @@
       }
     }
   },
-  "defaultProject": "Holiday_Assistant",
   "cli": {
-    "defaultCollection": "@ngrx/schematics"
+    "schematicCollections": [
+      "@ngrx/schematics"
+    ]
   }
 }

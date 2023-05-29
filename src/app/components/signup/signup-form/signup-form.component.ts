@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { PasswordRequirements, Users } from 'src/app/models/Users';
 import { saveSignUpState } from 'src/app/store/global/global.actions';
@@ -19,7 +19,7 @@ export class SignupFormComponent {
     (selectSignUpInfo) => selectSignUpInfo
   );
   // form
-  @Input() signUpUserForm!: FormGroup;
+  @Input() signUpUserForm!: UntypedFormGroup;
 
   @Input('formValuesToState')
   set formStateValues(userInfo: Users) {

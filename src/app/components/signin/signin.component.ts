@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { signIn } from 'src/app/store/global/global.actions';
 import { AppState } from 'src/app/store/global/global.reducer';
@@ -10,13 +10,13 @@ import { AppState } from 'src/app/store/global/global.reducer';
   styleUrls: ['./signin.component.scss'],
 })
 export class SigninComponent implements OnInit {
-  signInForm!: FormGroup;
+  signInForm!: UntypedFormGroup;
   passwordVisible = false;
   closedEye = 'fa-solid fa-eye-slash';
   openedEye = 'fa-solid fa-eye';
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private globalStore: Store<AppState>
   ) {}
 

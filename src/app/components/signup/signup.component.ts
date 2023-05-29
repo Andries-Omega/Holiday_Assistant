@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { PasswordRequirements, Users } from 'src/app/models/Users';
 import { saveSignUpState, signUp } from 'src/app/store/global/global.actions';
@@ -15,7 +15,7 @@ export class SignupComponent implements OnInit {
   theSignUpState$ = this.globalStore.select(selectSignUpInfo);
   readyToSingUp: boolean = false;
   // form
-  signUpUserForm!: FormGroup;
+  signUpUserForm!: UntypedFormGroup;
 
   passwordValid: PasswordRequirements = {
     lengthValid: false,
@@ -30,7 +30,7 @@ export class SignupComponent implements OnInit {
   passwordVisible: boolean = false;
   confirmPasswordVisible: boolean = false;
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private globalStore: Store<AppState>
   ) {}
 
