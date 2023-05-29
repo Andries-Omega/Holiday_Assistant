@@ -34,7 +34,7 @@ export interface AppState {
   loggedInUser: Users;
   userTrips: Trip[] | null;
   isLoading: boolean;
-  loadingMessage: '';
+  loadingMessage: string;
 }
 
 export const defaultState: AppState = {
