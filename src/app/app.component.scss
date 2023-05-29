@@ -2,17 +2,19 @@
 @tailwind base;
 
 @layer components {
+    .loader{
+        @apply fixed top-0 right-0 w-screen h-screen z-10
+    }
+
     .holiday-planner{
         @apply w-screen h-screen flex flex-col
     }
-}
 
-@layer base {
-    app-header{
+    .navbar{
         @apply flex-shrink-0
     }
 
-    nz-spinner{
+    .body{
         @apply flex-grow
     }
 }

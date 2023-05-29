@@ -1,13 +1,18 @@
 <div class="holiday-planner">
-  <app-header></app-header>
-  <nz-spin
-    nzSize="large"
-    [nzSpinning]="isLoading | async"
-    [nzTip]="loadingMessage | async"
-  >
+  <app-header class="header"></app-header>
+  <div class="body">
     <router-outlet></router-outlet>
-  </nz-spin>
+  </div>
 </div>
+
+<nz-spin
+  class="loader"
+  *ngIf="isLoading$ | async"
+  nzSize="large"
+  [nzSpinning]="isLoading$ | async"
+  [nzTip]="loadingMessage$ | async"
+>
+</nz-spin>
 
 <div class="fixed bottom-0 right-0">
   <app-scroll-up></app-scroll-up>

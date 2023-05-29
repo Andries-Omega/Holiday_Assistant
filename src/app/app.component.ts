@@ -13,8 +13,9 @@ import { DashState } from './store/userdashboard/userdashboard.reducer';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  isLoading = this.globalStore.select(selectIsLoading);
+  isLoading$ = this.globalStore.select(selectIsLoading);
 
-  loadingMessage = this.globalStore.select(selectLoadingMessage);
+  loadingMessage$ = this.globalStore.select(selectLoadingMessage);
+
   constructor(private globalStore: Store<AppState>) {}
 }
