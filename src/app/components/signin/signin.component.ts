@@ -11,12 +11,22 @@ import { AppState } from 'src/app/store/global/global.reducer';
 })
 export class SigninComponent implements OnInit {
   signInForm!: FormGroup;
-  passwordVisible: boolean = false;
+  passwordVisible = false;
+  closedEye = 'fa-solid fa-eye-slash';
+  openedEye = 'fa-solid fa-eye';
 
   constructor(
     private formBuilder: FormBuilder,
     private globalStore: Store<AppState>
   ) {}
+
+  get email() {
+    return this.signInForm.get('email');
+  }
+
+  get password() {
+    return this.signInForm.get('password');
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -34,6 +44,10 @@ export class SigninComponent implements OnInit {
 
   submitSignInReady(): boolean {
     return this.signInForm.value.email && this.signInForm.value.password;
+  }
+
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
   }
 
   signInUser() {

@@ -1,0 +1,41 @@
+@tailwind components;
+@tailwind base;
+
+@layer components{
+    .sign-in-wrapper{
+        @apply w-full h-full flex justify-center items-center px-10
+    }
+
+    .sign-in-container{
+        @apply flex gap-2 w-full max-w-5xl h-fit bg-slate-100 rounded-lg md:divide-x divide-dark-blue hover:shadow-2xl duration-500
+    }
+
+    .sign-in-left{
+        @apply w-full h-fit p-3 md:block hidden
+    }
+
+    .sign-in-right{
+        @apply w-full flex flex-col gap-3 p-3 items-center
+    }
+
+    .sign-in-title{
+        @apply text-dark-blue text-center text-xl
+    }
+
+    .sign-in-button{
+        @apply bg-dark-blue w-full text-white rounded-md py-2 active:scale-95 duration-300;
+        &.disabled{
+            @apply opacity-70 cursor-not-allowed active:scale-100
+        }
+    }
+}
+
+@layer base{
+    img{
+        @apply max-w-lg
+    }   
+
+    form{
+        @apply w-full
+    }
+}

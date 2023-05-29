@@ -1,85 +1,61 @@
-<div class="flex w-screen h-screen justify-center items-center">
-  <div class="md:w-fit w-full px-6">
-    <div
-      class="grid md:grid-cols-2 md:w-[950px] w-full bg-slate-100 h-fit rounded-lg md:divide-x-[1px] divide-dark-blue hover:shadow-2xl duration-500"
-    >
-      <div class="md:flex items-center hidden">
-        <div class="h-full flex justify-center w-full">
-          <img src="../../../../assets/images/signin.svg" />
-        </div>
-      </div>
-      <div class="p-5 w-full">
-        <h1 class="text-dark-blue text-center text-xl">Sign In</h1>
-        <form
-          nz-form
-          class="py-12 w-full"
-          [formGroup]="signInForm"
-          (submit)="signInUser()"
-        >
-          <nz-form-item class="w-full">
-            <nz-form-control nzSpan="30">
-              <p class="text-base">Email:</p>
-              <nz-input-group nzPrefixIcon="mail">
-                <input nz-input formControlName="email" type="email" />
-              </nz-input-group>
-              <p *ngIf="signInForm.get('email')?.invalid" class="text-red-500">
-                Email Is Required
-              </p>
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-control nzSpan="30">
-              <p class="text-base">Password:</p>
-              <nz-input-group nzPrefixIcon="lock">
-                <input
-                  nz-input
-                  formControlName="password"
-                  [type]="passwordVisible ? 'text' : 'password'"
-                />
-                <div
-                  role="button"
-                  class="flex items-center border-[1px] float-right px-2 py-1 text-dark-blue hover:text-blue-500 duration-300 bg-white"
-                  (click)="passwordVisible = !passwordVisible"
-                >
-                  <i
-                    [class]="
-                      passwordVisible
-                        ? 'fa-solid fa-eye'
-                        : 'fa-solid fa-eye-slash'
-                    "
-                  ></i>
-                </div>
-              </nz-input-group>
-              <p
-                *ngIf="signInForm.get('password')?.invalid"
-                class="text-red-500"
-              >
-                Password Is Required
-              </p>
-            </nz-form-control>
-          </nz-form-item>
-          <button
-            [disabled]="!submitSignInReady()"
-            type="submit"
-            class="{{
-              submitSignInReady()
-                ? 'bg-dark-blue hover:scale-105 duration-300'
-                : ' bg-blue-100 cursor-not-allowed'
-            }} text-white rounded-md w-full h-10 "
-          >
-            Sign In
-          </button>
-          <p class="text-sm text-center mt-2">
-            Don't have an account?
-            <span
-              class="text-dark-blue hover:text-blue-600 cursor-pointer duration-300"
-              routerLink="/signup"
-              >Sign Up</span
-            >
-          </p>
-        </form>
-      </div>
+<div class="sign-in-wrapper">
+  <div class="sign-in-container">
+    <div class="sign-in-left">
+      <img src="assets/images/signin.svg" />
     </div>
-    <div></div>
+
+    <div class="sign-in-right">
+      <h1 class="sign-in-title">Sign In</h1>
+
+      <form nz-form [formGroup]="signInForm" (submit)="signInUser()">
+        <nz-form-item>
+          <nz-form-control>
+            <p>Email:</p>
+
+            <nz-input-group nzPrefixIcon="mail">
+              <input nz-input formControlName="email" type="email" />
+            </nz-input-group>
+
+            <p *ngIf="email?.invalid && email?.touched" class="text-red-500">
+              Email Is Required
+            </p>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control>
+            <p>Password:</p>
+
+            <nz-input-group nzPrefixIcon="lock">
+              <input
+                nz-input
+                formControlName="password"
+                [type]="passwordVisible ? 'text' : 'password'"
+              />
+
+              <button
+                (click)="togglePasswordVisibility(); $event.preventDefault()"
+              >
+                <i [class]="passwordVisible ? openedEye : closedEye"></i>
+              </button>
+            </nz-input-group>
+            <p
+              *ngIf="password?.invalid && password?.touched"
+              class="text-red-500"
+            >
+              Password Is Required
+            </p>
+          </nz-form-control>
+        </nz-form-item>
+
+        <button
+          class="sign-in-button"
+          [disabled]="signInForm.invalid"
+          [ngClass]="{ disabled: signInForm.invalid }"
+        >
+          Sign In
+        </button>
+      </form>
+    </div>
   </div>
 </div>
