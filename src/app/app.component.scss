@@ -1,0 +1,18 @@
+@tailwind components;
+@tailwind base;
+
+@layer components {
+    .holiday-planner{
+        @apply w-screen h-screen flex flex-col
+    }
+}
+
+@layer base {
+    app-header{
+        @apply flex-shrink-0
+    }
+
+    nz-spinner{
+        @apply flex-grow
+    }
+}

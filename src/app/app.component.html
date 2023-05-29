@@ -1,11 +1,13 @@
-<app-header></app-header>
-<nz-spin
-  nzSize="large"
-  [nzSpinning]="isLoading | async"
-  [nzTip]="loadingMessage | async"
->
-  <router-outlet></router-outlet>
-</nz-spin>
+<div class="holiday-planner">
+  <app-header></app-header>
+  <nz-spin
+    nzSize="large"
+    [nzSpinning]="isLoading | async"
+    [nzTip]="loadingMessage | async"
+  >
+    <router-outlet></router-outlet>
+  </nz-spin>
+</div>
 
 <div class="fixed bottom-0 right-0">
   <app-scroll-up></app-scroll-up>
