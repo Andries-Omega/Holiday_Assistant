@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from './store/global/global.reducer';
+import { Select, Store } from '@ngxs/store';
+import { GlobalState } from './store/global-two/global.state';
+import { Observable } from 'rxjs';
+
 import {
-  selectIsLoading,
-  selectLoadingMessage,
-} from './store/global/global.selectors';
-import { DashState } from './store/userdashboard/userdashboard.reducer';
+  SetLoadingMessage,
+  ToggleLoading,
+} from './store/global-two/global.actions';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,24 @@ import { DashState } from './store/userdashboard/userdashboard.reducer';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  isLoading$ = this.globalStore.select(selectIsLoading);
+  isLoading$: Observable<boolean> = this.store.select(
+    ({ global }) => global.isLoading
+  );
 
-  loadingMessage$ = this.globalStore.select(selectLoadingMessage);
+  loadingMessage$: Observable<string> = this.store.select(
+    ({ global }) => global.loadingMessage
+  );
 
-  constructor(private globalStore: Store<AppState>) {}
+  constructor(private store: Store) {}
+
+  handleLoad() {
+    this.store.dispatch([
+      new ToggleLoading(true),
+      new SetLoadingMessage('Testing one two three'),
+    ]);
+
+    setTimeout(() => {
+      this.store.dispatch([new ToggleLoading(false)]);
+    }, 5000);
+  }
 }
