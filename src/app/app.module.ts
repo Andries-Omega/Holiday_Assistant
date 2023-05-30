@@ -28,6 +28,8 @@ import { GlobalEffects } from './store/global/global.effects';
 import { globalFeatureKey, reducer } from './store/global/global.reducer';
 import { UserdashboardEffects } from './store/userdashboard/userdashboard.effects';
 import * as fromUserdashboard from './store/userdashboard/userdashboard.reducer';
+import { NgxsModule } from '@ngxs/store';
+import { GlobalState } from './store/global-two/global.state';
 
 registerLocaleData(en);
 
@@ -69,6 +71,9 @@ registerLocaleData(en);
       fromUserdashboard.reducer
     ),
     EffectsModule.forFeature([UserdashboardEffects]),
+    NgxsModule.forRoot([GlobalState], {
+      developmentMode: !environment.production,
+    }),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
